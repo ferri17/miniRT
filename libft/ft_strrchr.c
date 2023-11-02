@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/06 16:59:23 by fbosch            #+#    #+#             */
-/*   Updated: 2023/05/06 17:27:34 by fbosch           ###   ########.fr       */
+/*   Created: 2023/05/02 14:50:23 by apriego-          #+#    #+#             */
+/*   Updated: 2023/07/11 18:12:06 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,14 @@
 
 char	*ft_strrchr(const char *s, int c)
 {
-	char	*found;
+	int	i;
 
-	found = NULL;
-	while (*s)
+	i = ft_strlen(s);
+	while (i >= 0)
 	{
-		if (*s == (char) c)
-			found = (char *) s;
-		s++;
+		if (s[i] == (char)c)
+			return ((char *)&s[i]);
+		i--;
 	}
-	if ((char) c == '\0')
-		found = (char *) s;
-	return (found);
+	return (0);
 }

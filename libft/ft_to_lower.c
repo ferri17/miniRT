@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_to_lower.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/31 19:35:27 by fbosch            #+#    #+#             */
-/*   Updated: 2023/05/31 19:35:38 by fbosch           ###   ########.fr       */
+/*   Created: 2023/09/18 13:21:41 by apriego-          #+#    #+#             */
+/*   Updated: 2023/09/18 13:32:52 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strcmp(const char *s1, const char *s2)
+char	*ft_to_lower(char *str)
 {
-	while (*s1 && *s2 && *s1 == *s2)
+	int	i;
+
+	i = 0;
+	while (str[i])
 	{
-		s1++;
-		s2++;
+		if (str[i] >= 'A' && str[i] <= 'Z' )
+			str[i] += 32;
+		i++;
 	}
-	return ((unsigned char) *s1 - (unsigned char) *s2);
+	return (str);
 }

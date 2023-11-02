@@ -3,86 +3,96 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+         #
+#    By: apriego- <apriego-@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/05/03 23:08:40 by fbosch            #+#    #+#              #
-#    Updated: 2023/08/10 13:09:52 by fbosch           ###   ########.fr        #
+#    Created: 2023/05/02 13:15:19 by apriego-          #+#    #+#              #
+#    Updated: 2023/11/02 15:32:15 by apriego-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-GREEN=\033[1;32m
-RED=\033[1;31m
-BLUE=\033[1;34m
-YELLOW=\x1b[33;01m
-END=\033[0m
-CL_LINE=\033[K
+#==================COLORS==================#
 
-SRC_LIBFT = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c\
-ft_isprint.c ft_strlen.c ft_memset.c ft_bzero.c ft_memcpy.c\
-ft_memmove.c ft_strlcpy.c ft_strlcat.c ft_toupper.c ft_tolower.c\
-ft_strchr.c ft_strrchr.c ft_strncmp.c ft_memchr.c ft_memcmp.c\
-ft_strnstr.c ft_atoi.c ft_calloc.c ft_strdup.c ft_substr.c\
-ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c\
-ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c\
-ft_putnbr_fd.c ft_strcmp.c ft_free_malloc_array.c ft_array_len.c\
-ft_split_str.c
+GREEN	=	\033[38;5;154m
+RED		=	\033[38;5;197m
+PURPLE	=	\033[38;5;171m
+BLUE	=	\033[38;5;14m
+NC		=	\033[0m
+YELLOW	=	\033[38;5;190m
 
-SRC_LIBFT_BONUS = ft_lstnew_bonus.c ft_lstadd_front_bonus.c\
-ft_lstsize_bonus.c ft_lstlast_bonus.c ft_lstadd_back_bonus.c\
-ft_lstdelone_bonus.c ft_lstclear_bonus.c ft_lstiter_bonus.c\
-ft_lstmap_bonus.c
+#=================COMMANDS=================#
 
-SRC_PRINTF = ft_printf.c ft_print_text.c ft_print_pointer.c\
-ft_print_integer_signed.c ft_print_unsigned.c ft_print_hexa.c
+LIB		=	ar rcs
+CC		=	gcc
+CCFLAGS	=	-Wall -Wextra -Werror
+INCFLAG	=	-I../include
+RM		=	rm -fr
 
-SRC_GNL = get_next_line_bonus.c get_next_line_utils_bonus.c
+#==================FILES===================#
 
-BUILD_DIR = .build/
+NAME			=	libft.a
+INCLUDE 		=	../include/libft.h
+PRINTF			=	ft_printf/
+PRINTFFD		=	ft_printf_fd/
+GETLINE			=	get_next_line/
+SRC				=	ft_memset.c ft_bzero.c ft_strlen.c ft_atoi.c ft_isdigit.c ft_isalpha.c\
+					ft_isprint.c ft_isascii.c ft_isalnum.c ft_memchr.c ft_memcpy.c\
+					ft_memcmp.c ft_memmove.c ft_strchr.c ft_strdup.c ft_strlcat.c ft_strlcpy.c\
+					ft_strncmp.c ft_toupper.c ft_tolower.c ft_strnstr.c ft_strrchr.c ft_calloc.c\
+					ft_putchar_fd.c ft_putstr_fd.c ft_putnbr_fd.c ft_putendl_fd.c ft_substr.c\
+					ft_strjoin.c ft_strtrim.c ft_strmapi.c ft_itoa.c ft_split.c ft_striteri.c\
+					ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c\
+					ft_lstlast_bonus.c ft_lstadd_back_bonus.c ft_lstdelone_bonus.c\
+					ft_lstclear_bonus.c ft_lstiter_bonus.c ft_lstmap_bonus.c\
+					ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c\
+					ft_lstlast_bonus.c ft_lstadd_back_bonus.c ft_lstdelone_bonus.c\
+					ft_lstclear_bonus.c ft_lstiter_bonus.c ft_lstmap_bonus.c ft_test_int.c\
+					ft_free_malloc_array.c ft_array_len.c ft_numlen.c ft_to_lower.c
 
-OBJ = $(SRC_LIBFT:%.c=$(BUILD_DIR)%.o) $(SRC_LIBFT_BONUS:%.c=$(BUILD_DIR)%.o)\
-$(SRC_PRINTF:%.c=$(BUILD_DIR)%.o) $(SRC_GNL:%.c=$(BUILD_DIR)%.o)
+FILESPRINTF		=	ft_hex.c ft_printf.c ft_printfnbr.c
 
-INCLUDE_DIR = ../include
+SRCPRINTF		=	$(addprefix $(PRINTF),$(FILESPRINTF))
 
-DEP = $(OBJ:%.o=%.d)
+FILESPRINTFFD	=	ft_hex_fd.c ft_printf_fd.c ft_printfnbr_fd.c
 
-NAME = libft.a
+SRCPRINTFFD		=	$(addprefix $(PRINTFFD),$(FILESPRINTFFD))
 
-CC = cc
-LIB = ar rc
+FILESGETLINE 	=	get_next_line_utils.c get_next_line.c
 
-CFLAGS = -Wall -Wextra -Werror -I$(INCLUDE_DIR)
-DEPFLAGS = -MMD -MP
-DIR_DUP = mkdir -p $(@D)
+SRCGETLINE		=	$(addprefix $(GETLINE),$(FILESGETLINE))
+DIR_OBJ			=	temp/
+OBJ				=	$(addprefix $(DIR_OBJ),$(SRC:.c=.o))
+OBJPRINT		=	$(addprefix $(DIR_OBJ),$(SRCPRINTF:.c=.o))
+OBJPRINTFD		=	$(addprefix $(DIR_OBJ),$(SRCPRINTFFD:.c=.o))
+OBJGETLINE		=	$(addprefix $(DIR_OBJ),$(SRCGETLINE:.c=.o))
 
-EXECUTABLES = *.out *.exe
+#==================RULES===================#
 
-RM = /bin/rm -f
+all: temp $(NAME)
 
-.PHONY: all clean fclean re bonus
+temp:
+	@mkdir -p $(DIR_OBJ)
 
-all: $(NAME)
+$(NAME): $(OBJ) $(OBJPRINT) $(OBJGETLINE) $(OBJPRINTFD)
+	@$(LIB) $(NAME) $(OBJ) $(OBJPRINT) $(OBJGETLINE) $(OBJPRINTFD)
+	@printf "${GREEN}Compiled libft\n${NC}"
 
-### CREATE LIBRARY ###
-$(NAME): $(OBJ)
-	@$(LIB) $(NAME) $(OBJ)
-	@printf "\n$(GREEN)LIBFT COMPILED\n$(END)"
-
-### CREATE ALL OBJECT FILES FROM SOURCE FILES ###
-$(BUILD_DIR)%.o: %.c
-	@printf "\r$(CL_LINE)$(YELLOW)Compiling... $(END)$(patsubst $(BUILD_DIR)%,%,$@)"
-	@$(DIR_DUP)
-	@$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
-
--include $(DEP)
+$(DIR_OBJ)%.o: %.c $(INCLUDE)
+	@mkdir -p $(dir $@)
+	@$(CC) $(CCFLAGS) $(INCFLAG) -c -o $@ $<
+	@printf "${YELLOW}Compiling obj $@...${NC}\n"
 
 clean:
-	@printf "$(RED)$(NAME) OBJECTS DELETED\n$(END)"
-	@$(RM) $(OBJ) $(DEP) $(EXECUTABLES)
+	@$(RM) $(DIR_OBJ)
+	@echo "${RED}DELETING ALL LIBFT OBJ${NC}"
 
 fclean: clean
-	@printf "$(RED)$(NAME) DELETED\n$(END)"
-	@$(RM) $(NAME)		
-	@$(RM) -r $(BUILD_DIR)
+	@$(RM) $(NAME)
+	@echo "${RED}DELETING ALL LIBFT${NC}"
+
+cleaname:
+	@$(RM) $(NAME)
+	@echo "${RED}DELETING ALL LIBFT${NC}"
 
 re: fclean all
+
+.PHONY: all clean fclean re 

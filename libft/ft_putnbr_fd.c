@@ -3,39 +3,88 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/09 01:38:04 by fbosch            #+#    #+#             */
-/*   Updated: 2023/05/09 14:56:48 by fbosch           ###   ########.fr       */
+/*   Created: 2023/05/05 22:28:25 by apriego-          #+#    #+#             */
+/*   Updated: 2023/05/08 12:25:56 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <unistd.h>
 
-static void	print_number(int n, int fd)
+static int	ft_calc10(int n)
 {
-	int		remainder;
-	char	print;
+	int	qtt10;
+	int	ext;
 
-	if (n != 0)
+	ext = 0;
+	qtt10 = 1;
+	while (qtt10 <= n && ext == 0)
 	{
-		remainder = n % 10;
-		if (remainder < 0)
-			remainder *= -1;
-		print = '0' + remainder;
-		print_number(n / 10, fd);
-		write(fd, &print, 1);
+		if (qtt10 < 1000000000)
+			qtt10 *= 10;
+		else
+			ext = 1;
+	}
+	if (ext == 0 && n != 0)
+		qtt10 = qtt10 / 10;
+	return (qtt10);
+}
+
+static int	ft_isnegative(int *n)
+{
+	int	neg;
+
+	if (*n < 0 && *n != -2147483648)
+	{
+		*n *= -1;
+		neg = 1;
+	}
+	else
+		neg = 0;
+	return (neg);
+}
+
+static void	ft_min_int(int n, int fd)
+{
+	int		qtt10;
+	char	c;
+
+	if (n == -2147483648)
+	{
+		qtt10 = 1000000000;
+		write(fd, "-", 1);
+		while (qtt10 >= 1)
+		{
+			c = (((n / qtt10) * -1) + '0');
+			write(fd, &c, 1);
+			n = n % qtt10;
+			qtt10 = qtt10 / 10;
+		}
 	}
 }
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	if (n < 0)
-		write(fd, "-", 1);
-	else if (n == 0)
+	int		qtt10;
+	int		neg;
+	char	c;
+
+	if (n == -2147483648)
+		ft_min_int(n, fd);
+	else
 	{
-		write (fd, "0", 1);
-		return ;
+		neg = ft_isnegative(&n);
+		qtt10 = ft_calc10(n);
+		if (neg == 1)
+			write(fd, "-", 1);
+		while (qtt10 >= 1)
+		{
+			c = ((n / qtt10) + '0');
+			write(fd, &c, 1);
+			n = n % qtt10;
+			qtt10 = qtt10 / 10;
+		}
 	}
-	print_number(n, fd);
 }

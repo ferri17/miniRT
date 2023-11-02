@@ -3,93 +3,98 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/07 21:22:29 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/06 23:45:45 by fbosch           ###   ########.fr       */
+/*   Created: 2023/05/05 14:25:37 by apriego-          #+#    #+#             */
+/*   Updated: 2023/09/18 11:05:15 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdlib.h>
 
-static unsigned int	word_count(char const *s, char c)
+static int	ft_countsplits(char const *s, char c)
 {
-	unsigned int	words;
+	int	qtt;
+	int	ini;
 
-	words = 0;
-	if (*s != c && *s != '\0')
-		words++;
-	while (*s)
+	qtt = 0;
+	ini = 0;
+	if (*s == '\0')
+		return (0);
+	while (*s != '\0')
 	{
 		if (*s == c)
+			ini = 0;
+		else if (ini == 0)
 		{
-			while (*s == c)
-				s++;
-			if (*s != '\0')
-				words++;
-			else
-				break ;
+			ini = 1;
+			qtt++;
 		}
 		s++;
 	}
-	return (words);
+	return (qtt);
 }
 
-static char	*split_words(char const **str, char c)
+static int	ft_countlenspit(char const *s2, char c, int i)
 {
-	char			*word;
-	unsigned int	i;
-	size_t			word_len;
+	int	len;
 
-	while (**str == c)
-		*str = *str + 1;
-	word_len = 0;
-	while (str[0][word_len] != c && str[0][word_len] != '\0')
-		word_len++;
-	word = (char *)malloc(sizeof(char) * (word_len + 1));
-	if (word == NULL)
-		return (NULL);
+	len = 0;
+	while (s2[i] != c && s2[i] != '\0')
+	{
+		len++;
+		i++;
+	}
+	return (len);
+}
+
+static char	**ft_free_matrix(char const **matrix, int j)
+{
+	while (j > 0)
+	{
+		j--;
+		free((void *)matrix[j]);
+	}
+	free(matrix);
+	return (NULL);
+}
+
+static char	**ft_splitall(char const *s, char **res, char c, int l)
+{
+	int	i;
+	int	j;
+	int	k;
+
 	i = 0;
-	while (i < word_len)
+	j = 0;
+	while (s[i] != '\0' && j < l)
 	{
-		word[i++] = **str;
-		*str = *str + 1;
+		k = 0;
+		while (s[i] == c)
+			i++;
+		res[j] = (char *)malloc(sizeof(char) * (ft_countlenspit(s, c, i) + 1));
+		if (res[j] == NULL)
+			return (ft_free_matrix((char const **)res, j));
+		while (s[i] != '\0' && s[i] != c)
+			res[j][k++] = s[i++];
+		res[j][k] = '\0';
+		j++;
 	}
-	word[i] = '\0';
-	return (word);
-}
-
-static void	free_malloc(char **arr, int i)
-{
-	while (i >= 0)
-	{
-		free(arr[i]);
-		i--;
-	}
-	free(arr);
+	res[j] = 0;
+	return (res);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char			**arr;
-	unsigned int	words;
-	unsigned int	i;
+	char	**res;
+	int		l;
 
-	words = word_count(s, c);
-	arr = (char **)ft_calloc(sizeof(char *), (words + 1));
-	if (arr == NULL)
+	if (s == NULL)
 		return (NULL);
-	i = 0;
-	while (i < words)
-	{
-		arr[i] = split_words(&s, c);
-		if (arr[i] == NULL)
-		{
-			free_malloc(arr, i);
-			return (NULL);
-		}
-		i++;
-	}
-	arr[i] = NULL;
-	return (arr);
+	l = ft_countsplits(s, c);
+	res = (char **)malloc(sizeof(char *) * (l + 1));
+	if (res == NULL)
+		return (NULL);
+	return (ft_splitall(s, res, c, l));
 }

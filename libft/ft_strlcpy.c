@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/06 00:19:23 by fbosch            #+#    #+#             */
-/*   Updated: 2023/07/06 20:29:04 by fbosch           ###   ########.fr       */
+/*   Created: 2023/05/02 22:08:54 by apriego-          #+#    #+#             */
+/*   Updated: 2023/05/12 15:42:39 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,24 @@
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
 	size_t	i;
-	size_t	j;
+	size_t	len;
 
+	len = 0;
 	i = 0;
-	j = 0;
-	while (src[i] != '\0')
-		i++;
-	if (dstsize != 0)
+	if (src[0] != '\0')
 	{
-		while (j < (dstsize - 1) && src[j] != '\0')
+		len = ft_strlen(src);
+		if (dstsize != 0)
 		{
-			dst[j] = src[j];
-			j++;
+			while (src[i] != '\0' && i < (dstsize - 1))
+			{
+				dst[i] = src[i];
+				i++;
+			}
+			dst[i] = '\0';
 		}
-		dst[j] = '\0';
 	}
-	return (i);
+	else
+		dst[i] = '\0';
+	return (len);
 }
