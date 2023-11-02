@@ -6,7 +6,7 @@
 #    By: apriego- <apriego-@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2023/11/02 15:30:50 by apriego-         ###   ########.fr        #
+#    Updated: 2023/11/02 15:47:25 by apriego-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,9 +64,6 @@ $(BUILD_DIR)%.o: $(SRC_DIR)%.c $(LIBFT_DIR)$(LIBFT) $(MLX_DIR)$(MLX) $(FILE_MAKE
 	@printf "\r$(CL_LINE)$(YELLOW)Compiling... $(END)$(patsubst $(BUILD_DIR)%,%,$@)"
 	@$(DIR_DUP)
 	@$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
-
-norm:
-	norminette
 	
 clean:
 	@$(MAKE) -C $(LIBFT_DIR) clean --no-print-directory
@@ -82,6 +79,13 @@ fclean: clean
 	@printf "$(RED)$(NAME) DELETED\n$(END)"
 
 re: fclean all
+
+norm	:
+	@printf "${YELLOW}Norminette...\n${NC}"
+	@printf "${RED}"
+	@norminette src/*/*.c src/*.c include/*.h > test && printf "$(GREEN)\t[OK]\n" || grep Error test
+	@printf "${NC}"
+	@rm test
 
 .PHONY: all clean fclean re bonus
 	
