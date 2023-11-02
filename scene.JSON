@@ -1,0 +1,39 @@
+{
+	"AmbientLightning": {
+	  "ratio": 0.2,
+	  "color": [255, 255, 255]
+	},
+	"Camera": {
+	  "coordinates": [-50.0, 0, 20.6],
+	  "orientation": [0.0, 0.0, 1.0],
+	  "FOV": 70
+	},
+	"Light": {
+		"coordinates": [-40.0, 50.0, 0.0],
+		"brightness": 0.6,
+		"color": [10, 0, 255]
+	},
+	"Objects": [
+	  {
+		"type": "sphere",
+		"coordinates": [0.0, 0.0, 20.6],
+		"diameter": 12.6,
+		"color": [10, 0, 255]
+	  },
+	  {
+		"type": "plane",
+		"coordinates": [0.0, 0.0, -10.0],
+		"orientation": [0.0, 1.0, 0.0],
+		"color": [0, 0, 255]
+	  },
+	  {
+		"type": "cylinder",
+		"coordinates": [50.0, 0.0, 20.6],
+		"orientation": [0.0, 0.0, 1.0],
+		"diameter": 14.2,
+		"height": 21.42,
+		"color": [10, 0, 255]
+	  }
+	]
+}
+  

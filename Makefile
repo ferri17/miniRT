@@ -41,7 +41,7 @@ OBJ				=	$(patsubst $(SRC_DIR)%.c,$(BUILD_DIR)%.o,$(SRC_FILES))
 DEP				=	$(OBJ:%.o=%.d) $(BONUS_OBJ:%.o=%.d)
 
 CC				=	cc
-CFLAGS			=	-Wall -Wextra -Werror
+CFLAGS			=	-Wall -Wextra -Werror -O2
 DEPFLAGS		=	-I $(INCLUDE_DIR) -I $(LIBFT_DIR) -I $(MLX_DIR) -MMD -MP
 MLXFLGS			=	-L$(MLX_DIR) -lmlx -lm -framework OpenGL -framework AppKit
 DIR_DUP			=	mkdir -p $(@D)
