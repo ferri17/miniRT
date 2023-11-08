@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42barcel>       +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/07 12:46:20 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/08 18:39:07 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 /*==============================	LIBRARIES	==============================*/
 
+# include "fcntl.h"
 # include "libft.h"
 
 /*=================================	MACROS	==================================*/
@@ -23,85 +24,105 @@
 # define GREENBASH "\033[1;38;2;180;235;31m"
 # define NO_COL "\033[0m"
 # define REDBASH "\033[1;38;2;255;0;0m"
+# define AMBIENT "A"
+# define CAMERA "C"
+# define LIGHT "L"
+# define SPHERE "sp"
+# define PLANE "pl"
+# define CYLINDER "cy"
 
 /*===============================	STRUCTURES	==============================*/
 
 typedef struct s_colors
 {
-	int	R;
-	int	G;
-	int	B;
-}	t_colors;
+	int					r;
+	int					g;
+	int					b;
+}						t_colors;
 
 typedef struct s_coords
 {
-	int	X;
-	int	Y;
-	int	Z;
-}	t_coords;
+	int					x;
+	int					y;
+	int					z;
+}						t_coords;
 
 typedef struct s_direction
 {
-	float	X;
-	float	Y;
-	float	Z;
-}	t_direction;
+	float				x;
+	float				y;
+	float				z;
+}						t_direction;
 
-typedef struct s_ambientligth //Seguramente sera una lista pero bueno
+typedef struct s_ambligth
 {
-	float		ratio;
-	t_colors	color;
-}	t_ligth;
+	float				ratio;
+	t_colors			color;
+}						t_ambligth;
 
- //esta en concreto es la unica que no tiene sentido que sea un 
- //lista por el echo de que no tiene sentido mas de una camera
 typedef struct s_camera
 {
-	t_coords	coord;
-	t_direction	direct;
-	int			fov;
-}	t_camera;
+	t_coords			coord;
+	t_direction			direct;
+	int					fov;
+}						t_camera;
 
-typedef struct s_ligth //Seguramente sera una lista pero bueno
+typedef struct s_ligth
 {
-	t_coords	coord;
-	float		brigt;
-	t_colors	color;
-}	t_ligth;
+	t_coords			coord;
+	float				brigt;
+	t_colors			color;
+}						t_ligth;
 
 typedef struct s_sphere
 {
-	t_coords	coord;
-	float		diam;
-	t_colors	colors;
-	struct s_sphere *next;
-}	t_sphere;
+	t_coords			coord;
+	float				diam;
+	t_colors			colors;
+	struct s_sphere		*next;
+}						t_sphere;
 
 typedef struct s_plane
 {
-	t_coords	coord;
-	t_direction	direct;
-	t_colors	colors;
-	struct s_plane *next;
-}	t_plane;
+	t_coords			coord;
+	t_direction			direct;
+	t_colors			colors;
+	struct s_plane		*next;
+}						t_plane;
 
 typedef struct s_cylinder
 {
-	t_coords	coord;
-	t_direction	direct;
-	float		diameter;
-	float		height;
-	t_colors	colors;
-	struct s_cylinder *next;
-}	t_cylinder;
+	t_coords			coord;
+	t_direction			direct;
+	float				diameter;
+	float				height;
+	t_colors			colors;
+	struct s_cylinder	*next;
+}						t_cylinder;
 
 typedef struct s_objects
 {
+	t_cylinder			*cy;
+	t_plane				*pl;
+	t_sphere			*sp;
+}						t_objects;
 
-}	t_objects;
+typedef struct s_scene
+{
+	t_objects			objs;
+	t_ligth				ligth;
+	t_ambligth			ambligth;
+	t_camera			camera;
+}						t_scene;
 
 /*==============================  FUNCTIONS  =============================*/
+/*------------------------------  INIT_TOOL  -----------------------------*/
 
-int check_args(int argc, char **argv);
+t_scene					init_structs(void);
+
+/*------------------------------  CHECK_ARG  -----------------------------*/
+
+int						check_args(int argc, char **argv);
+int						check_map(char *file, t_scene *scene);
 
 #endif

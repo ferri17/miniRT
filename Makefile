@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: apriego- <apriego-@student.42barcel>       +#+  +:+       +#+         #
+#    By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2023/11/06 18:11:55 by apriego-         ###   ########.fr        #
+#    Updated: 2023/11/08 17:20:13 by apriego-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ LIBFT_DIR		=	libft/
 
 FILE_MAKE		=	Makefile
 
-SRC				=	main.c check_arguments.c
+SRC				=	main.c check_arguments.c init_structs.c
 
 SRC_DIR			=	src/
 
