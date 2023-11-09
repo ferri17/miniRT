@@ -1,24 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   fill_structs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/09 12:35:31 by apriego-         ###   ########.fr       */
+/*   Created: 2023/11/09 12:24:41 by apriego-          #+#    #+#             */
+/*   Updated: 2023/11/09 12:35:42 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MiniRT.h"
 
-int	main(int argc, char **argv)
+int	fill_ambient(t_scene *scene, char **split)
 {
-	t_scene	scene;
+	
+}
 
-	if (check_args(argc, argv) == 1)
-		return (1);
-	scene = init_structs();
-	check_map(argv[1], &scene);
-	return (0);
+int	fill_camera(t_scene *scene, char **split)
+{
+
+}
+
+int	fill_light(t_scene *scene, char **split)
+{
+
+}
+
+int	fill_sphere(t_scene *scene, char **split)
+{
+
+}
+
+int	fill_plane(t_scene *scene, char **split)
+{
+
+}
+
+int	fill_cylinder(t_scene *scene, char **split)
+{
+
 }

@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/08 18:39:07 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/09 12:41:03 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ typedef struct s_coords
 
 typedef struct s_direction
 {
-	float				x;
-	float				y;
-	float				z;
+	double				x;
+	double				y;
+	double				z;
 }						t_direction;
 
 typedef struct s_ambligth
 {
-	float				ratio;
+	double				ratio;
 	t_colors			color;
 }						t_ambligth;
 
@@ -70,14 +70,14 @@ typedef struct s_camera
 typedef struct s_ligth
 {
 	t_coords			coord;
-	float				brigt;
+	double				brigt;
 	t_colors			color;
 }						t_ligth;
 
 typedef struct s_sphere
 {
 	t_coords			coord;
-	float				diam;
+	double				radius;
 	t_colors			colors;
 	struct s_sphere		*next;
 }						t_sphere;
@@ -94,8 +94,8 @@ typedef struct s_cylinder
 {
 	t_coords			coord;
 	t_direction			direct;
-	float				diameter;
-	float				height;
+	double				radius;
+	double				height;
 	t_colors			colors;
 	struct s_cylinder	*next;
 }						t_cylinder;
