@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:10:32 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/09 12:31:32 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/09 15:45:56 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,21 @@
 
 int	check_ident(t_scene *scene, char **split)
 {
-
-	if (ft_strcmp(split[0], AMBIENT))
-		fill_ambient(scene, split);
-	else if (ft_strcmp(split[0], CAMERA))
-		fill_camera(scene, split);
-	else if (ft_strcmp(split[0], LIGHT))
-		fill_light(scene, split);
-	else if (ft_strcmp(split[0], SPHERE))
-		fill_sphere(scene, split);
-	else if (ft_strcmp(split[0], PLANE))
-		fill_plane(scene, split);
-	else if (ft_strcmp(split[0], CYLINDER))
-		fill_cylinder(scene, split);
+	if (ft_strcmp(split[0], AMBIENT) == 0)
+	{
+		if (fill_ambient(scene, split))
+			return (1);
+	}
+	//else if (ft_strcmp(split[0], CAMERA))
+	//	fill_camera(scene, split);
+	//else if (ft_strcmp(split[0], LIGHT))
+	//	fill_light(scene, split);
+	//else if (ft_strcmp(split[0], SPHERE))
+	//	fill_sphere(scene, split);
+	//else if (ft_strcmp(split[0], PLANE))
+	//	fill_plane(scene, split);
+	//else if (ft_strcmp(split[0], CYLINDER))
+	//	fill_cylinder(scene, split);
 	else
 		return (1);
 	return (0);
@@ -47,7 +49,8 @@ int	check_map(char *file, t_scene *scene)
 		split = ft_split(line, ' ');
 		if (!split)
 			return (free(line), 1);
-		check_ident(scene, split);
+		if (check_ident(scene, split))
+			return (1);
 		free(line);
 		line = get_next_line(fd);
 	}

@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:17:51 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/09 13:17:59 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/09 15:24:07 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,10 @@ size_t		ft_strlen_line(const char *s);
 char		*ft_strjoin_line(char *s1, char *s2);
 char		*get_next_line(int fd);
 size_t		ft_len_line(const char *s);
-void		ft_free_malloc_array(char **arr, int i);
+void		ft_free_malloc_array(char **arr);
 int			ft_array_len(char **arr);
 int			ft_numlen(int n);
 char		*ft_to_lower(char *str);
 int			ft_strcmp(const char *s1, const char *s2);
-double		atod(char *str);
+double		ft_atod(char *str);
 #endif

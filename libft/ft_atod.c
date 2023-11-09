@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 13:08:50 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/09 13:19:23 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/09 14:46:00 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	is_negative(char *str)
 	return (1);
 }
 
-double	atod(char *str)
+double	ft_atod(char *str)
 {
 	double	result;
 	int		sign;
