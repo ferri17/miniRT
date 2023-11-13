@@ -6,11 +6,12 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/09 15:45:02 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/13 19:41:40 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MiniRT.h"
+#include <stdio.h>
 
 int	main(int argc, char **argv)
 {
