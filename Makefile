@@ -6,7 +6,7 @@
 #    By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2023/11/09 14:21:46 by apriego-         ###   ########.fr        #
+#    Updated: 2023/11/13 14:44:30 by apriego-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,7 +83,7 @@ re: fclean all
 norm	:
 	@printf "${YELLOW}Norminette...\n${NC}"
 	@printf "${RED}"
-	@norminette src/*/*.c src/*.c include/*.h > test && printf "$(GREEN)\t[OK]\n" || grep Error test
+	@norminette libft src/*/*.c src/*.c include/*.h > test && printf "$(GREEN)\t[OK]\n" || grep Error test
 	@printf "${NC}"
 	@rm test
 

@@ -6,7 +6,7 @@
 #    By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/02 13:15:19 by apriego-          #+#    #+#              #
-#    Updated: 2023/11/09 13:19:01 by apriego-         ###   ########.fr        #
+#    Updated: 2023/11/13 13:32:55 by apriego-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ SRC				=	ft_memset.c ft_bzero.c ft_strlen.c ft_atoi.c ft_isdigit.c ft_isalpha.c\
 					ft_lstlast_bonus.c ft_lstadd_back_bonus.c ft_lstdelone_bonus.c\
 					ft_lstclear_bonus.c ft_lstiter_bonus.c ft_lstmap_bonus.c ft_test_int.c\
 					ft_free_malloc_array.c ft_array_len.c ft_numlen.c ft_to_lower.c ft_atod.c\
-					ft_strcmp.c
+					ft_strcmp.c ft_test_double.c
 
 FILESPRINTF		=	ft_hex.c ft_printf.c ft_printfnbr.c
 

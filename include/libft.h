@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:17:51 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/09 15:24:07 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/13 13:31:32 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,5 @@ int			ft_numlen(int n);
 char		*ft_to_lower(char *str);
 int			ft_strcmp(const char *s1, const char *s2);
 double		ft_atod(char *str);
+int			ft_test_double(char *str, double min, double max);
 #endif

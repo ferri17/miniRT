@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/09 15:35:43 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/13 16:12:51 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,5 +125,6 @@ t_scene					init_structs(void);
 int						check_args(int argc, char **argv);
 int						check_map(char *file, t_scene *scene);
 int						fill_ambient(t_scene *scene, char **split);
+int						fill_camera(t_scene *scene, char **split);
 
 #endif
