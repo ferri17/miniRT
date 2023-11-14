@@ -6,62 +6,32 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:10:32 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/13 19:41:13 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/14 12:40:00 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MiniRT.h"
 
-int	check_sphere(t_scene *scene, char **split)
-{
-	t_sphere	*sp;
-
-	sp = scene->objs.sp;
-	if (sp)
-	{
-		while (sp->next)
-			sp = sp->next;
-		sp->next = malloc(sizeof(t_sphere));
-		sp = sp->next;
-	}
-	else
-	{
-		scene->objs.sp = malloc(sizeof(t_sphere));
-		sp = scene->objs.sp;
-	}
-	if (!sp)
-		return (1);
-	sp->next = NULL;
-	if (fill_sphere(sp, split))
-		return (1);
-	return (0);
-}
-
 int	check_ident(t_scene *scene, char **split)
 {
+	int	out;
+
+	out = 0;
 	if (ft_strcmp(split[0], AMBIENT) == 0)
-	{
-		if (fill_ambient(scene, split))
-			return (1);
-	}
+		out = fill_ambient(scene, split);
 	else if (ft_strcmp(split[0], CAMERA) == 0)
-	{
-		if (fill_camera(scene, split))
-			return (1);
-	}
+		out = fill_camera(scene, split);
 	else if (ft_strcmp(split[0], LIGHT) == 0)
-	{
-		if (fill_light(scene, split))
-			return (1);
-	}
+		out = fill_light(scene, split);
 	else if (ft_strcmp(split[0], SPHERE) == 0)
-	{
-		if (check_sphere(scene, split))
-			return (1);
-	}
+		out = check_sphere(scene, split);
+	else if (ft_strcmp(split[0], PLANE) == 0)
+		out = check_plane(scene, split);
+	else if (ft_strcmp(split[0], CYLINDER) == 0)
+		out = check_cylinder(scene, split);
 	else
-		return (1);
-	return (0);
+		out = 1;
+	return (out);
 }
 
 static char	*ft_purge_line(char *line)

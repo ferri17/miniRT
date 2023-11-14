@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/13 19:41:40 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/14 15:54:08 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,18 @@
 int	main(int argc, char **argv)
 {
 	t_scene	scene;
+	t_mlx	data;
 
 	if (check_args(argc, argv) == 1)
 		return (1);
 	scene = init_structs();
 	if (check_map(argv[1], &scene))
 	{
-		ft_printf("SOY PRACTICAMENTE UN DIOS");
+		ft_printf("Incorrect Map -- Concerning Sitution");
 		return (1);
 	}
+	data = init_mlx();
+	draw_extras();
+	mlx_loop(data.mlx);
 	return (0);
 }
