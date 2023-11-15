@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 12:24:41 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/14 12:51:26 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/15 18:27:10 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	fill_ambient(t_scene *scene, char **split)
 	scene->ambligth.ratio = ft_atod(split[1]);
 	if (put_colors(&scene->ambligth.color, split[2]))
 		return (1);
+	scene->ambligth.init = true;
 	return (0);
 }
 
@@ -54,6 +55,7 @@ int	fill_camera(t_scene *scene, char **split)
 	ft_free_malloc_array(norm);
 	if (put_fov(&scene->camera.fov, split[3]))
 		return (1);
+	scene->camera.init = true;
 	return (0);
 }
 

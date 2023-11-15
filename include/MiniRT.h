@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/14 15:53:45 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/15 18:13:53 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include "mlx.h"
 # include <stdbool.h>
 # include <math.h>
+# include <limits.h>
+
 /*=================================	MACROS	==================================*/
 
 // Colours
@@ -47,101 +49,6 @@
 # define MOUSEMOVE 6
 # define EXPOSE 12
 # define DESTROY 17
-// NO SE
-# define X 0
-# define Y 1
-# define Z 2
-/*###	MAP THEMES	###*/
-# define BG_C 0
-# define OBJ1_C 1
-# define OBJ2_C 2
-# define TEXT 3
-# define CUBE_VERTEX 8
-typedef struct s_point
-{
-	float		axis[3];
-	int			color;
-}				t_point;
-
-typedef struct s_line
-{
-	t_point		start;
-	t_point		end;
-}				t_line;
-
-typedef struct s_line_draw
-{
-	int			start[2];
-	int			end[2];
-}				t_line_draw;
-
-typedef struct s_bresenh
-{
-	t_line_draw	draw;
-	int			dx;
-	int			dy;
-	int			sx;
-	int			sy;
-	int			err;
-	int			err2;
-	bool		accept;
-}				t_bresenh;
-
-typedef struct s_key
-{
-	bool		right_clicked;
-	bool		first_right_click;
-	bool		left_clicked;
-	bool		first_left_click;
-	bool		axis_locked[3];
-}				t_key;
-
-typedef struct rotation_matrix
-{
-	float		x[3][3];
-	float		y[3][3];
-	float		z[3][3];
-}				t_mtx;
-
-typedef struct s_map
-{
-	int			fd;
-	int			x_size;
-	int			y_size;
-	int			size;
-	int			highest;
-	int			lowest;
-	int			theme[4];
-	int			col_axis[3];
-	double		zoom;
-	float		z_resize;
-	float		translate[2];
-	int			rotate[3];
-	t_mtx		r_matrix;
-	uint8_t		mode;
-	int			t_render;
-	t_line		line;
-	t_point		*terrain;
-	t_point		*obj;
-}				t_map;
-
-typedef struct s_image
-{
-	void		*ptr;
-	int			pixel_bits;
-	int			line_bytes;
-	int			endian;
-	char		*buffer;
-}				t_image;
-
-typedef struct s_mlx
-{
-	void		*mlx;
-	void		*mlx_win;
-	t_map		map;
-	t_image		img;
-	t_key		key;
-}				t_mlx;
 
 /*===============================	STRUCTURES	==============================*/
 
@@ -172,6 +79,7 @@ typedef struct s_ambligth
 {
 	double				ratio;
 	t_colors			color;
+	bool				init;
 }						t_ambligth;
 
 typedef struct s_camera
@@ -179,6 +87,7 @@ typedef struct s_camera
 	t_coords			coord;
 	t_direction			direct;
 	int					fov;
+	bool				init;
 }						t_camera;
 
 typedef struct s_ligth
@@ -231,14 +140,11 @@ typedef struct s_scene
 
 /*-------------------------------      MLX      ------------------------------*/
 
-
-/*
 typedef struct s_mlx
 {
 	void		*mlx;
 	void		*mlx_win;
-	t_image		img;
-}				t_mlx;*/
+}				t_mlx;
 
 /*==============================  FUNCTIONS  =============================*/
 /*------------------------------  INIT_TOOL  -----------------------------*/
@@ -269,9 +175,5 @@ int						fill_light(t_scene *scene, char **split);
 int						fill_sphere(t_sphere *sp, char **split);
 int						fill_plane(t_plane *pl, char **split);
 int						fill_cylinder(t_cylinder *cy, char **split);
-
-/*---------------------*//*---------------------*//*---------------------*//*---------------------*//*---------------------*/
-void	bresenham(t_mlx *data, t_line line);
-void	draw_extras(t_mlx *data);
 
 #endif

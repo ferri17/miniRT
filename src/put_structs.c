@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:42:57 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/14 12:43:09 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/15 17:42:05 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,15 @@ int	put_colors(t_colors *colors, char *split)
 
 int	put_coord(t_coords *coord, char **coords)
 {
-	if (ft_test_double(coords[0], -1080, 1080) == 0)
+	if (ft_test_double(coords[0], INT_MIN, INT_MAX) == 0)
 		coord->x = ft_atod(coords[0]);
 	else
 		return (1);
-	if (ft_test_double(coords[1], -1980, 1980) == 0)
+	if (ft_test_double(coords[1], INT_MIN, INT_MAX) == 0)
 		coord->y = ft_atod(coords[1]);
 	else
 		return (1);
-	if (ft_test_double(coords[2], -1980, 1980) == 0)
+	if (ft_test_double(coords[2], INT_MIN, INT_MAX) == 0)
 		coord->z = ft_atod(coords[2]);
 	else
 		return (1);
@@ -59,15 +59,15 @@ int	put_coord(t_coords *coord, char **coords)
 
 int	put_direct(t_direction *direct, char **norm)
 {
-	if (ft_test_double(norm[0], -1.0, 1.0) == 0)
+	if (ft_test_double(norm[0], -1.0000, 1.0000) == 0)
 		direct->x = ft_atod(norm[0]);
 	else
 		return (1);
-	if (ft_test_double(norm[1], -1.0, 1.0) == 0)
+	if (ft_test_double(norm[1], -1.0000, 1.0000) == 0)
 		direct->y = ft_atod(norm[1]);
 	else
 		return (1);
-	if (ft_test_double(norm[2], -1.0, 1.0) == 0)
+	if (ft_test_double(norm[2], -1.0000, 1.0000) == 0)
 		direct->z = ft_atod(norm[2]);
 	else
 		return (1);

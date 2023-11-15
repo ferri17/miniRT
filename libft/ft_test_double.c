@@ -6,13 +6,13 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 11:48:51 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/13 14:44:13 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/15 17:52:06 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	is_negative(char *str)
+static double	is_negative(char *str)
 {
 	if (*str == '-')
 		return (-1);
@@ -41,14 +41,13 @@ int	is_valid_double(const char *str)
 	return (0);
 }
 
-static int	testing_double(char *str, double min, double max, int sign)
+static int	testing_double(char *str, double min, double max, double sign)
 {
 	double	res;
 	double	divisor;
 
 	res = 0.0;
-	while (*str >= '0' && *str <= '9' && (res * sign >= min && res
-			* sign <= max))
+	while (*str >= '0' && *str <= '9')
 	{
 		res = res * 10.0 + (*str - '0');
 		str++;
@@ -57,15 +56,15 @@ static int	testing_double(char *str, double min, double max, int sign)
 	{
 		str++;
 		divisor = 10.0;
-		while (*str >= '0' && *str <= '9' && (res * sign >= min && res
-				* sign <= max))
+		while (*str >= '0' && *str <= '9')
 		{
 			res += (*str - '0') / divisor;
 			divisor *= 10.0;
 			str++;
 		}
 	}
-	if (*str != '\0')
+	res *= sign;
+	if (res < min || res > max || *str != '\0')
 		return (1);
 	return (0);
 }
@@ -73,7 +72,7 @@ static int	testing_double(char *str, double min, double max, int sign)
 int	ft_test_double(char *str, double min, double max)
 {
 	double	result;
-	int		sign;
+	double	sign;
 
 	result = 0.0;
 	sign = is_negative(str);
