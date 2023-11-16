@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:51:31 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/14 12:51:43 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/16 12:16:58 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	fill_sphere(t_sphere *sp, char **split)
 	if (ft_test_double(split[2], 0.0, 10000.0))
 		return (1);
 	sp->radius = ft_atod(split[2]);
-	if (put_colors(&sp->colors, split[3]))
+	if (put_colors(&sp->color, split[3]))
 		return (1);
 	return (0);
 }
@@ -53,7 +53,7 @@ int	fill_plane(t_plane *pl, char **split)
 	if (ft_array_len(norm) != 3 || put_direct(&pl->direct, norm))
 		return (ft_free_malloc_array(norm), 1);
 	ft_free_malloc_array(norm);
-	if (put_colors(&pl->colors, split[3]))
+	if (put_colors(&pl->color, split[3]))
 		return (1);
 	return (0);
 }
@@ -81,7 +81,7 @@ int	fill_cylinder(t_cylinder *cy, char **split)
 		return (1);
 	cy->radius = ft_atod(split[3]) / 2;
 	cy->height = ft_atod(split[4]);
-	if (put_colors(&cy->colors, split[5]))
+	if (put_colors(&cy->color, split[5]))
 		return (1);
 	return (0);
 }

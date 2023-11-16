@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 13:08:36 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/15 15:43:55 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/16 12:34:53 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@
 // }
 
 /*
-	- Objects starting with a capital letter can't be repeated (Camera, Ambient Light)
 	- Scene needs to have a camera and ambient light
 	- Many empty lines segfault
-
 */

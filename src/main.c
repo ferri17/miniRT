@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/15 18:30:08 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/16 13:48:34 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,23 @@ int	key_down(int key, void *param)
 
 void print_shit(t_scene scene)
 {
-	ft_printf("-----CAMERA-----\n");
-	ft_printf("Coord: x:%d y:%d z:%d\n", scene.camera.coord.x, scene.camera.coord.y, scene.camera.coord.z);
-	printf("Direct: x:%f y:%f z:%f\n", scene.camera.direct.x, scene.camera.direct.y, scene.camera.direct.z);
-	ft_printf("FOV: %d\n", scene.camera.fov);
-	ft_printf("-----AMBIENT-----\n");
-	ft_printf("COLOR: R:%d G:%d B:%d\n", scene.ambligth.color.r, scene.ambligth.color.g, scene.ambligth.color.b);
+	printf("-----CAMERA-----\n");
+	printf("Coord: x:%f y:%f z:%f\n", scene.camera.coord.e[X], scene.camera.coord.e[Y], scene.camera.coord.e[Z]);
+	printf("Direct: x:%f y:%f z:%f\n", scene.camera.direct.e[X], scene.camera.direct.e[Y], scene.camera.direct.e[Z]);
+	printf("FOV: %d\n", scene.camera.fov);
+	printf("-----AMBIENT-----\n");
+	printf("COLOR: R:%f G:%f B:%f\n", scene.ambligth.color.e[R], scene.ambligth.color.e[G], scene.ambligth.color.e[B]);
 	printf("RATIO: %f\n", scene.ambligth.ratio);
-	ft_printf("-----LIGTH-----\n");
-	ft_printf("Coord: x:%d y:%d z:%d\n", scene.ligth.coord.x, scene.ligth.coord.y, scene.ligth.coord.z);
-	ft_printf("Direct: x:%d y:%d z:%d\n", scene.ligth.color.r, scene.ligth.color.g, scene.ligth.color.b);
-	printf("BRIGT: %f\n", scene.ligth.brigt);	
+	printf("-----LIGTH-----\n");
+	printf("Coord: x:%f y:%f z:%f\n", scene.ligth.coord.e[X], scene.ligth.coord.e[Y], scene.ligth.coord.e[Z]);
+	printf("COLOR: R:%f G:%f B:%f\n", scene.ligth.color.e[R], scene.ligth.color.e[G], scene.ligth.color.e[B]);
+	printf("BRIGT: %f\n", scene.ligth.brigt);
+	while (scene.objs)
+	{
+		ft_printf("-----OBJS-----\n");
+		scene.objs->hit(scene.objs->type);
+		scene.objs = scene.objs->next;
+	}
 }
 
 int	main(int argc, char **argv)

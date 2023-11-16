@@ -6,7 +6,7 @@
 #    By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2023/11/15 12:07:15 by apriego-         ###   ########.fr        #
+#    Updated: 2023/11/16 12:32:24 by apriego-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ LIBFT_DIR		=	libft/
 
 FILE_MAKE		=	Makefile
 
-SRC				=	main.c check_arguments.c init_structs.c fill_structs.c init_objs.c put_structs.c fill_objs.c init_mlx.c
+SRC				=	main.c check_arguments.c init_structs.c fill_structs.c init_objs.c put_structs.c\
+					fill_objs.c init_mlx.c vector.c
 
 SRC_DIR			=	src/
 
@@ -61,7 +62,7 @@ $(NAME): $(OBJ) $(LIBFT_DIR)$(LIBFT) $(MLX_DIR)$(MLX)
 		@printf "\n$(GREEN)$(NAME) COMPILED!\n$(END)"
 
 $(BUILD_DIR)%.o: $(SRC_DIR)%.c $(LIBFT_DIR)$(LIBFT) $(MLX_DIR)$(MLX) $(FILE_MAKE)
-	@printf "\r$(CL_LINE)$(YELLOW)Compiling... $(END)$(patsubst $(BUILD_DIR)%,%,$@)"
+	@printf "\r$(CL_LINE)$(YELLOW)Compiling... $(END)$(patsubst $(BUILD_DIR)%,%,$@) "
 	@$(DIR_DUP)
 	@$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
 	
