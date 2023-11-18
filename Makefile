@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: apriego- <apriego-@student.42barcel>       +#+  +:+       +#+         #
+#    By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2023/11/02 15:47:25 by apriego-         ###   ########.fr        #
+#    Updated: 2023/11/16 12:32:24 by apriego-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ LIBFT_DIR		=	libft/
 
 FILE_MAKE		=	Makefile
 
-SRC				=	main.c
+SRC				=	main.c check_arguments.c init_structs.c fill_structs.c init_objs.c put_structs.c\
+					fill_objs.c init_mlx.c vector.c
 
 SRC_DIR			=	src/
 
@@ -57,11 +58,11 @@ make_libs:
 	@$(MAKE) -C $(MLX_DIR) --no-print-directory
 
 $(NAME): $(OBJ) $(LIBFT_DIR)$(LIBFT) $(MLX_DIR)$(MLX)
-		@$(CC) $(CFLAGS) $(OBJ) $(LIBFT_DIR)$(LIBFT) $(MLX_DIR)$(MLX) $(MLXFLGS) -o $(NAME)
+		@$(CC) $(CFLAGS) $(DEPFLAGS) $(OBJ) $(LIBFT_DIR)$(LIBFT) $(MLX_DIR)$(MLX) $(MLXFLGS) -o $(NAME)
 		@printf "\n$(GREEN)$(NAME) COMPILED!\n$(END)"
 
 $(BUILD_DIR)%.o: $(SRC_DIR)%.c $(LIBFT_DIR)$(LIBFT) $(MLX_DIR)$(MLX) $(FILE_MAKE)
-	@printf "\r$(CL_LINE)$(YELLOW)Compiling... $(END)$(patsubst $(BUILD_DIR)%,%,$@)"
+	@printf "\r$(CL_LINE)$(YELLOW)Compiling... $(END)$(patsubst $(BUILD_DIR)%,%,$@) "
 	@$(DIR_DUP)
 	@$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
 	
@@ -83,7 +84,7 @@ re: fclean all
 norm	:
 	@printf "${YELLOW}Norminette...\n${NC}"
 	@printf "${RED}"
-	@norminette src/*/*.c src/*.c include/*.h > test && printf "$(GREEN)\t[OK]\n" || grep Error test
+	@norminette libft src/*/*.c src/*.c include/*.h > test && printf "$(GREEN)\t[OK]\n" || grep Error test
 	@printf "${NC}"
 	@rm test
 

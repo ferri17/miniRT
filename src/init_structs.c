@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_malloc_array.c                             :+:      :+:    :+:   */
+/*   init_structs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/03 18:48:53 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/09 15:25:03 by apriego-         ###   ########.fr       */
+/*   Created: 2023/11/08 17:18:57 by apriego-          #+#    #+#             */
+/*   Updated: 2023/11/16 10:51:03 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "MiniRT.h"
 
-void	ft_free_malloc_array(char **arr)
+t_scene	init_structs(void)
 {
-	int	i;
+	t_scene	scene;
 
-	i = 0;
-	while (arr[i])
-		free(arr[i++]);
-	free(arr);
-	arr = NULL;
+	scene.ambligth.init = false;
+	scene.camera.init = false;
+	scene.objs = NULL;
+	return (scene);
 }

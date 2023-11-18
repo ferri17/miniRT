@@ -1,24 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_malloc_array.c                             :+:      :+:    :+:   */
+/*   vec3.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/03 18:48:53 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/09 15:25:03 by apriego-         ###   ########.fr       */
+/*   Created: 2023/11/16 12:31:34 by apriego-          #+#    #+#             */
+/*   Updated: 2023/11/16 13:16:43 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef VEC3_H
+# define VEC3_H
 
-void	ft_free_malloc_array(char **arr)
+# define X 0
+# define Y 1
+# define Z 2
+
+# define R 0
+# define G 1
+# define B 2
+
+struct	s_vec3
 {
-	int	i;
+	double	e[3];
+};
 
-	i = 0;
-	while (arr[i])
-		free(arr[i++]);
-	free(arr);
-	arr = NULL;
-}
+typedef struct s_vec3	t_vec3;
+typedef struct s_vec3	t_point;
+typedef struct s_vec3	t_color;
+
+#endif
