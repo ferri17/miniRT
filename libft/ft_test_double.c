@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_test_double.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 11:48:51 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/15 17:52:06 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/18 12:23:57 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,8 @@ static int	testing_double(char *str, double min, double max, double sign)
 
 int	ft_test_double(char *str, double min, double max)
 {
-	double	result;
 	double	sign;
 
-	result = 0.0;
 	sign = is_negative(str);
 	if (is_valid_double(str))
 		return (1);

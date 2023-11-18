@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+         #
+#    By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2023/11/16 12:32:24 by apriego-         ###   ########.fr        #
+#    Updated: 2023/11/18 17:57:58 by fbosch           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,31 +20,38 @@ CL_LINE=\033[K
 NAME			=	miniRT
 
 LIBFT			=	libft.a
-LIBFT_DIR		=	libft/
+DIR_LIBFT		=	libft/
 
 FILE_MAKE		=	Makefile
 
-SRC				=	main.c check_arguments.c init_structs.c fill_structs.c init_objs.c put_structs.c\
-					fill_objs.c init_mlx.c vector.c
+SRC_MAIN		=	main.c
 
-SRC_DIR			=	src/
+SRC_INIT		=	check_arguments.c init_structs.c fill_structs.c init_objs.c\
+					put_structs.c fill_objs.c init_mlx.c vector.c
 
-INCLUDE_DIR		=	include/
-BUILD_DIR		=	.build/
+DIR_MAIN		=	src/main/
+DIR_INIT		=	src/init/
+
+DIR_INCLUDE		=	include/
+DIR_BUILD		=	.build/
 
 MLX				=	libmlx.a
-MLX_DIR			=	minilibx_macos/
+DIR_MLX			=	minilibx_macos/
 
-SRC_FILES		=	$(addprefix $(SRC_DIR),$(SRC))
+FILES_MAIN		=	$(addprefix $(DIR_MAIN),$(SRC_MAIN))
+FILES_INIT		=	$(addprefix $(DIR_INIT),$(SRC_INIT))
 
-OBJ				=	$(patsubst $(SRC_DIR)%.c,$(BUILD_DIR)%.o,$(SRC_FILES))
+OBJ_MAIN		=	$(addprefix $(DIR_BUILD),$(FILES_MAIN:.c=.o))
+OBJ_INIT		=	$(addprefix $(DIR_BUILD),$(FILES_INIT:.c=.o))
+
+OBJ_ALL			=	$(OBJ_MAIN) $(OBJ_INIT)
 
 DEP				=	$(OBJ:%.o=%.d) $(BONUS_OBJ:%.o=%.d)
 
 CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror -O2
-DEPFLAGS		=	-I $(INCLUDE_DIR) -I $(LIBFT_DIR) -I $(MLX_DIR) -MMD -MP
-MLXFLGS			=	-L$(MLX_DIR) -lmlx -lm -framework OpenGL -framework AppKit
+DEPFLAGS		=	-I $(DIR_INCLUDE) -I $(DIR_LIBFT) -I $(DIR_MLX) -MMD -MP
+MLXFLGS			=	-L$(DIR_MLX) -lmlx -lm -framework OpenGL -framework AppKit
 DIR_DUP			=	mkdir -p $(@D)
 
 RM				=	/bin/rm -f
@@ -53,30 +60,30 @@ all: make_libs $(NAME)
 
 make_libs:
 	@printf "$(YELLOW)COMPILING LIBFT...\n$(END)"
-	@$(MAKE) -C $(LIBFT_DIR) --no-print-directory
+	@$(MAKE) -C $(DIR_LIBFT) --no-print-directory
 	@printf "$(YELLOW)COMPILING MINILIBX...\n$(END)"
-	@$(MAKE) -C $(MLX_DIR) --no-print-directory
+	@$(MAKE) -C $(DIR_MLX) --no-print-directory
 
-$(NAME): $(OBJ) $(LIBFT_DIR)$(LIBFT) $(MLX_DIR)$(MLX)
-		@$(CC) $(CFLAGS) $(DEPFLAGS) $(OBJ) $(LIBFT_DIR)$(LIBFT) $(MLX_DIR)$(MLX) $(MLXFLGS) -o $(NAME)
+$(NAME): $(OBJ_ALL) $(DIR_LIBFT)$(LIBFT) $(DIR_MLX)$(MLX)
+		@$(CC) $(CFLAGS) $(DEPFLAGS) $(OBJ_ALL) $(DIR_LIBFT)$(LIBFT) $(DIR_MLX)$(MLX) $(MLXFLGS) -o $(NAME)
 		@printf "\n$(GREEN)$(NAME) COMPILED!\n$(END)"
 
-$(BUILD_DIR)%.o: $(SRC_DIR)%.c $(LIBFT_DIR)$(LIBFT) $(MLX_DIR)$(MLX) $(FILE_MAKE)
-	@printf "\r$(CL_LINE)$(YELLOW)Compiling... $(END)$(patsubst $(BUILD_DIR)%,%,$@) "
+$(DIR_BUILD)%.o: %.c $(DIR_LIBFT)$(LIBFT) $(DIR_MLX)$(MLX) $(FILE_MAKE)
+	@printf "\r$(CL_LINE)$(YELLOW)Compiling... $(END)$(patsubst $(DIR_BUILD)%,%,$@) "
 	@$(DIR_DUP)
 	@$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
 	
 clean:
-	@$(MAKE) -C $(LIBFT_DIR) clean --no-print-directory
-	@$(MAKE) -C $(MLX_DIR) clean --no-print-directory
-	@$(RM) $(OBJ) $(DEP)
+	@$(MAKE) -C $(DIR_LIBFT) clean --no-print-directory
+	@$(MAKE) -C $(DIR_MLX) clean --no-print-directory
+	@$(RM) $(OBJ_ALL) $(DEP)
 	@printf "$(RED)$(NAME) OBJECTS DELETED\n$(END)"
 
 fclean: clean
-	@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory
-	@$(MAKE) -C $(MLX_DIR) fclean --no-print-directory
+	@$(MAKE) -C $(DIR_LIBFT) fclean --no-print-directory
+	@$(MAKE) -C $(DIR_MLX) fclean --no-print-directory
 	@$(RM) $(NAME)
-	@$(RM) -r $(BUILD_DIR)
+	@$(RM) -r $(DIR_BUILD)
 	@printf "$(RED)$(NAME) DELETED\n$(END)"
 
 re: fclean all
