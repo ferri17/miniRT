@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_arguments.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:10:32 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/16 14:09:46 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/19 01:36:50 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ int	check_ident(t_scene *scene, char **split)
 {
 	int	out;
 
-	out = 0;
 	if (!split[0])
 		return (0);
-	else if (ft_strcmp(split[0], AMBIENT) == 0 && scene->ambligth.init == false)
+	out = 0;
+	if (ft_strcmp(split[0], AMBIENT) == 0 && scene->ambligth.init == false)
 		out = fill_ambient(scene, split);
 	else if (ft_strcmp(split[0], CAMERA) == 0 && scene->camera.init == false)
 		out = fill_camera(scene, split);
@@ -50,7 +50,7 @@ static char	*ft_purge_line(char *line)
 	return (line);
 }
 
-int	check_map(char *file, t_scene *scene)
+int	init_map(char *file, t_scene *scene)
 {
 	int		fd;
 	char	*line;
@@ -65,7 +65,7 @@ int	check_map(char *file, t_scene *scene)
 		line = ft_purge_line(line);
 		split = ft_split(line, ' ');
 		if (!split)
-			return (free(line), 1);
+			return (free(line), 1);        // Si t_scene fa algun malloc() aixo podria tenir leaks (no ho se si en te)
 		free(line);
 		if (check_ident(scene, split))
 			return (ft_free_malloc_array(split), 1);
@@ -73,22 +73,45 @@ int	check_map(char *file, t_scene *scene)
 		line = get_next_line(fd);
 	}
 	close(fd);
+	if (scene->camera.init == false || scene->ambligth.init == false)
+		return (1);
 	return (0);
+}
+
+int	compare_str_end(char *str, char *end)
+{
+	int	len_str;
+	int	len_end;
+
+	len_str = ft_strlen(str);
+	len_end = ft_strlen(end);
+	return (ft_strcmp(str + len_str - len_end, end));
 }
 
 int	check_args(int argc, char **argv)
 {
+	char	*filename;
+	int		fd;
+
+	filename = argv[1];
 	if (argc == 2)
 	{
-		if (ft_strlen(ft_strnstr(argv[1], ".rt", ft_strlen(argv[1]))) != 3)
+		fd = open(filename, O_RDONLY);
+		close(fd);
+		if (fd == -1)
 		{
-			ft_printf("Can only read .rt files");
+			ft_printf_fd(STDERR_FILENO, ERR_OPENING_MAP);
+			return (1);
+		}
+		if (compare_str_end(filename, ".rt") != 0)
+		{
+			ft_printf_fd(STDERR_FILENO, ERR_MISSING_RT_EXTENSION);
 			return (1);
 		}
 	}
 	else
 	{
-		ft_printf("Please give me a .rt scene file");
+		ft_printf_fd(STDERR_FILENO, ERR_NO_MAP);
 		return (1);
 	}
 	return (0);

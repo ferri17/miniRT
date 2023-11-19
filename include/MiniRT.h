@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/16 14:11:01 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/19 01:25:30 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@
 # include <stdbool.h>
 # include <math.h>
 # include <limits.h>
+
+/*=============================	ERROR MESSAGES	==============================*/
+
+# define ERR_NO_MAP "Usage: [./miniRT] [your_map.rt]\n"
+# define ERR_MISSING_RT_EXTENSION "Error: map doesn't have a valid extension *[.rt]\n"
+# define ERR_INVALID_MAP "Error: invalid map format.\n"
+# define ERR_OPENING_MAP "Error: Couldn't open map.\n"
 
 /*=================================	MACROS	==================================*/
 
@@ -64,37 +71,37 @@ typedef struct s_ambligth
 
 typedef struct s_camera
 {
-	t_point				coord;
-	t_vec3				direct;
+	t_point				center;
+	t_vec3				dir;
 	int					fov;
 	bool				init;
 }						t_camera;
 
 typedef struct s_ligth
 {
-	t_point				coord;
+	t_point				center;
 	double				brigt;
 	t_color				color;
 }						t_ligth;
 
 typedef struct s_sphere
 {
-	t_point				coord;
+	t_point				center;
 	double				radius;
 	t_color				color;
 }						t_sphere;
 
 typedef struct s_plane
 {
-	t_point				coord;
-	t_vec3				direct;
+	t_point				center;
+	t_vec3				dir;
 	t_color				color;
 }						t_plane;
 
 typedef struct s_cylinder
 {
-	t_point				coord;
-	t_vec3				direct;
+	t_point				center;
+	t_vec3				dir;
 	double				radius;
 	double				height;
 	t_color				color;
@@ -146,13 +153,14 @@ int						check_cylinder(t_scene *scene, char **split);
 
 int						put_colors(t_color *colors, char *split);
 int						put_coord(t_point *coord, char **coords);
-int						put_direct(t_vec3 *direct, char **norm);
+int						put_dir(t_vec3 *dir, char **norm);
 int						put_fov(int *fov, char *num);
 
 /*------------------------------  CHECK_ARG  -----------------------------*/
 
 int						check_args(int argc, char **argv);
-int						check_map(char *file, t_scene *scene);
+int						compare_str_end(char *str, char *end);
+int						init_map(char *file, t_scene *scene);
 int						fill_ambient(t_scene *scene, char **split);
 int						fill_camera(t_scene *scene, char **split);
 int						fill_light(t_scene *scene, char **split);

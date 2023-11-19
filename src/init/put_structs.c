@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_structs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:42:57 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/16 13:37:32 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/19 00:23:55 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,18 @@ int	put_coord(t_point *coord, char **coords)
 	return (0);
 }
 
-int	put_direct(t_vec3 *direct, char **norm)
+int	put_dir(t_vec3 *dir, char **norm)
 {
 	if (ft_test_double(norm[0], -1.0000, 1.0000) == 0)
-		direct->e[X] = ft_atod(norm[0]);
+		dir->e[X] = ft_atod(norm[0]);
 	else
 		return (1);
 	if (ft_test_double(norm[1], -1.0000, 1.0000) == 0)
-		direct->e[Y] = ft_atod(norm[1]);
+		dir->e[Y] = ft_atod(norm[1]);
 	else
 		return (1);
 	if (ft_test_double(norm[2], -1.0000, 1.0000) == 0)
-		direct->e[Z] = ft_atod(norm[2]);
+		dir->e[Z] = ft_atod(norm[2]);
 	else
 		return (1);
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/16 13:48:34 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/19 01:36:57 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ int	key_down(int key, void *param)
 void print_shit(t_scene scene)
 {
 	printf("-----CAMERA-----\n");
-	printf("Coord: x:%f y:%f z:%f\n", scene.camera.coord.e[X], scene.camera.coord.e[Y], scene.camera.coord.e[Z]);
-	printf("Direct: x:%f y:%f z:%f\n", scene.camera.direct.e[X], scene.camera.direct.e[Y], scene.camera.direct.e[Z]);
+	printf("Coord: x:%f y:%f z:%f\n", scene.camera.center.e[X], scene.camera.center.e[Y], scene.camera.center.e[Z]);
+	printf("Direct: x:%f y:%f z:%f\n", scene.camera.dir.e[X], scene.camera.dir.e[Y], scene.camera.dir.e[Z]);
 	printf("FOV: %d\n", scene.camera.fov);
 	printf("-----AMBIENT-----\n");
 	printf("COLOR: R:%f G:%f B:%f\n", scene.ambligth.color.e[R], scene.ambligth.color.e[G], scene.ambligth.color.e[B]);
 	printf("RATIO: %f\n", scene.ambligth.ratio);
 	printf("-----LIGTH-----\n");
-	printf("Coord: x:%f y:%f z:%f\n", scene.ligth.coord.e[X], scene.ligth.coord.e[Y], scene.ligth.coord.e[Z]);
+	printf("Coord: x:%f y:%f z:%f\n", scene.ligth.center.e[X], scene.ligth.center.e[Y], scene.ligth.center.e[Z]);
 	printf("COLOR: R:%f G:%f B:%f\n", scene.ligth.color.e[R], scene.ligth.color.e[G], scene.ligth.color.e[B]);
 	printf("BRIGT: %f\n", scene.ligth.brigt);
 	while (scene.objs)
@@ -59,11 +59,10 @@ int	main(int argc, char **argv)
 	if (check_args(argc, argv) == 1)
 		return (1);
 	scene = init_structs();
-	if (check_map(argv[1], &scene) || scene.ambligth.init == false
-		|| scene.camera.init == false)
+	if (init_map(argv[1], &scene))
 	{
 		print_shit(scene);
-		ft_printf("Incorrect Map -- Concerning Situation");
+		ft_printf_fd(STDERR_FILENO, ERR_INVALID_MAP);
 		return (1);
 	}
 	print_shit(scene);
