@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector.c                                           :+:      :+:    :+:   */
+/*   vec3_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:31:17 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/16 12:35:21 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/19 22:51:32 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vec3.h"
 
-t_vec3	add_vec3(t_vec3 *vector1, t_vec3 *vector2)
+t_vec3	add_vec3(const t_vec3 *vector1, const t_vec3 *vector2)
 {
 	t_vec3	res;
 
@@ -22,7 +22,7 @@ t_vec3	add_vec3(t_vec3 *vector1, t_vec3 *vector2)
 	return (res);
 }
 
-t_vec3	substract_vec3(t_vec3 *vector1, t_vec3 *vector2)
+t_vec3	substract_vec3(const t_vec3 *vector1, const t_vec3 *vector2)
 {
 	t_vec3	res;
 
@@ -44,4 +44,9 @@ void	division_vec3(t_vec3 *vector, double factor)
 	vector->e[X] /= factor;
 	vector->e[Y] /= factor;
 	vector->e[Z] /= factor;
+}
+
+double	dot(const t_vec3 *v1, const t_vec3 *v2)
+{
+	return (v1->e[X] * v2->e[X] + v1->e[Y] * v2->e[Y] + v1->e[Z] * v2->e[Z]);
 }

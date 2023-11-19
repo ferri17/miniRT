@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/19 01:25:30 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/19 22:54:24 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@
 /*=============================	ERROR MESSAGES	==============================*/
 
 # define ERR_NO_MAP "Usage: [./miniRT] [your_map.rt]\n"
-# define ERR_MISSING_RT_EXTENSION "Error: map doesn't have a valid extension *[.rt]\n"
+# define ERR_MISSING_RT_EXTENSION "Error: map doesn't have\
+									a valid extension *[.rt]\n"
 # define ERR_INVALID_MAP "Error: invalid map format.\n"
 # define ERR_OPENING_MAP "Error: Couldn't open map.\n"
 
@@ -140,32 +141,32 @@ typedef struct s_mlx
 /*==============================  FUNCTIONS  =============================*/
 /*------------------------------  INIT_TOOL  -----------------------------*/
 
-t_scene					init_structs(void);
-t_mlx					init_mlx(void);
+t_scene		init_structs(void);
+t_mlx		init_mlx(void);
 
 /*------------------------------  INIT_OBJS  ------------------------------*/
 
-int						check_sphere(t_scene *scene, char **split);
-int						check_plane(t_scene *scene, char **split);
-int						check_cylinder(t_scene *scene, char **split);
+int			check_sphere(t_scene *scene, char **split);
+int			check_plane(t_scene *scene, char **split);
+int			check_cylinder(t_scene *scene, char **split);
 
 /*----------------------------- INIT_STRUCTS -----------------------------*/
 
-int						put_colors(t_color *colors, char *split);
-int						put_coord(t_point *coord, char **coords);
-int						put_dir(t_vec3 *dir, char **norm);
-int						put_fov(int *fov, char *num);
+int			put_colors(t_color *colors, char *split);
+int			put_coord(t_point *coord, char **coords);
+int			put_dir(t_vec3 *dir, char **norm);
+int			put_fov(int *fov, char *num);
 
 /*------------------------------  CHECK_ARG  -----------------------------*/
 
-int						check_args(int argc, char **argv);
-int						compare_str_end(char *str, char *end);
-int						init_map(char *file, t_scene *scene);
-int						fill_ambient(t_scene *scene, char **split);
-int						fill_camera(t_scene *scene, char **split);
-int						fill_light(t_scene *scene, char **split);
-int						fill_sphere(t_sphere *sp, char **split);
-int						fill_plane(t_plane *pl, char **split);
-int						fill_cylinder(t_cylinder *cy, char **split);
+int			check_args(int argc, char **argv);
+int			compare_str_end(char *str, char *end);
+int			init_map(char *file, t_scene *scene);
+int			fill_ambient(t_scene *scene, char **split);
+int			fill_camera(t_scene *scene, char **split);
+int			fill_light(t_scene *scene, char **split);
+int			fill_sphere(t_sphere *sp, char **split);
+int			fill_plane(t_plane *pl, char **split);
+int			fill_cylinder(t_cylinder *cy, char **split);
 
 #endif
