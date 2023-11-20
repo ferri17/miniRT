@@ -6,7 +6,7 @@
 #    By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2023/11/19 22:58:24 by fbosch           ###   ########.fr        #
+#    Updated: 2023/11/20 00:55:14 by fbosch           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,8 @@ FILE_MAKE		=	Makefile
 
 FILES_MAIN		=	main.c
 FILES_INIT		=	check_arguments.c init_structs.c fill_structs.c init_objs.c\
-					put_structs.c fill_objs.c init_mlx.c
-FILES_UTILS		=	vec3_utils.c
+					put_structs.c fill_objs.c
+FILES_UTILS		=	vec3_utils.c mlx_utils.c
 
 DIR_MAIN		=	src/main/
 DIR_INIT		=	src/init/

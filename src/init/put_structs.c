@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:42:57 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/19 00:23:55 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/20 01:08:40 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,13 @@ int	put_dir(t_vec3 *dir, char **norm)
 	return (0);
 }
 
-int	put_fov(int *fov, char *num)
+int	put_fov(uint8_t *hfov, char *num)
 {
 	int	number;
 
 	number = ft_atoi(num);
 	if (ft_test_int(num) == 0 && number >= 0 && number <= 180)
-		*fov = number;
+		*hfov = number;
 	else
 		return (1);
 	return (0);

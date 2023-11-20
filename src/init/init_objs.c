@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_objs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/16 14:06:23 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/20 00:19:13 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,19 @@ void	hit_sphere(t_objects obj)
 
 int	check_sphere(t_scene *scene, char **split)
 {
-	t_obj_class	*sp;
+	t_world	*sp;
 
 	sp = scene->objs;
 	if (sp)
 	{
 		while (sp->next)
 			sp = sp->next;
-		sp->next = malloc(sizeof(t_obj_class));
+		sp->next = malloc(sizeof(t_world));
 		sp = sp->next;
 	}
 	else
 	{
-		scene->objs = malloc(sizeof(t_obj_class));
+		scene->objs = malloc(sizeof(t_world));
 		sp = scene->objs;
 	}
 	if (!sp)
@@ -58,19 +58,19 @@ void	hit_plane(t_objects obj)
 
 int	check_plane(t_scene *scene, char **split)
 {
-	t_obj_class	*pl;
+	t_world	*pl;
 
 	pl = scene->objs;
 	if (pl)
 	{
 		while (pl->next)
 			pl = pl->next;
-		pl->next = malloc(sizeof(t_obj_class));
+		pl->next = malloc(sizeof(t_world));
 		pl = pl->next;
 	}
 	else
 	{
-		scene->objs = malloc(sizeof(t_obj_class));
+		scene->objs = malloc(sizeof(t_world));
 		pl = scene->objs;
 	}
 	if (!pl)
@@ -93,19 +93,19 @@ void	hit_cylinder(t_objects obj)
 
 int	check_cylinder(t_scene *scene, char **split)
 {
-	t_obj_class	*cy;
+	t_world	*cy;
 
 	cy = scene->objs;
 	if (cy)
 	{
 		while (cy->next)
 			cy = cy->next;
-		cy->next = malloc(sizeof(t_obj_class));
+		cy->next = malloc(sizeof(t_world));
 		cy = cy->next;
 	}
 	else
 	{
-		scene->objs = malloc(sizeof(t_obj_class));
+		scene->objs = malloc(sizeof(t_world));
 		cy = scene->objs;
 	}
 	if (!cy)

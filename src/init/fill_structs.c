@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 12:24:41 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/19 01:24:28 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/20 01:06:57 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	fill_camera(t_scene *scene, char **split)
 	if (put_dir(&scene->camera.dir, orientation))
 		return (ft_free_malloc_array(orientation), 1);
 	ft_free_malloc_array(orientation);
-	if (put_fov(&scene->camera.fov, split[3]))
+	if (put_fov(&scene->camera.hfov, split[3]))
 		return (1);
 	scene->camera.init = true;
 	return (0);
