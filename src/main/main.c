@@ -6,29 +6,12 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/20 01:11:28 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/21 16:51:50 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MiniRT.h"
 #include <stdio.h>
-
-int	close_program(t_mlx *data, int exit_code)
-{
-	mlx_destroy_window(data->mlx, data->mlx_win);
-	mlx_destroy(data->mlx);
-	exit(exit_code);
-}
-
-int	key_down(int key, void *param)
-{
-	t_mlx	*data;
-
-	data = (t_mlx *)param;
-	if (key == ESC_KEY)
-		close_program(data, EXIT_SUCCESS);
-	return (0);
-}
 
 void print_shit(t_scene scene)
 {
@@ -84,6 +67,8 @@ int	main(int argc, char **argv)
 		i++;
 	}
 	mlx_put_image_to_window(data.mlx, data.mlx_win, data.img.ptr, 0, 0);
+	mlx_hook(data.mlx_win, KEYDOWN, 0, key_down, (void *)&data);
+	mlx_hook(data.mlx_win, DESTROY, 0, close_program, (void *)&data);
 	mlx_loop(data.mlx);
 	//print_shit(scene);
 

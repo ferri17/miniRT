@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/20 01:13:00 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/21 16:45:02 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,5 +182,7 @@ int					fill_cylinder(t_cylinder *cy, char **split);
 void				init_image(t_mlx *data);
 int					my_put_pixel(t_mlx *data, int x, int y, int color);
 void				set_color(t_image *img, int pixel, int color);
+int					close_program(t_mlx *data, int exit_code);
+int					key_down(int key, void *param);
 
 #endif
