@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/22 12:51:24 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/22 13:06:32 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void print_shit(t_scene scene)
 	printf("-----LIGTH-----\n");
 	while (scene.ligth)
 	{
-		printf("Coord: x:%f y:%f z:%f\n", scene.ligth->coord.e[X], scene.ligth->coord.e[Y], scene.ligth->coord.e[Z]);
+		printf("Coord: x:%f y:%f z:%f\n", scene.ligth->center.e[X], scene.ligth->center.e[Y], scene.ligth->center.e[Z]);
 		printf("COLOR: R:%f G:%f B:%f\n", scene.ligth->color.e[R], scene.ligth->color.e[G], scene.ligth->color.e[B]);
 		printf("BRIGT: %f\n", scene.ligth->brigt);
 		scene.ligth = scene.ligth->next;
@@ -71,6 +71,7 @@ int	main(int argc, char **argv)
 		ft_printf_fd(STDERR_FILENO, ERR_INVALID_MAP);
 		return (1);
 	}
+	print_shit(scene);
 	data.mlx = mlx_init();
 	data.mlx_win = mlx_new_window(data.mlx, WIN_W, WIN_H, "MINIRT");
 	init_image(&data);
@@ -88,12 +89,11 @@ int	main(int argc, char **argv)
 		i++;
 	}
 	mlx_put_image_to_window(data.mlx, data.mlx_win, data.img.ptr, 0, 0);
+	mlx_hook(data.mlx_win, KEYDOWN, 0, key_down, (void *)&data);
 	mlx_loop(data.mlx);
-	//print_shit(scene);
 
 	//data.mlx = mlx_init();
 	//data.mlx_win = mlx_new_window(data.mlx, WIN_W, WIN_H, "MINIRT");
-	//mlx_hook(data.mlx_win, KEYDOWN, 0, key_down, (void *)&data);
 	//mlx_loop(data.mlx);
 	return (0);
 }

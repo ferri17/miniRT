@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 12:24:41 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/22 12:51:00 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/22 12:52:29 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	fill_light(t_ligth *ligth, char **split)
 		return (1);
 	if (ft_array_len(coord) != 3)
 		return (ft_free_malloc_array(coord), 1);
-	if (put_coord(&scene->ligth.center, coord))
+	if (put_coord(&ligth->center, coord))
 		return (1);
 	ft_free_malloc_array(coord);
 	if (ft_test_double(split[2], 0.0, 1.0))

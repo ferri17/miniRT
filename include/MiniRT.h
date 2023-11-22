@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/22 12:49:05 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/22 12:54:00 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ typedef struct s_camera
 
 typedef struct s_ligth
 {
-	t_point				coord;
+	t_point				center;
 	double				brigt;
 	t_color				color;
 	struct s_ligth		*next;
