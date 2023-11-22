@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 12:24:41 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/15 18:27:10 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/17 13:26:36 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	fill_camera(t_scene *scene, char **split)
 	return (0);
 }
 
-int	fill_light(t_scene *scene, char **split)
+int	fill_light(t_ligth *ligth, char **split)
 {
 	char	**coord;
 
@@ -70,13 +70,13 @@ int	fill_light(t_scene *scene, char **split)
 		return (1);
 	if (ft_array_len(coord) != 3)
 		return (ft_free_malloc_array(coord), 1);
-	if (put_coord(&scene->ligth.coord, coord))
+	if (put_coord(&ligth->coord, coord))
 		return (1);
 	ft_free_malloc_array(coord);
 	if (ft_test_double(split[2], 0.0, 1.0))
 		return (1);
-	scene->ligth.brigt = ft_atod(split[2]);
-	if (put_colors(&scene->ligth.color, split[3]))
+	ligth->	brigt = ft_atod(split[2]);
+	if (put_colors(&ligth->color, split[3]))
 		return (1);
 	return (0);
 }

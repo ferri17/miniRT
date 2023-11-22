@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:10:32 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/16 14:09:46 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/17 13:39:48 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	check_ident(t_scene *scene, char **split)
 	else if (ft_strcmp(split[0], CAMERA) == 0 && scene->camera.init == false)
 		out = fill_camera(scene, split);
 	else if (ft_strcmp(split[0], LIGHT) == 0)
-		out = fill_light(scene, split);
+		out = check_ligth(scene, split);
 	else if (ft_strcmp(split[0], SPHERE) == 0)
 		out = check_sphere(scene, split);
 	else if (ft_strcmp(split[0], PLANE) == 0)
