@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:42:57 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/20 01:08:40 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/22 13:35:16 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	put_colors(t_color *colors, char *split)
 	return (0);
 }
 
-int	put_coord(t_point *coord, char **coords)
+int	put_coord(t_point3 *coord, char **coords)
 {
 	if (ft_test_double(coords[0], INT_MIN, INT_MAX) == 0)
 		coord->e[X] = ft_atod(coords[0]);

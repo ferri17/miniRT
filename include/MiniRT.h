@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/21 16:45:02 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/22 13:34:40 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "libft.h"
 # include "mlx.h"
 # include "vec3.h"
+# include "ray.h"
 # include <fcntl.h>
 # include <limits.h>
 # include <math.h>
@@ -71,7 +72,7 @@ typedef struct s_ambligth
 
 typedef struct s_camera
 {
-	t_point			center;
+	t_point3			center;
 	t_vec3			dir;
 	uint8_t			hfov;
 	bool			init;
@@ -79,28 +80,28 @@ typedef struct s_camera
 
 typedef struct s_ligth
 {
-	t_point			center;
+	t_point3			center;
 	double			brigt;
 	t_color			color;
 }					t_ligth;
 
 typedef struct s_sphere
 {
-	t_point			center;
+	t_point3			center;
 	double			radius;
 	t_color			color;
 }					t_sphere;
 
 typedef struct s_plane
 {
-	t_point			center;
+	t_point3			center;
 	t_vec3			dir;
 	t_color			color;
 }					t_plane;
 
 typedef struct s_cylinder
 {
-	t_point			center;
+	t_point3			center;
 	t_vec3			dir;
 	double			radius;
 	double			height;
@@ -161,7 +162,7 @@ int					check_cylinder(t_scene *scene, char **split);
 /*----------------------------- INIT_STRUCTS -----------------------------*/
 
 int					put_colors(t_color *colors, char *split);
-int					put_coord(t_point *coord, char **coords);
+int					put_coord(t_point3 *coord, char **coords);
 int					put_dir(t_vec3 *dir, char **norm);
 int					put_fov(uint8_t *hfov, char *num);
 
@@ -177,12 +178,17 @@ int					fill_sphere(t_sphere *sp, char **split);
 int					fill_plane(t_plane *pl, char **split);
 int					fill_cylinder(t_cylinder *cy, char **split);
 
-/*------------------------------  UTILS  -------------------------------*/
+/*------------------------------  MINILIBX  -------------------------------*/
 
 void				init_image(t_mlx *data);
 int					my_put_pixel(t_mlx *data, int x, int y, int color);
 void				set_color(t_image *img, int pixel, int color);
 int					close_program(t_mlx *data, int exit_code);
 int					key_down(int key, void *param);
+
+/*------------------------------  UTILS  -------------------------------*/
+
+int					clamp_number(int nb, int low_limit, int high_limit);
+int					create_color(int a, int r, int g, int b);
 
 #endif

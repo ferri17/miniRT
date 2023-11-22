@@ -6,12 +6,14 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:31:34 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/19 22:50:47 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/22 13:33:38 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VEC3_H
 # define VEC3_H
+
+# include <math.h>
 
 # define X 0
 # define Y 1
@@ -27,7 +29,7 @@ struct	s_vec3
 };
 
 typedef struct s_vec3	t_vec3;
-typedef struct s_vec3	t_point;
+typedef struct s_vec3	t_point3;
 typedef struct s_vec3	t_color;
 
 /*------------------------------  VEC3_UTILS  -----------------------------*/

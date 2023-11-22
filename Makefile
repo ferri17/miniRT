@@ -6,7 +6,7 @@
 #    By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2023/11/20 00:55:14 by fbosch           ###   ########.fr        #
+#    Updated: 2023/11/22 13:16:37 by fbosch           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,11 +27,13 @@ FILE_MAKE		=	Makefile
 FILES_MAIN		=	main.c
 FILES_INIT		=	check_arguments.c init_structs.c fill_structs.c init_objs.c\
 					put_structs.c fill_objs.c
-FILES_UTILS		=	vec3_utils.c mlx_utils.c
+FILES_MLX		=	mlx_color.c mlx_events.c mlx_init.c
+FILES_UTILS		=	vec3_utils.c vec3_utils2.c math_utils.c
 
 DIR_MAIN		=	src/main/
 DIR_INIT		=	src/init/
 DIR_UTILS		=	src/utils/
+DIR_MLX_F		=	src/mlx/
 
 DIR_INCLUDE		=	include/
 DIR_BUILD		=	.build/
@@ -41,13 +43,15 @@ DIR_MLX			=	minilibx_macos/
 
 SRC_MAIN		=	$(addprefix $(DIR_MAIN),$(FILES_MAIN))
 SRC_INIT		=	$(addprefix $(DIR_INIT),$(FILES_INIT))
+SRC_MLX			=	$(addprefix $(DIR_MLX_F),$(FILES_MLX))
 SRC_UTILS		=	$(addprefix $(DIR_UTILS),$(FILES_UTILS))
 
 OBJ_MAIN		=	$(addprefix $(DIR_BUILD),$(SRC_MAIN:.c=.o))
 OBJ_INIT		=	$(addprefix $(DIR_BUILD),$(SRC_INIT:.c=.o))
 OBJ_UTILS		=	$(addprefix $(DIR_BUILD),$(SRC_UTILS:.c=.o))
+OBJ_MLX			=	$(addprefix $(DIR_BUILD),$(SRC_MLX:.c=.o))
 
-OBJ_ALL			=	$(OBJ_MAIN) $(OBJ_INIT) $(OBJ_UTILS)
+OBJ_ALL			=	$(OBJ_MAIN) $(OBJ_INIT) $(OBJ_MLX) $(OBJ_UTILS)
 
 DEP				=	$(OBJ_ALL:%.o=%.d) #$(BONUS_OBJ:%.o=%.d)
 

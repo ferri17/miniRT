@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/21 16:51:50 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/22 13:33:45 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,28 @@ int	main(int argc, char **argv)
 	data.mlx = mlx_init();
 	data.mlx_win = mlx_new_window(data.mlx, WIN_W, WIN_H, "MINIRT");
 	init_image(&data);
-	i = 0;
-	while (i < WIN_H)
+	j = 0;
+	while (j < WIN_H)
 	{
-		ft_printf("\r Scaning line %i/%i", i + 1, WIN_H);
-		j = 0;
-		while (j < WIN_W)
+		ft_printf("\r Scaning line %i/%i", j + 1, WIN_H);
+		i = 0;
+		while (i < WIN_W)
 		{
-			if (j % 2)
-				my_put_pixel(&data, j, i, 0xFF0000);
-			j++;
+			double	r = (double)i / (WIN_W - 1);
+            double	g = (double)j / (WIN_H - 1);
+            double	b = 0;
+
+            int ir = (int)(255.999 * r);
+            int ig = (int)(255.999 * g);
+            int ib = (int)(255.999 * b);
+
+            int	color;
+
+			color = create_color(0, ir, ig, ib);
+			my_put_pixel(&data, i, j, color);
+			i++;
 		}
-		i++;
+		j++;
 	}
 	mlx_put_image_to_window(data.mlx, data.mlx_win, data.img.ptr, 0, 0);
 	mlx_hook(data.mlx_win, KEYDOWN, 0, key_down, (void *)&data);
