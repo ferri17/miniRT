@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/20 01:13:00 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/22 12:49:05 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,11 @@ typedef struct s_camera
 
 typedef struct s_ligth
 {
-	t_point			center;
-	double			brigt;
-	t_color			color;
-}					t_ligth;
+	t_point				coord;
+	double				brigt;
+	t_color				color;
+	struct s_ligth		*next;
+}						t_ligth;
 
 typedef struct s_sphere
 {
@@ -124,7 +125,7 @@ typedef struct s_world
 typedef struct s_scene
 {
 	t_world			*objs;
-	t_ligth			ligth;
+	t_ligth			*ligth;
 	t_ambligth		ambligth;
 	t_camera		camera;
 }					t_scene;
@@ -157,6 +158,7 @@ t_scene				init_structs(void);
 int					check_sphere(t_scene *scene, char **split);
 int					check_plane(t_scene *scene, char **split);
 int					check_cylinder(t_scene *scene, char **split);
+int					check_ligth(t_scene *scene, char **split);
 
 /*----------------------------- INIT_STRUCTS -----------------------------*/
 
@@ -172,7 +174,7 @@ int					compare_str_end(char *str, char *end);
 int					init_map(char *file, t_scene *scene);
 int					fill_ambient(t_scene *scene, char **split);
 int					fill_camera(t_scene *scene, char **split);
-int					fill_light(t_scene *scene, char **split);
+int					fill_light(t_ligth *ligth, char **split);
 int					fill_sphere(t_sphere *sp, char **split);
 int					fill_plane(t_plane *pl, char **split);
 int					fill_cylinder(t_cylinder *cy, char **split);

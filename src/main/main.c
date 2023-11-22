@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/20 01:11:28 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/22 12:51:24 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,13 @@ void print_shit(t_scene scene)
 	printf("COLOR: R:%f G:%f B:%f\n", scene.ambligth.color.e[R], scene.ambligth.color.e[G], scene.ambligth.color.e[B]);
 	printf("RATIO: %f\n", scene.ambligth.ratio);
 	printf("-----LIGTH-----\n");
-	printf("Coord: x:%f y:%f z:%f\n", scene.ligth.center.e[X], scene.ligth.center.e[Y], scene.ligth.center.e[Z]);
-	printf("COLOR: R:%f G:%f B:%f\n", scene.ligth.color.e[R], scene.ligth.color.e[G], scene.ligth.color.e[B]);
-	printf("BRIGT: %f\n", scene.ligth.brigt);
+	while (scene.ligth)
+	{
+		printf("Coord: x:%f y:%f z:%f\n", scene.ligth->coord.e[X], scene.ligth->coord.e[Y], scene.ligth->coord.e[Z]);
+		printf("COLOR: R:%f G:%f B:%f\n", scene.ligth->color.e[R], scene.ligth->color.e[G], scene.ligth->color.e[B]);
+		printf("BRIGT: %f\n", scene.ligth->brigt);
+		scene.ligth = scene.ligth->next;
+	}
 	while (scene.objs)
 	{
 		ft_printf("-----OBJS-----\n");
