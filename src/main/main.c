@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/22 13:33:45 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/23 18:06:35 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,39 @@ int	main(int argc, char **argv)
 	data.mlx = mlx_init();
 	data.mlx_win = mlx_new_window(data.mlx, WIN_W, WIN_H, "MINIRT");
 	init_image(&data);
+
+	t_camera	*camera;
+
+	camera = &scene.camera;
+	// Camera
+	camera->viewport_height = 2.0;
+	camera->focal_length = 1.0;
+	camera->viewport_width = camera->viewport_height * ((double)(WIN_W/WIN_H));
+	camera->center.e[X] = 0.0;
+	camera->center.e[Y] = 0.0;
+	camera->center.e[Z] = 0.0;
+
+	// Calculate the vectors across the horizontal and down the vertical viewport edges.
+    t_vec3	viewport_u = {camera->viewport_width, 0.0, 0.0};
+    t_vec3	viewport_v = {0.0, -camera->viewport_height, 0.0};
+
+    // Calculate the horizontal and vertical delta vectors from pixel to pixel.
+    t_vec3	pixel_delta_u = division_vec3_r(&pixel_delta_u, WIN_W);
+    t_vec3	pixel_delta_v = division_vec3_r(&pixel_delta_v, WIN_H);
+
+    // Calculate the location of the upper left pixel.
+	t_vec3		tmp_focal = {0.0, 0.0, camera->focal_length};
+	t_vec3		tmp_half_view_u = division_vec3_r(&viewport_u, 2);
+	t_vec3		tmp_half_view_v = division_vec3_r(&viewport_v, 2);
+
+	t_vec3		tmp1 = substract_vec3(&camera->center, &tmp_focal);
+	t_vec3		tmp2 = substract_vec3(&tmp_half_view_u, &tmp_half_view_v);
+	t_point3	viewport_upper_left = substract_vec3(&tmp1, &tmp2);
+
+	t_vec3		tmp3 = add_vec3(&pixel_delta_u, &pixel_delta_v);
+	product_vec3(&tmp3, 0.5);
+	t_point3	pixel00_loc = add_vec3(&viewport_upper_left, &tmp3);
+
 	j = 0;
 	while (j < WIN_H)
 	{

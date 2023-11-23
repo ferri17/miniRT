@@ -6,11 +6,33 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:31:17 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/22 13:17:17 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/23 15:58:32 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vec3.h"
+
+t_vec3	product_vec3_r(const t_vec3 *vector, double factor)
+{
+	t_vec3	res;
+
+	res = *vector;
+	res.e[X] *= factor;
+	res.e[Y] *= factor;
+	res.e[Z] *= factor;
+	return (res);
+}
+
+t_vec3	division_vec3_r(const t_vec3 *vector, double factor)
+{
+	t_vec3	res;
+
+	res = *vector;
+	res.e[X] /= factor;
+	res.e[Y] /= factor;
+	res.e[Z] /= factor;
+	return (res);
+}
 
 t_vec3	cross(const t_vec3 *v1, const t_vec3 *v2)
 {

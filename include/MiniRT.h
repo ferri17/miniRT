@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/22 13:34:40 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/23 16:04:15 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,14 @@ typedef struct s_ambligth
 
 typedef struct s_camera
 {
-	t_point3			center;
+	t_point3		center;
+	double			focal_length;
+	double			viewport_height;
+	double			viewport_width;
+    t_vec3			viewport_u;
+    t_vec3			viewport_v;
+    t_vec3			pixel_delta_u;
+    t_vec3			pixel_delta_v;
 	t_vec3			dir;
 	uint8_t			hfov;
 	bool			init;
