@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:31:34 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/23 15:59:02 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/24 10:40:12 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,13 @@ struct	s_vec3
 typedef struct s_vec3	t_vec3;
 typedef struct s_vec3	t_point3;
 typedef struct s_vec3	t_color;
+
+/* struct	s_color
+{
+	int	c[3];
+};
+
+typedef struct s_color	t_color; */
 
 /*------------------------------  VEC3_UTILS  -----------------------------*/
 

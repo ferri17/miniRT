@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/23 18:06:35 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/24 11:46:08 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,26 @@ void print_shit(t_scene scene)
 		scene.objs = scene.objs->next;
 	}
 }
+
+t_color ray_color(const t_ray *r)
+{
+	t_vec3	unit_direction = unit_vector(&r->dir);
+	printf("%.2f,%.2f,%.2f \n", unit_direction.e[X], unit_direction.e[Y], unit_direction.e[Z]);
+	double	a = 0.5 * (unit_direction.e[Y] + 1.0);
+	t_color	color1 = {1.0, 1.0, 1.0};
+	product_vec3(&color1, (1.0 - a));
+	t_color	color2 = {0.5, 0.7, 1.0};
+	//product_vec3(&color1, a);
+	return (add_vec3(&color1, &color2));
+	//t_color tmp = add_vec3(&color1, &color2);
+	//printf("%f,%f,%f \n", tmp.e[X], tmp.e[Y], tmp.e[Z]);
+    //return (add_vec3(&color1, &color2));
+
+	/* vec3 unit_direction = unit_vector(r.direction());
+    auto a = 0.5*(unit_direction.y() + 1.0);
+    return (1.0-a)*color(1.0, 1.0, 1.0) + a*color(0.5, 0.7, 1.0); */
+}
+
 
 int	main(int argc, char **argv)
 {
@@ -70,8 +90,8 @@ int	main(int argc, char **argv)
     t_vec3	viewport_v = {0.0, -camera->viewport_height, 0.0};
 
     // Calculate the horizontal and vertical delta vectors from pixel to pixel.
-    t_vec3	pixel_delta_u = division_vec3_r(&pixel_delta_u, WIN_W);
-    t_vec3	pixel_delta_v = division_vec3_r(&pixel_delta_v, WIN_H);
+    t_vec3	pixel_delta_u = division_vec3_r(&viewport_u, WIN_W);
+    t_vec3	pixel_delta_v = division_vec3_r(&viewport_v, WIN_H);
 
     // Calculate the location of the upper left pixel.
 	t_vec3		tmp_focal = {0.0, 0.0, camera->focal_length};
@@ -93,17 +113,23 @@ int	main(int argc, char **argv)
 		i = 0;
 		while (i < WIN_W)
 		{
-			double	r = (double)i / (WIN_W - 1);
-            double	g = (double)j / (WIN_H - 1);
-            double	b = 0;
+			//auto pixel_center = pixel00_loc + (i * pixel_delta_u) + (j * pixel_delta_v);
+			t_vec3		tmp_i = product_vec3_r(&pixel_delta_u, i);
+			t_vec3		tmp_j = product_vec3_r(&pixel_delta_v, j);
+			t_point3	pixel_center = add_vec3(&pixel00_loc, &tmp_i);
+			pixel_center = add_vec3(&pixel_center, &tmp_j);
 
-            int ir = (int)(255.999 * r);
-            int ig = (int)(255.999 * g);
-            int ib = (int)(255.999 * b);
+            //auto ray_direction = pixel_center - camera_center;
+			t_vec3	ray_direction = substract_vec3(&pixel_center, &camera->center);
 
-            int	color;
+            //ray r(camera_center, ray_direction);
+			t_ray	r;
+			r.orig = camera->center;
+			r.dir = ray_direction;
 
-			color = create_color(0, ir, ig, ib);
+            t_color pixl = ray_color(&r);
+			int		color = create_color(0, pixl.e[R], pixl.e[R], pixl.e[R]);
+
 			my_put_pixel(&data, i, j, color);
 			i++;
 		}
