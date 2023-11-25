@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/23 16:04:15 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/25 11:46:44 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,11 +187,18 @@ int					fill_cylinder(t_cylinder *cy, char **split);
 
 /*------------------------------  MINILIBX  -------------------------------*/
 
-void				init_image(t_mlx *data);
+void				init_mlx_windows(t_mlx *data, int win_width, int win_height);
+void				init_mlx_image(t_mlx *data, int img_width, int img_height);
 int					my_put_pixel(t_mlx *data, int x, int y, int color);
 void				set_color(t_image *img, int pixel, int color);
 int					close_program(t_mlx *data, int exit_code);
 int					key_down(int key, void *param);
+
+/*------------------------------  CAMERA  ------------------------------*/
+
+void				render_image(t_mlx *data, t_scene *scene);
+void				start_raytracer(t_mlx *data, t_scene *scene);
+void				set_camera(t_camera *camera);
 
 /*------------------------------  UTILS  -------------------------------*/
 
