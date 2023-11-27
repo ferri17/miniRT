@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/27 12:28:14 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/27 16:54:14 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	set_camera(t_camera *camera, int img_w, int img_h)
 	// Camera
 	camera->viewport_height = 2.0;
 	camera->focal_length = 1.0;
-	camera->viewport_width = camera->viewport_height * ((double)(img_w/img_h));
+	camera->viewport_width = camera->viewport_height * ((double)img_w/(double)img_h);
 
 	// Calculate the vectors across the horizontal and down the vertical viewport edges.
     camera->viewport_u = (t_vec3){camera->viewport_width, 0.0, 0.0};
