@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/27 01:22:14 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/27 12:43:12 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,16 @@ a valid extension *[.rt]\n"
 # define PLANE "pl"
 # define CYLINDER "cy"
 // MLX
-# define WIN_W 1400
-# define WIN_H 750
-# define IMG_W 1400
-# define IMG_H 750
+# define WIN_W 900
+# define WIN_H 600
+# define IMG_W WIN_W
+# define IMG_H WIN_H
 // KEYS
-# define ESC_KEY 0x35
+# define A_KEY		0x00
+# define S_KEY		0x01
+# define D_KEY		0x02
+# define W_KEY		0x0D
+# define ESC_KEY	0x35
 /*###	X11 EVENTS SUPPORTED BY MINILIBX	###*/
 # define KEYDOWN 2
 # define KEYUP 3

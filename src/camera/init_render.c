@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/27 01:27:52 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/27 12:28:14 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,14 @@ t_color ray_color(const t_ray *r, t_scene *scene)
 	t_world	*objs;
 
 	objs = scene->objs;
-	if (objs->hit(r, objs->type))
+	while (objs)
 	{
-		t_color	hit = {1.0, 0.0, 0.0};
-		return (hit);
+		if (objs->hit(r, objs->type))
+		{
+			t_color	hit = {1.0, 0.0, 0.0};
+			return (hit);
+		}
+		objs = objs->next;
 	}
 	t_vec3	unit_direction = unit_vector(&r->dir);
 	double	a = 0.5 * (unit_direction.e[Y] + 1.0);
@@ -74,7 +78,7 @@ void	start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h)
 			int	red = pixl.e[X] * 255.999;
 			int	green = pixl.e[Y] * 255.999;
 			int	blue = pixl.e[Z] * 255.999;
-			int		color = create_color(0, red, green, blue);
+			int	color = create_color(0, red, green, blue);
 
 			my_put_pixel(data, i, j, color);
 			i++;

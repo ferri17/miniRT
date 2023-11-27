@@ -6,13 +6,12 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/27 01:21:11 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/27 12:16:33 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
 	- MALLOCS NO PROTEGITS AL CREAR OBJECTES
-	- T_WORLD LIST NO ESTA "NULL TERMINATED"?
 */
 #include "MiniRT.h"
 
