@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:31:17 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/23 15:58:32 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/26 16:43:11 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,5 @@ double	length_squared(const t_vec3 *vector)
 
 t_vec3	unit_vector(const t_vec3 *vector)
 {
-	t_vec3	unit_vector;
-
-	unit_vector = *vector;
-	division_vec3(&unit_vector, length(&unit_vector));
-	return (unit_vector);
+	return (division_vec3_r(vector, length(vector)));
 }

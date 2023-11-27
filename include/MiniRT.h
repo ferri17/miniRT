@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/25 11:46:44 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/27 01:22:14 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <limits.h>
 # include <math.h>
 # include <stdbool.h>
+
+#include <stdio.h> //BORRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
 
 /*=============================	ERROR MESSAGES	==============================*/
 
@@ -48,6 +50,8 @@ a valid extension *[.rt]\n"
 // MLX
 # define WIN_W 1400
 # define WIN_H 750
+# define IMG_W 1400
+# define IMG_H 750
 // KEYS
 # define ESC_KEY 0x35
 /*###	X11 EVENTS SUPPORTED BY MINILIBX	###*/
@@ -61,6 +65,24 @@ a valid extension *[.rt]\n"
 
 /*===============================	STRUCTURES	==============================*/
 
+/*-------------------------------      MLX      ------------------------------*/
+
+typedef struct s_image
+{
+	void		*ptr;
+	int			pixel_bits;
+	int			line_bytes;
+	int			endian;
+	char		*buffer;
+}				t_image;
+
+typedef struct s_mlx
+{
+	void			*mlx;
+	void			*mlx_win;
+	t_image			img;
+}	t_mlx;
+
 /*-------------------------------      MAP      ------------------------------*/
 
 typedef struct s_ambligth
@@ -73,6 +95,7 @@ typedef struct s_ambligth
 typedef struct s_camera
 {
 	t_point3		center;
+	t_point3		pixel00_loc;
 	double			focal_length;
 	double			viewport_height;
 	double			viewport_width;
@@ -94,21 +117,21 @@ typedef struct s_ligth
 
 typedef struct s_sphere
 {
-	t_point3			center;
+	t_point3		center;
 	double			radius;
 	t_color			color;
 }					t_sphere;
 
 typedef struct s_plane
 {
-	t_point3			center;
+	t_point3		center;
 	t_vec3			dir;
 	t_color			color;
 }					t_plane;
 
 typedef struct s_cylinder
 {
-	t_point3			center;
+	t_point3		center;
 	t_vec3			dir;
 	double			radius;
 	double			height;
@@ -125,7 +148,7 @@ typedef union u_objects
 typedef struct s_world
 {
 	t_objects		type;
-	void			(*hit)(t_objects);
+	bool			(*hit)(const t_ray *, t_objects);
 	struct s_world	*next;
 }					t_world;
 
@@ -135,25 +158,8 @@ typedef struct s_scene
 	t_ligth			ligth;
 	t_ambligth		ambligth;
 	t_camera		camera;
+	t_mlx			data;
 }					t_scene;
-
-/*-------------------------------      MLX      ------------------------------*/
-
-typedef struct s_image
-{
-	void		*ptr;
-	int			pixel_bits;
-	int			line_bytes;
-	int			endian;
-	char		*buffer;
-}				t_image;
-
-typedef struct s_mlx
-{
-	void			*mlx;
-	void			*mlx_win;
-	t_image			img;
-}					t_mlx;
 
 /*==============================  FUNCTIONS  =============================*/
 /*------------------------------  INIT_TOOL  -----------------------------*/
@@ -187,18 +193,18 @@ int					fill_cylinder(t_cylinder *cy, char **split);
 
 /*------------------------------  MINILIBX  -------------------------------*/
 
-void				init_mlx_windows(t_mlx *data, int win_width, int win_height);
-void				init_mlx_image(t_mlx *data, int img_width, int img_height);
+void				init_mlx_windows(t_mlx *data, int win_w, int win_h);
+void				init_mlx_image(t_mlx *data, int img_w, int img_h);
 int					my_put_pixel(t_mlx *data, int x, int y, int color);
 void				set_color(t_image *img, int pixel, int color);
-int					close_program(t_mlx *data, int exit_code);
+int					close_program(t_scene *scene, int exit_code);
 int					key_down(int key, void *param);
 
 /*------------------------------  CAMERA  ------------------------------*/
 
-void				render_image(t_mlx *data, t_scene *scene);
-void				start_raytracer(t_mlx *data, t_scene *scene);
-void				set_camera(t_camera *camera);
+void				render_image(t_scene *scene, int img_w, int img_h);
+void				start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h);
+void				set_camera(t_camera *camera, int img_w, int img_h);
 
 /*------------------------------  UTILS  -------------------------------*/
 

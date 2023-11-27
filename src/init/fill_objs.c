@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:51:31 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/19 01:26:01 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/27 01:32:12 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	fill_sphere(t_sphere *sp, char **split)
 	ft_free_malloc_array(coord);
 	if (ft_test_double(split[2], 0.0, 10000.0))
 		return (1);
-	sp->radius = ft_atod(split[2]);
+	sp->radius = ft_atod(split[2]) / 2;
 	if (put_colors(&sp->color, split[3]))
 		return (1);
 	return (0);
