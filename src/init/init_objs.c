@@ -6,27 +6,44 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/27 01:32:48 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/27 17:55:58 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MiniRT.h"
 
-bool	hit_sphere(const t_ray *ray, t_objects obj)
+//SEND OBJ BY ADDRESS
+bool	hit_sphere(const t_ray *ray, t_objects obj, t_hit *rec)
 {
 	t_sphere	*sp;
+	t_vec3		oc;
+	double		a;
+	double		half_b;
+	double		c;
+	double		discriminant;
+	double		root;
+	double		sqrtd;
 
 	sp = obj.sp;
-	t_vec3	oc = substract_vec3(&ray->orig, &sp->center);
-	double	a = length_squared(&ray->dir);
-	double	half_b = dot(&oc, &ray->dir);
-	double	c = length_squared(&oc) - (sp->radius * sp->radius);
-	double	discriminant = (half_b * half_b) - (a * c);
+	oc = substract_vec3(&ray->orig, &sp->center);
+	a = length_squared(&ray->dir);
+	half_b = dot(&oc, &ray->dir);
+	c = length_squared(&oc) - (sp->radius * sp->radius);
+	discriminant = (half_b * half_b) - (a * c);
 
+	sqrtd = sqrt(discriminant);
 	if (discriminant < 0)
         return (false);
-    else
-    	return (true);
+    root = (-half_b - sqrtd) / a;
+	if (root <= rec->ray_tmin || root >= rec->ray_tmax)
+    	root = (-half_b + sqrtd) / a;
+	if (root <= rec->ray_tmin || root >= rec->ray_tmax)
+		return (false);
+	rec->t = root;
+	rec->p = ray_at(ray, root);
+	rec->normal = substract_vec3(&rec->p, &sp->center);
+	division_vec3(&rec->normal, sp->radius);
+    return (true);
 }
 
 /* 
@@ -69,10 +86,11 @@ int	check_sphere(t_scene *scene, char **split)
 	return (0);
 }
 
-bool	hit_plane(const t_ray *ray, t_objects obj)
+bool	hit_plane(const t_ray *ray, t_objects obj, t_hit *hit_record)
 {
 	t_plane	*pl;
 
+	(void)hit_record;
 	(void)ray;
 	pl = obj.pl;
 	printf("Plane: Color: r: %f g: %f b: %f\n", pl->color.e[R], pl->color.e[G], pl->color.e[B]);
@@ -106,10 +124,11 @@ int	check_plane(t_scene *scene, char **split)
 	return (0);
 }
 
-bool	hit_cylinder(const t_ray *ray, t_objects obj)
+bool	hit_cylinder(const t_ray *ray, t_objects obj, t_hit *hit_record)
 {
 	t_cylinder	*cy;
 
+	(void)hit_record;
 	(void)ray;
 	cy = obj.cy;
 	printf("Cylinder: Color: r: %f g: %f b: %f\n", cy->color.e[R], cy->color.e[G], cy->color.e[B]);

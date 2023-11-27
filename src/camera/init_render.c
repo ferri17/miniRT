@@ -6,26 +6,32 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/27 16:54:14 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/27 17:54:27 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MiniRT.h"
 
-t_color ray_color(const t_ray *r, t_scene *scene)
+t_color	send_ray(const t_ray *r, t_scene *scene)
 {
+	t_hit	tmp_hit;
 	t_world	*objs;
-
+	
+	tmp_hit.ray_tmin = 0;
+	tmp_hit.ray_tmax = INT_MAX;
 	objs = scene->objs;
 	while (objs)
 	{
-		if (objs->hit(r, objs->type))
+		if (objs->hit(r, objs->type, &tmp_hit))
 		{
+			tmp_hit.ray_tmax = tmp_hit.t;
 			t_color	hit = {1.0, 0.0, 0.0};
 			return (hit);
 		}
 		objs = objs->next;
 	}
+	
+	/* BACKGROUND */
 	t_vec3	unit_direction = unit_vector(&r->dir);
 	double	a = 0.5 * (unit_direction.e[Y] + 1.0);
 	t_color	color1 = {1.0, 1.0, 1.0};
@@ -33,6 +39,7 @@ t_color ray_color(const t_ray *r, t_scene *scene)
 	t_color	color2 = {0.5, 0.7, 1.0};
 	product_vec3(&color2, a);
 	return (add_vec3(&color1, &color2));
+	/* BACKGROUND */
 }
 
 void	render_image(t_scene *scene, int img_w, int img_h)
@@ -74,7 +81,7 @@ void	start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h)
 			r.orig = camera->center;
 			r.dir = ray_direction;
 	
-            t_color pixl = ray_color(&r, scene);
+            t_color pixl = send_ray(&r, scene);
 			int	red = pixl.e[X] * 255.999;
 			int	green = pixl.e[Y] * 255.999;
 			int	blue = pixl.e[Z] * 255.999;

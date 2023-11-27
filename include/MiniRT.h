@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/27 16:34:33 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/27 17:55:24 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,10 +151,19 @@ typedef union u_objects
 	t_sphere		*sp;
 }					t_objects;
 
+typedef struct	s_hit_record
+{
+	t_point3	p;
+	t_vec3		normal;
+	double		t;
+	double		ray_tmin;
+	double		ray_tmax;
+}	t_hit;
+
 typedef struct s_world
 {
 	t_objects		type;
-	bool			(*hit)(const t_ray *, t_objects);
+	bool			(*hit)(const t_ray *, t_objects, t_hit *);
 	struct s_world	*next;
 }					t_world;
 
@@ -216,5 +225,6 @@ void				set_camera(t_camera *camera, int img_w, int img_h);
 
 int					clamp_number(int nb, int low_limit, int high_limit);
 int					create_color(int a, int r, int g, int b);
+t_point3			ray_at(const t_ray *ray, double t);
 
 #endif
