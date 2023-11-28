@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/27 17:54:27 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/28 01:03:03 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ t_color	send_ray(const t_ray *r, t_scene *scene)
 		if (objs->hit(r, objs->type, &tmp_hit))
 		{
 			tmp_hit.ray_tmax = tmp_hit.t;
-			t_color	hit = {1.0, 0.0, 0.0};
+			t_vec3 unit = unit_vector(&tmp_hit.normal);
+			t_color	hit = {unit.e[X], unit.e[Y], unit.e[Z]};
 			return (hit);
 		}
 		objs = objs->next;
@@ -42,15 +43,25 @@ t_color	send_ray(const t_ray *r, t_scene *scene)
 	/* BACKGROUND */
 }
 
+#include <time.h>
+
 void	render_image(t_scene *scene, int img_w, int img_h)
 {
 	t_mlx	*data;
+	void	*tmp_img_ptr;
+	clock_t	t;
 
+	t = clock();
 	data = &scene->data;
+	tmp_img_ptr = data->img.ptr;
 	init_mlx_image(data, img_w, img_h);
 	set_camera(&scene->camera, img_w, img_h);
 	start_raytracer(data, scene, img_w, img_h);
 	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img.ptr, 0, 0);
+	if (tmp_img_ptr != NULL)
+		mlx_destroy_image(data->mlx, tmp_img_ptr);
+	t = clock() - t;
+	ft_printf("\r Render time: %ims", (int)((double)t / CLOCKS_PER_SEC * 1000));
 }
 
 void	start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h)
@@ -63,7 +74,7 @@ void	start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h)
 	j = 0;
 	while (j < img_h)
 	{
-		ft_printf("\r Scaning line %i/%i", j + 1, WIN_H);
+		//ft_printf("\r Scaning line %i/%i", j + 1, WIN_H);
 		i = 0;
 		while (i < img_w)
 		{
@@ -96,10 +107,14 @@ void	start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h)
 
 void	set_camera(t_camera *camera, int img_w, int img_h)
 {
+	double	theta;
+	double	h;
 	// Camera
-	camera->viewport_height = 2.0;
 	camera->focal_length = 1.0;
-	camera->viewport_width = camera->viewport_height * ((double)img_w/(double)img_h);
+	theta = degree_to_radians(camera->hfov);
+	h = tan(theta / 2);
+	camera->viewport_width = 2 * h * camera->focal_length;
+	camera->viewport_height = camera->viewport_width * ((double)img_h/(double)img_w);
 
 	// Calculate the vectors across the horizontal and down the vertical viewport edges.
     camera->viewport_u = (t_vec3){camera->viewport_width, 0.0, 0.0};

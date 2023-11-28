@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/27 17:55:24 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/28 00:51:58 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ typedef struct s_sphere
 typedef struct s_plane
 {
 	t_point3		center;
-	t_vec3			dir;
+	t_vec3			normal;
 	t_color			color;
 }					t_plane;
 
@@ -179,7 +179,7 @@ typedef struct s_scene
 /*==============================  FUNCTIONS  =============================*/
 /*------------------------------  INIT_TOOL  -----------------------------*/
 
-t_scene				init_structs(void);
+void				init_structs(t_scene *scene);
 
 /*------------------------------  INIT_OBJS  ------------------------------*/
 
@@ -225,6 +225,7 @@ void				set_camera(t_camera *camera, int img_w, int img_h);
 
 int					clamp_number(int nb, int low_limit, int high_limit);
 int					create_color(int a, int r, int g, int b);
+double				degree_to_radians(double degree);
 t_point3			ray_at(const t_ray *ray, double t);
 
 #endif

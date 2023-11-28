@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/27 17:55:58 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/27 22:53:29 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,23 +79,45 @@ int	check_sphere(t_scene *scene, char **split)
 	if (!sp)
 		return (1);
 	sp->next = NULL;
-	sp->type.sp = malloc(sizeof(t_sphere)); //PROTEEEEEEEEEEEEEEEEEEEEEEEEEEECT MALLOC
+	sp->type.sp = malloc(sizeof(t_sphere)); //PROTEEEEEEEEEEEEEEEEEEEEEEEEEEECT MALLOC?
 	if (fill_sphere(sp->type.sp, split))
 		return (1);
 	sp->hit = hit_sphere;
 	return (0);
 }
 
-bool	hit_plane(const t_ray *ray, t_objects obj, t_hit *hit_record)
+bool	hit_plane(const t_ray *ray, t_objects obj, t_hit *rec)
 {
 	t_plane	*pl;
+	double	divisor;
+	double	solution;
 
-	(void)hit_record;
-	(void)ray;
 	pl = obj.pl;
-	printf("Plane: Color: r: %f g: %f b: %f\n", pl->color.e[R], pl->color.e[G], pl->color.e[B]);
-	return (false);
+	divisor = dot(&pl->normal, &ray->dir);
+	if (fabs(divisor) < 1e-6)
+		return (false);
+	solution = (dot(&pl->normal, &pl->center) - dot(&pl->normal, &ray->orig)) / divisor;
+	if (solution <= rec->ray_tmin || solution >= rec->ray_tmax)
+		return (false);
+
+
+	rec->t = solution;
+	rec->p = ray_at(ray, solution);
+	rec->normal = pl->normal;
+	return (true);
 }
+
+/* double divisor = dot(normal, r.direction());
+if (fabs(divisor) < 1e-6)
+	return false;
+double solution = (dot(normal, center) - dot(normal, r.origin())) / divisor;
+if (!ray_t.surrounds(solution))
+	return false;
+rec.t = solution;
+rec.p = r.at(rec.t);
+rec.normal = normal;
+rec.mat = mat;
+return (rec.t >= 0); */
 
 int	check_plane(t_scene *scene, char **split)
 {
@@ -117,7 +139,7 @@ int	check_plane(t_scene *scene, char **split)
 	if (!pl)
 		return (1);
 	pl->next = NULL;
-	pl->type.pl = malloc (sizeof(t_plane)); //PROTEEEEEEEEEEEEEEEEEEEEEEEEEEECT MALLOC
+	pl->type.pl = malloc (sizeof(t_plane)); //PROTEEEEEEEEEEEEEEEEEEEEEEEEEEECT MALLOC?
 	if (fill_plane(pl->type.pl, split))
 		return (1);
 	pl->hit = hit_plane;
@@ -155,7 +177,7 @@ int	check_cylinder(t_scene *scene, char **split)
 	if (!cy)
 		return (1);
 	cy->next = NULL;
-	cy->type.cy = malloc(sizeof(t_cylinder)); //PROTEEEEEEEEEEEEEEEEEEEEEEEEEEECT MALLOC
+	cy->type.cy = malloc(sizeof(t_cylinder)); //PROTEEEEEEEEEEEEEEEEEEEEEEEEEEECT MALLOC?
 	if (fill_cylinder(cy->type.cy, split))
 		return (1);
 	cy->hit = hit_cylinder;

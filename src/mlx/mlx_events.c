@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 12:46:29 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/27 16:24:25 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/27 23:45:45 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	close_program(t_scene *scene, int exit_code)
 {
+	mlx_destroy_image(scene->data.mlx, scene->data.img.ptr);
 	mlx_destroy_window(scene->data.mlx, scene->data.mlx_win);
 	mlx_destroy(scene->data.mlx);
 	exit(exit_code);
@@ -24,9 +25,9 @@ void	move_camera(t_scene *scene, int key)
 	const double	move = 0.2;
 
 	if (key == A_KEY)
-		scene->camera.center.e[X] += move;
-	else if (key == D_KEY)
 		scene->camera.center.e[X] -= move;
+	else if (key == D_KEY)
+		scene->camera.center.e[X] += move;
 	if (key == W_KEY)
 		scene->camera.center.e[Y] += move;
 	else if (key == S_KEY)

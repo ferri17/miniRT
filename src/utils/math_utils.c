@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 12:11:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/24 10:32:08 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/28 00:53:07 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,9 @@ int	clamp_number(int nb, int low_limit, int high_limit)
 	else if (nb > high_limit)
 		nb = high_limit;
 	return (nb);
+}
+
+double	degree_to_radians(double degree)
+{
+	return (degree * M_PI / 180.0);
 }

@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:51:31 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/27 01:32:12 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/27 22:46:11 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	fill_plane(t_plane *pl, char **split)
 	norm = ft_split(split[2], ',');
 	if (!norm)
 		return (1);
-	if (ft_array_len(norm) != 3 || put_dir(&pl->dir, norm))
+	if (ft_array_len(norm) != 3 || put_dir(&pl->normal, norm))
 		return (ft_free_malloc_array(norm), 1);
 	ft_free_malloc_array(norm);
 	if (put_colors(&pl->color, split[3]))

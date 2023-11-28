@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/27 16:30:46 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/28 00:35:58 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	main(int argc, char **argv)
 
 	if (check_args(argc, argv) == 1)
 		return (1);
-	scene = init_structs();
+	init_structs(&scene);
 	if (init_map(argv[1], &scene))
 	{
 		print_shit(scene);
