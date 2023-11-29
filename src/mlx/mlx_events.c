@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_events.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 12:46:29 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/27 23:45:45 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/29 18:34:15 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,36 @@ void	move_camera(t_scene *scene, int key)
 	const double	move = 0.2;
 
 	if (key == A_KEY)
+	{
 		scene->camera.center.e[X] -= move;
+		//scene->camera.dir.e[X] -= move;
+	}
 	else if (key == D_KEY)
+	{
 		scene->camera.center.e[X] += move;
+		//scene->camera.dir.e[X] += move;
+	}
 	if (key == W_KEY)
+	{
 		scene->camera.center.e[Y] += move;
+		//scene->camera.dir.e[Y] += move;
+
+	}
 	else if (key == S_KEY)
+	{
 		scene->camera.center.e[Y] -= move;
+		//scene->camera.dir.e[Y] -= move;
+	}
 	if (key == ONE_KEY)
+	{
 		scene->camera.center.e[Z] += move;
+		//scene->camera.dir.e[Z] += move;
+	}
 	else if (key == TWO_KEY)
+	{
 		scene->camera.center.e[Z] -= move;
+		//scene->camera.dir.e[Z] -= move;
+	}
 	render_image(scene, IMG_W, IMG_H);
 }
 

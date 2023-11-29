@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_objs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/27 22:53:29 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/29 16:35:09 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,11 @@ bool	hit_sphere(const t_ray *ray, t_objects obj, t_hit *rec)
         return (false);
     root = (-half_b - sqrtd) / a;
 	if (root <= rec->ray_tmin || root >= rec->ray_tmax)
+	{
     	root = (-half_b + sqrtd) / a;
-	if (root <= rec->ray_tmin || root >= rec->ray_tmax)
-		return (false);
+		if (root <= rec->ray_tmin || root >= rec->ray_tmax)
+			return (false);
+	}
 	rec->t = root;
 	rec->p = ray_at(ray, root);
 	rec->normal = substract_vec3(&rec->p, &sp->center);
@@ -80,7 +82,7 @@ int	check_sphere(t_scene *scene, char **split)
 		return (1);
 	sp->next = NULL;
 	sp->type.sp = malloc(sizeof(t_sphere)); //PROTEEEEEEEEEEEEEEEEEEEEEEEEEEECT MALLOC?
-	if (fill_sphere(sp->type.sp, split))
+	if (fill_sphere(sp->type.sp, split) || put_colors(&sp->color, split[3]))
 		return (1);
 	sp->hit = hit_sphere;
 	return (0);
@@ -89,6 +91,39 @@ int	check_sphere(t_scene *scene, char **split)
 bool	hit_plane(const t_ray *ray, t_objects obj, t_hit *rec)
 {
 	t_plane	*pl;
+	double	denom;
+	double	t;
+	double	d;
+	
+	pl = obj.pl;
+	denom = dot(&pl->normal, &ray->dir);
+        // No hit if the ray is parallel to the plane.
+	if (fabs(denom) < 1e-8)
+		return false;
+	d = dot(&pl->normal, &pl->center);
+        // Return false if the hit point parameter t is outside the ray interval.
+	t = (d - dot(&pl->normal, &ray->orig)) / denom;
+        //if (!ray_t.contains(t))
+        //  return false;
+
+        // Determine the hit point lies within the planar shape using its plane coordinates.
+        /* auto intersection = r.at(t);
+        vec3 planar_hitpt_vector = intersection - Q;
+        auto alpha = dot(w, cross(planar_hitpt_vector, v));
+        auto beta = dot(w, cross(u, planar_hitpt_vector));
+
+        if (!is_interior(alpha, beta, rec))
+            return false; */
+
+        // Ray hits the 2D shape; set the rest of the hit record and return true.
+		if (t <= rec->ray_tmin || t >= rec->ray_tmax)
+			return (false);
+        rec->t = t;
+        rec->p = ray_at(ray, t);
+        rec->normal = pl->normal;
+
+        return true;
+	/* t_plane	*pl;
 	double	divisor;
 	double	solution;
 
@@ -104,7 +139,7 @@ bool	hit_plane(const t_ray *ray, t_objects obj, t_hit *rec)
 	rec->t = solution;
 	rec->p = ray_at(ray, solution);
 	rec->normal = pl->normal;
-	return (true);
+	return (true); */
 }
 
 /* double divisor = dot(normal, r.direction());
@@ -140,7 +175,7 @@ int	check_plane(t_scene *scene, char **split)
 		return (1);
 	pl->next = NULL;
 	pl->type.pl = malloc (sizeof(t_plane)); //PROTEEEEEEEEEEEEEEEEEEEEEEEEEEECT MALLOC?
-	if (fill_plane(pl->type.pl, split))
+	if (fill_plane(pl->type.pl, split) || put_colors(&pl->color, split[3]))
 		return (1);
 	pl->hit = hit_plane;
 	return (0);
@@ -153,7 +188,7 @@ bool	hit_cylinder(const t_ray *ray, t_objects obj, t_hit *hit_record)
 	(void)hit_record;
 	(void)ray;
 	cy = obj.cy;
-	printf("Cylinder: Color: r: %f g: %f b: %f\n", cy->color.e[R], cy->color.e[G], cy->color.e[B]);
+	//printf("Cylinder: Color: r: %f g: %f b: %f\n", cy->color.e[R], cy->color.e[G], cy->color.e[B]);
 	return (false);
 }
 
@@ -178,7 +213,7 @@ int	check_cylinder(t_scene *scene, char **split)
 		return (1);
 	cy->next = NULL;
 	cy->type.cy = malloc(sizeof(t_cylinder)); //PROTEEEEEEEEEEEEEEEEEEEEEEEEEEECT MALLOC?
-	if (fill_cylinder(cy->type.cy, split))
+	if (fill_cylinder(cy->type.cy, split) || put_colors(&cy->color, split[5]))
 		return (1);
 	cy->hit = hit_cylinder;
 	return (0);

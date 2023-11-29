@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_render.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/28 01:03:03 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/29 18:39:00 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 t_color	send_ray(const t_ray *r, t_scene *scene)
 {
+	t_color	hit;
 	t_hit	tmp_hit;
 	t_world	*objs;
+	bool	any_hit = false;
 	
 	tmp_hit.ray_tmin = 0;
 	tmp_hit.ray_tmax = INT_MAX;
@@ -25,13 +27,15 @@ t_color	send_ray(const t_ray *r, t_scene *scene)
 		if (objs->hit(r, objs->type, &tmp_hit))
 		{
 			tmp_hit.ray_tmax = tmp_hit.t;
-			t_vec3 unit = unit_vector(&tmp_hit.normal);
-			t_color	hit = {unit.e[X], unit.e[Y], unit.e[Z]};
-			return (hit);
+			//t_vec3 unit = unit_vector(&tmp_hit.normal);
+			t_vec3 unit = unit_vector(&objs->color);
+			hit = (t_color){unit.e[X], unit.e[Y], unit.e[Z]};
+			any_hit = true;
 		}
 		objs = objs->next;
 	}
-	
+	if (any_hit)
+		return (hit);
 	/* BACKGROUND */
 	t_vec3	unit_direction = unit_vector(&r->dir);
 	double	a = 0.5 * (unit_direction.e[Y] + 1.0);
@@ -109,6 +113,7 @@ void	set_camera(t_camera *camera, int img_w, int img_h)
 {
 	double	theta;
 	double	h;
+	t_vec3	vup = {0,1,0}; 
 	// Camera
 	camera->focal_length = 1.0;
 	theta = degree_to_radians(camera->hfov);
@@ -116,16 +121,31 @@ void	set_camera(t_camera *camera, int img_w, int img_h)
 	camera->viewport_width = 2 * h * camera->focal_length;
 	camera->viewport_height = camera->viewport_width * ((double)img_h/(double)img_w);
 
-	// Calculate the vectors across the horizontal and down the vertical viewport edges.
-    camera->viewport_u = (t_vec3){camera->viewport_width, 0.0, 0.0};
-    camera->viewport_v = (t_vec3){0.0, -camera->viewport_height, 0.0};
+	// Calculate the u,v,w unit basis vectors for the camera coordinate frame.
+	//t_vec3	tmp32 = substract_vec3(&camera->center, &camera->dir);
+	t_vec3 w = unit_vector(&camera->dir);
+    product_vec3(&w, -1);
+	t_vec3	tmp9 = cross(&vup, &w);
+    t_vec3 u = unit_vector(&tmp9);
+    t_vec3 v = cross(&w, &u);
 
+	// Calculate the vectors across the horizontal and down the vertical viewport edges.
+        camera->viewport_u = product_vec3_r(&u, camera->viewport_width);      // Vector across viewport horizontal edge
+		t_vec3 neg_v = product_vec3_r(&v, -1);
+        camera->viewport_v = product_vec3_r(&neg_v, camera->viewport_height);  // Vector down viewport vertical edge
+
+		
     // Calculate the horizontal and vertical delta vectors from pixel to pixel.
     camera->pixel_delta_u = division_vec3_r(&camera->viewport_u, img_w);
     camera->pixel_delta_v = division_vec3_r(&camera->viewport_v, img_h);
 
+	/*
+	        auto viewport_upper_left = center - vec3(0, 0, focal_length) - viewport_u/2 - viewport_v/2;
+			auto viewport_upper_left = center - (focal_length * w) - viewport_u/2 - viewport_v/2;
+	*/
+
     // Calculate the location of the upper left pixel.
-	t_vec3		tmp_focal = {0.0, 0.0, camera->focal_length};
+	t_vec3		tmp_focal = product_vec3_r(&w, camera->focal_length);
 	t_vec3		half_view_u = division_vec3_r(&camera->viewport_u, 2);
 	t_vec3		half_view_v = division_vec3_r(&camera->viewport_v, 2);
 

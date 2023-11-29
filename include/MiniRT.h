@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/28 00:51:58 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/29 16:29:33 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,14 +125,12 @@ typedef struct s_sphere
 {
 	t_point3		center;
 	double			radius;
-	t_color			color;
 }					t_sphere;
 
 typedef struct s_plane
 {
 	t_point3		center;
 	t_vec3			normal;
-	t_color			color;
 }					t_plane;
 
 typedef struct s_cylinder
@@ -141,7 +139,6 @@ typedef struct s_cylinder
 	t_vec3			dir;
 	double			radius;
 	double			height;
-	t_color			color;
 }					t_cylinder;
 
 typedef union u_objects
@@ -163,6 +160,7 @@ typedef struct	s_hit_record
 typedef struct s_world
 {
 	t_objects		type;
+	t_color			color; // MATERIAAAAAAAAAAAL
 	bool			(*hit)(const t_ray *, t_objects, t_hit *);
 	struct s_world	*next;
 }					t_world;
