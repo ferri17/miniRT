@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
 /*   Updated: 2023/11/28 00:35:58 by fbosch           ###   ########.fr       */
@@ -25,9 +25,13 @@ void print_shit(t_scene scene)
 	printf("COLOR: R:%f G:%f B:%f\n", scene.ambligth.color.e[R], scene.ambligth.color.e[G], scene.ambligth.color.e[B]);
 	printf("RATIO: %f\n", scene.ambligth.ratio);
 	printf("-----LIGTH-----\n");
-	printf("Coord: x:%f y:%f z:%f\n", scene.ligth.center.e[X], scene.ligth.center.e[Y], scene.ligth.center.e[Z]);
-	printf("COLOR: R:%f G:%f B:%f\n", scene.ligth.color.e[R], scene.ligth.color.e[G], scene.ligth.color.e[B]);
-	printf("BRIGT: %f\n", scene.ligth.brigt);
+	while (scene.ligth)
+	{
+		printf("Coord: x:%f y:%f z:%f\n", scene.ligth->center.e[X], scene.ligth->center.e[Y], scene.ligth->center.e[Z]);
+		printf("COLOR: R:%f G:%f B:%f\n", scene.ligth->color.e[R], scene.ligth->color.e[G], scene.ligth->color.e[B]);
+		printf("BRIGT: %f\n", scene.ligth->brigt);
+		scene.ligth = scene.ligth->next;
+	}
 	while (scene.objs)
 	{
 		ft_printf("-----OBJS-----\n");
@@ -57,7 +61,6 @@ int	main(int argc, char **argv)
 	//print_shit(scene);
 	//data.mlx = mlx_init();
 	//data.mlx_win = mlx_new_window(data.mlx, WIN_W, WIN_H, "MINIRT");
-	//mlx_hook(data.mlx_win, KEYDOWN, 0, key_down, (void *)&data);
 	//mlx_loop(data.mlx);
 	return (0);
 }

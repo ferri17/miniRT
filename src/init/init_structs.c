@@ -12,10 +12,38 @@
 
 #include "MiniRT.h"
 
-void	init_structs(t_scene *scene)
+int	check_ligth(t_scene *scene, char **split)
 {
-	scene->ambligth.init = false;
-	scene->camera.init = false;
-	scene->objs = NULL;
-	scene->data.img.ptr = NULL;
+	t_ligth	*lg;
+
+	lg = scene->ligth;
+	if (lg)
+	{
+		while (lg->next)
+			lg = lg->next;
+		lg->next = malloc(sizeof(t_ligth));
+		lg = lg->next;
+	}
+	else
+	{
+		scene->ligth = malloc(sizeof(t_ligth));
+		lg = scene->ligth;
+	}
+	if (!lg)
+		return (1);
+	lg->next = NULL;
+	if (fill_light(lg, split))
+		return (1);
+	return (0);
+}
+
+t_scene	init_structs(void)
+{
+	t_scene	scene;
+
+	scene.ambligth.init = false;
+	scene.camera.init = false;
+	scene.ligth = NULL;
+	scene.objs = NULL;
+	return (scene);
 }
