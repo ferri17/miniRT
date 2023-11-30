@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_arguments.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:10:32 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/19 01:36:50 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/30 10:57:15 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	check_ident(t_scene *scene, char **split)
 	else if (ft_strcmp(split[0], CAMERA) == 0 && scene->camera.init == false)
 		out = fill_camera(scene, split);
 	else if (ft_strcmp(split[0], LIGHT) == 0)
-		out = fill_light(scene, split);
+		out = check_light(scene, split);
 	else if (ft_strcmp(split[0], SPHERE) == 0)
 		out = check_sphere(scene, split);
 	else if (ft_strcmp(split[0], PLANE) == 0)

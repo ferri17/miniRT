@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/29 16:29:33 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/30 11:01:16 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ typedef struct s_ligth
 	t_point3			center;
 	double			brigt;
 	t_color			color;
+	struct s_ligth	*next;
 }					t_ligth;
 
 typedef struct s_sphere
@@ -168,7 +169,7 @@ typedef struct s_world
 typedef struct s_scene
 {
 	t_world			*objs;
-	t_ligth			ligth;
+	t_ligth			*ligth;
 	t_ambligth		ambligth;
 	t_camera		camera;
 	t_mlx			data;
@@ -184,6 +185,7 @@ void				init_structs(t_scene *scene);
 int					check_sphere(t_scene *scene, char **split);
 int					check_plane(t_scene *scene, char **split);
 int					check_cylinder(t_scene *scene, char **split);
+int					check_light(t_scene *scene, char **split);
 
 /*----------------------------- INIT_STRUCTS -----------------------------*/
 
@@ -199,7 +201,7 @@ int					compare_str_end(char *str, char *end);
 int					init_map(char *file, t_scene *scene);
 int					fill_ambient(t_scene *scene, char **split);
 int					fill_camera(t_scene *scene, char **split);
-int					fill_light(t_scene *scene, char **split);
+int					fill_light(t_ligth *scene, char **split);
 int					fill_sphere(t_sphere *sp, char **split);
 int					fill_plane(t_plane *pl, char **split);
 int					fill_cylinder(t_cylinder *cy, char **split);
