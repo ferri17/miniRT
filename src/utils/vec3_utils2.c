@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec3_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:31:17 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/26 16:43:11 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/30 18:43:13 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ t_vec3	product_vec3_r(const t_vec3 *vector, double factor)
 	t_vec3	res;
 
 	res = *vector;
-	res.e[X] *= factor;
-	res.e[Y] *= factor;
-	res.e[Z] *= factor;
+	res.x *= factor;
+	res.y *= factor;
+	res.z *= factor;
 	return (res);
 }
 
@@ -28,9 +28,9 @@ t_vec3	division_vec3_r(const t_vec3 *vector, double factor)
 	t_vec3	res;
 
 	res = *vector;
-	res.e[X] /= factor;
-	res.e[Y] /= factor;
-	res.e[Z] /= factor;
+	res.x /= factor;
+	res.y /= factor;
+	res.z /= factor;
 	return (res);
 }
 
@@ -38,9 +38,9 @@ t_vec3	cross(const t_vec3 *v1, const t_vec3 *v2)
 {
 	t_vec3	res;
 
-	res.e[X] = v1->e[Y] * v2->e[Z] - v1->e[Z] * v2->e[Y];
-	res.e[Y] = v1->e[Z] * v2->e[X] - v1->e[X] * v2->e[Z];
-	res.e[Z] = v1->e[X] * v2->e[Y] - v1->e[Y] * v2->e[X];
+	res.x = v1->y * v2->z - v1->z * v2->y;
+	res.y = v1->z * v2->x - v1->x * v2->z;
+	res.z = v1->x * v2->y - v1->y * v2->x;
 	return (res);
 }
 
@@ -51,9 +51,9 @@ double	length(const t_vec3 *vector)
 
 double	length_squared(const t_vec3 *vector)
 {
-	return (vector->e[X] * vector->e[X]
-		+ vector->e[Y] * vector->e[Y]
-		+ vector->e[Z] * vector->e[Z]);
+	return (vector->x * vector->x
+		+ vector->y * vector->y
+		+ vector->z * vector->z);
 }
 
 t_vec3	unit_vector(const t_vec3 *vector)

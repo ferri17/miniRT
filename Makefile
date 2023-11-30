@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+         #
+#    By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2023/11/30 11:56:00 by fbosch           ###   ########.fr        #
+#    Updated: 2023/11/30 18:35:10 by fbosch           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,7 @@ OBJ_ALL			=	$(OBJ_MAIN) $(OBJ_CAMERA) $(OBJ_INIT) $(OBJ_MLX) $(OBJ_UTILS)
 DEP				=	$(OBJ_ALL:%.o=%.d) #$(BONUS_OBJ:%.o=%.d)
 
 CC				=	cc
-CFLAGS			=	-Wall -Wextra -Werror -O2
+CFLAGS			=	-Wall -Wextra -Werror -O3
 DEPFLAGS		=	-I $(DIR_INCLUDE) -I $(DIR_LIBFT) -I $(DIR_MLX) -MMD -MP
 MLXFLGS			=	-L$(DIR_MLX) -lmlx -lm -framework OpenGL -framework AppKit
 DIR_DUP			=	mkdir -p $(@D)

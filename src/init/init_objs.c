@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/29 16:35:09 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/30 20:03:47 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ bool	hit_sphere(const t_ray *ray, t_objects obj, t_hit *rec)
 	c = length_squared(&oc) - (sp->radius * sp->radius);
 	discriminant = (half_b * half_b) - (a * c);
 
-	sqrtd = sqrt(discriminant);
 	if (discriminant < 0)
         return (false);
+	sqrtd = sqrt(discriminant);
     root = (-half_b - sqrtd) / a;
 	if (root <= rec->ray_tmin || root >= rec->ray_tmax)
 	{
@@ -47,19 +47,6 @@ bool	hit_sphere(const t_ray *ray, t_objects obj, t_hit *rec)
 	division_vec3(&rec->normal, sp->radius);
     return (true);
 }
-
-/* 
-	vec3 oc = r.origin() - center;
-    auto a = r.direction().length_squared();
-    auto half_b = dot(oc, r.direction());
-    auto c = oc.length_squared() - radius*radius;
-    auto discriminant = half_b*half_b - a*c;
-
-    if (discriminant < 0)
-        return -1.0;
-    else
-    	return (-half_b - sqrt(discriminant) ) / a;
-*/
 
 int	check_sphere(t_scene *scene, char **split)
 {
@@ -97,62 +84,17 @@ bool	hit_plane(const t_ray *ray, t_objects obj, t_hit *rec)
 	
 	pl = obj.pl;
 	denom = dot(&pl->normal, &ray->dir);
-        // No hit if the ray is parallel to the plane.
 	if (fabs(denom) < 1e-8)
 		return false;
 	d = dot(&pl->normal, &pl->center);
-        // Return false if the hit point parameter t is outside the ray interval.
 	t = (d - dot(&pl->normal, &ray->orig)) / denom;
-        //if (!ray_t.contains(t))
-        //  return false;
-
-        // Determine the hit point lies within the planar shape using its plane coordinates.
-        /* auto intersection = r.at(t);
-        vec3 planar_hitpt_vector = intersection - Q;
-        auto alpha = dot(w, cross(planar_hitpt_vector, v));
-        auto beta = dot(w, cross(u, planar_hitpt_vector));
-
-        if (!is_interior(alpha, beta, rec))
-            return false; */
-
-        // Ray hits the 2D shape; set the rest of the hit record and return true.
-		if (t <= rec->ray_tmin || t >= rec->ray_tmax)
-			return (false);
-        rec->t = t;
-        rec->p = ray_at(ray, t);
-        rec->normal = pl->normal;
-
-        return true;
-	/* t_plane	*pl;
-	double	divisor;
-	double	solution;
-
-	pl = obj.pl;
-	divisor = dot(&pl->normal, &ray->dir);
-	if (fabs(divisor) < 1e-6)
+	if (t <= rec->ray_tmin || t >= rec->ray_tmax)
 		return (false);
-	solution = (dot(&pl->normal, &pl->center) - dot(&pl->normal, &ray->orig)) / divisor;
-	if (solution <= rec->ray_tmin || solution >= rec->ray_tmax)
-		return (false);
-
-
-	rec->t = solution;
-	rec->p = ray_at(ray, solution);
+	rec->t = t;
+	rec->p = ray_at(ray, t);
 	rec->normal = pl->normal;
-	return (true); */
+	return (true);
 }
-
-/* double divisor = dot(normal, r.direction());
-if (fabs(divisor) < 1e-6)
-	return false;
-double solution = (dot(normal, center) - dot(normal, r.origin())) / divisor;
-if (!ray_t.surrounds(solution))
-	return false;
-rec.t = solution;
-rec.p = r.at(rec.t);
-rec.normal = normal;
-rec.mat = mat;
-return (rec.t >= 0); */
 
 int	check_plane(t_scene *scene, char **split)
 {

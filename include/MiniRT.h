@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/30 11:01:16 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/30 19:30:36 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ typedef struct s_camera
     t_vec3			viewport_v;
     t_vec3			pixel_delta_u;
     t_vec3			pixel_delta_v;
+	t_vec3			vup;
 	t_vec3			dir;
 	uint8_t			hfov;
 	bool			init;
@@ -220,12 +221,13 @@ int					key_down(int key, void *param);
 void				render_image(t_scene *scene, int img_w, int img_h);
 void				start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h);
 void				set_camera(t_camera *camera, int img_w, int img_h);
+void				set_pixel00(t_camera *camera, t_vec3 *cam_axis);
 
 /*------------------------------  UTILS  -------------------------------*/
 
 int					clamp_number(int nb, int low_limit, int high_limit);
 int					create_color(int a, int r, int g, int b);
-double				degree_to_radians(double degree);
+double				deg_to_rad(double degree);
 t_point3			ray_at(const t_ray *ray, double t);
 
 #endif
