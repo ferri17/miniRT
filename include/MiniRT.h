@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/30 19:30:36 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/30 20:41:17 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,9 @@ void				render_image(t_scene *scene, int img_w, int img_h);
 void				start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h);
 void				set_camera(t_camera *camera, int img_w, int img_h);
 void				set_pixel00(t_camera *camera, t_vec3 *cam_axis);
+bool				hit_sphere(const t_ray *ray, t_objects obj, t_hit *rec);
+bool				hit_plane(const t_ray *ray, t_objects obj, t_hit *rec);
+bool				hit_cylinder(const t_ray *ray, t_objects obj, t_hit *hit_record);
 
 /*------------------------------  UTILS  -------------------------------*/
 
