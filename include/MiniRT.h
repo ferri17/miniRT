@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/30 11:01:16 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/30 13:04:37 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,7 @@ typedef struct s_world
 	t_objects		type;
 	t_color			color; // MATERIAAAAAAAAAAAL
 	bool			(*hit)(const t_ray *, t_objects, t_hit *);
+	void			(*free_type)(t_objects type);
 	struct s_world	*next;
 }					t_world;
 
@@ -179,6 +180,13 @@ typedef struct s_scene
 /*------------------------------  INIT_TOOL  -----------------------------*/
 
 void				init_structs(t_scene *scene);
+
+/*------------------------------  FREE_TOOL  -----------------------------*/
+
+void				free_plane(t_objects obj);
+void				free_sphere(t_objects obj);
+void				free_cylinder(t_objects obj);
+void				free_structs(t_scene scene);
 
 /*------------------------------  INIT_OBJS  ------------------------------*/
 

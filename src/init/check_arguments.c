@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:10:32 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/30 10:57:15 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/11/30 15:17:05 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,16 +96,16 @@ int	check_args(int argc, char **argv)
 	filename = argv[1];
 	if (argc == 2)
 	{
+		if (compare_str_end(filename, ".rt") != 0)
+		{
+			ft_printf_fd(STDERR_FILENO, ERR_MISSING_RT_EXTENSION);
+			return (1);
+		}
 		fd = open(filename, O_RDONLY);
 		close(fd);
 		if (fd == -1)
 		{
 			ft_printf_fd(STDERR_FILENO, ERR_OPENING_MAP);
-			return (1);
-		}
-		if (compare_str_end(filename, ".rt") != 0)
-		{
-			ft_printf_fd(STDERR_FILENO, ERR_MISSING_RT_EXTENSION);
 			return (1);
 		}
 	}

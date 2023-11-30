@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_objs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/29 16:35:09 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/30 12:37:41 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int	check_sphere(t_scene *scene, char **split)
 	if (fill_sphere(sp->type.sp, split) || put_colors(&sp->color, split[3]))
 		return (1);
 	sp->hit = hit_sphere;
+	sp->free_type = free_sphere;
 	return (0);
 }
 
@@ -178,6 +179,7 @@ int	check_plane(t_scene *scene, char **split)
 	if (fill_plane(pl->type.pl, split) || put_colors(&pl->color, split[3]))
 		return (1);
 	pl->hit = hit_plane;
+	pl->free_type = free_plane;
 	return (0);
 }
 
@@ -216,5 +218,6 @@ int	check_cylinder(t_scene *scene, char **split)
 	if (fill_cylinder(cy->type.cy, split) || put_colors(&cy->color, split[5]))
 		return (1);
 	cy->hit = hit_cylinder;
+	cy->free_type = free_cylinder;
 	return (0);
 }
