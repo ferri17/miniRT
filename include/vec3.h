@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec3.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:31:34 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/30 18:43:33 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/01 18:37:58 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,17 @@ typedef struct s_vec3	t_vec3;
 typedef struct s_vec3	t_point3;
 typedef struct s_vec3	t_color;
 
-/* struct	s_color
+typedef union s_color4
 {
-	int	c[3];
-};
-
-typedef struct s_color	t_color; */
+	unsigned int      c;
+	struct argbTag
+	{
+    	unsigned char b;
+		unsigned char g;
+		unsigned char r;
+		unsigned char a;
+	} argb;
+}	t_color4;
 
 /*------------------------------  VEC3_UTILS  -----------------------------*/
 

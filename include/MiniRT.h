@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/30 20:41:17 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/01 23:01:13 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,7 @@ bool				hit_cylinder(const t_ray *ray, t_objects obj, t_hit *hit_record);
 
 /*------------------------------  UTILS  -------------------------------*/
 
-int					clamp_number(int nb, int low_limit, int high_limit);
+double				clamp_number(double nb, int low_limit, int high_limit);
 int					create_color(int a, int r, int g, int b);
 double				deg_to_rad(double degree);
 t_point3			ray_at(const t_ray *ray, double t);

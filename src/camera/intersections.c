@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersections.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 20:39:44 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/30 20:40:38 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/01 23:24:22 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ bool	hit_sphere(const t_ray *ray, t_objects obj, t_hit *rec)
 	half_b = dot(&oc, &ray->dir);
 	c = length_squared(&oc) - (sp->radius * sp->radius);
 	discriminant = (half_b * half_b) - (a * c);
-
 	if (discriminant < 0)
         return (false);
 	sqrtd = sqrt(discriminant);
@@ -73,6 +72,7 @@ bool	hit_cylinder(const t_ray *ray, t_objects obj, t_hit *hit_record)
 {
 	t_cylinder	*cy;
 
+	(void)cy;
 	(void)hit_record;
 	(void)ray;
 	cy = obj.cy;

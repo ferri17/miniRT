@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_render.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/30 19:45:06 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/01 23:45:24 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,15 @@ t_color	send_ray(const t_ray *r, t_scene *scene)
 		{
 			tmp_hit.ray_tmax = tmp_hit.t;
 			//t_vec3 unit = unit_vector(&tmp_hit.normal);
-			t_vec3 unit = unit_vector(&objs->color);
-			hit = (t_color){unit.x, unit.y, unit.z};
+			//t_vec3 unit = unit_vector(&objs->color);
+
+			
+			t_vec3 tmp1 = product_vec3_r(&r->dir, -1);
+			t_vec3 tmp2 = unit_vector(&tmp1);
+			double	a = dot(&tmp2, &tmp_hit.normal);
+			clamp_number(a, 0, 1);
+
+			hit = (t_color){a, a, a};
 			any_hit = true;
 		}
 		objs = objs->next;

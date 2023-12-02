@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   math_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 12:11:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/30 18:58:11 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/01 23:02:12 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ int	create_color(int a, int r, int g, int b)
 	return (color);
 }
 
-int	clamp_number(int nb, int low_limit, int high_limit)
+double	clamp_number(double nb, int low_limit, int high_limit)
 {
-	if (nb < low_limit)
+	if (nb < (double)low_limit)
 		nb = low_limit;
-	else if (nb > high_limit)
+	else if (nb > (double)high_limit)
 		nb = high_limit;
 	return (nb);
 }
