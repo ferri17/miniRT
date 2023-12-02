@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_arguments.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:10:32 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/30 10:57:15 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/02 10:47:56 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_ident(t_scene *scene, char **split)
 	if (!split[0])
 		return (0);
 	out = 0;
-	if (ft_strcmp(split[0], AMBIENT) == 0 && scene->ambligth.init == false)
+	if (ft_strcmp(split[0], AMBIENT) == 0 && scene->amblight.init == false)
 		out = fill_ambient(scene, split);
 	else if (ft_strcmp(split[0], CAMERA) == 0 && scene->camera.init == false)
 		out = fill_camera(scene, split);
@@ -73,7 +73,7 @@ int	init_map(char *file, t_scene *scene)
 		line = get_next_line(fd);
 	}
 	close(fd);
-	if (scene->camera.init == false || scene->ambligth.init == false)
+	if (scene->camera.init == false || scene->amblight.init == false)
 		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/01 23:01:13 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/02 10:47:56 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,12 @@ typedef struct s_mlx
 
 /*-------------------------------      MAP      ------------------------------*/
 
-typedef struct s_ambligth
+typedef struct s_amblight
 {
 	double			ratio;
 	t_color			color;
 	bool			init;
-}					t_ambligth;
+}					t_amblight;
 
 typedef struct s_camera
 {
@@ -115,13 +115,13 @@ typedef struct s_camera
 	bool			init;
 }					t_camera;
 
-typedef struct s_ligth
+typedef struct s_light
 {
 	t_point3			center;
 	double			brigt;
 	t_color			color;
-	struct s_ligth	*next;
-}					t_ligth;
+	struct s_light	*next;
+}					t_light;
 
 typedef struct s_sphere
 {
@@ -170,8 +170,8 @@ typedef struct s_world
 typedef struct s_scene
 {
 	t_world			*objs;
-	t_ligth			*ligth;
-	t_ambligth		ambligth;
+	t_light			*light;
+	t_amblight		amblight;
 	t_camera		camera;
 	t_mlx			data;
 }					t_scene;
@@ -202,7 +202,7 @@ int					compare_str_end(char *str, char *end);
 int					init_map(char *file, t_scene *scene);
 int					fill_ambient(t_scene *scene, char **split);
 int					fill_camera(t_scene *scene, char **split);
-int					fill_light(t_ligth *scene, char **split);
+int					fill_light(t_light *scene, char **split);
 int					fill_sphere(t_sphere *sp, char **split);
 int					fill_plane(t_plane *pl, char **split);
 int					fill_cylinder(t_cylinder *cy, char **split);

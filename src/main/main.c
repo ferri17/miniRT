@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/30 18:46:05 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/02 10:47:56 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ void print_shit(t_scene scene)
 	printf("Direct: x:%f y:%f z:%f\n", scene.camera.dir.x, scene.camera.dir.y, scene.camera.dir.z);
 	printf("FOV: %d\n", scene.camera.hfov);
 	printf("-----AMBIENT-----\n");
-	printf("COLOR: R:%f G:%f B:%f\n", scene.ambligth.color.x, scene.ambligth.color.y, scene.ambligth.color.z);
-	printf("RATIO: %f\n", scene.ambligth.ratio);
-	printf("-----LIGTH-----\n");
-	//printf("BRIGT: %f\n", scene.ligth.brigt);
+	printf("COLOR: R:%f G:%f B:%f\n", scene.amblight.color.x, scene.amblight.color.y, scene.amblight.color.z);
+	printf("RATIO: %f\n", scene.amblight.ratio);
+	printf("-----light-----\n");
+	//printf("BRIGT: %f\n", scene.light.brigt);
 	while (scene.objs)
 	{
 		ft_printf("-----OBJS-----\n");

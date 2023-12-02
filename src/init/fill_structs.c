@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_structs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 12:24:41 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/30 10:56:58 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/02 10:47:56 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ int	fill_ambient(t_scene *scene, char **split)
 	ratio = ft_atod(split[1]);
 	if (ratio < 0.0 || ratio > 1.0)
 		return (1);
-	scene->ambligth.ratio = ft_atod(split[1]);
-	if (put_colors(&scene->ambligth.color, split[2]))
+	scene->amblight.ratio = ft_atod(split[1]);
+	if (put_colors(&scene->amblight.color, split[2]))
 		return (1);
-	scene->ambligth.init = true;
+	scene->amblight.init = true;
 	return (0);
 }
 
@@ -59,7 +59,7 @@ int	fill_camera(t_scene *scene, char **split)
 	return (0);
 }
 
-int	fill_light(t_ligth *light, char **split)
+int	fill_light(t_light *light, char **split)
 {
 	char	**coord;
 

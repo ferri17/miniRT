@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/01 23:45:24 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/02 10:47:56 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,35 @@ t_color	send_ray(const t_ray *r, t_scene *scene)
 			//t_vec3 unit = unit_vector(&objs->color);
 
 			
-			t_vec3 tmp1 = product_vec3_r(&r->dir, -1);
+			/* t_vec3 tmp1 = product_vec3_r(&r->dir, -1);
 			t_vec3 tmp2 = unit_vector(&tmp1);
 			double	a = dot(&tmp2, &tmp_hit.normal);
-			clamp_number(a, 0, 1);
+			clamp_number(a, 0, 1); */
 
-			hit = (t_color){a, a, a};
+			hit = (t_color){0, 0, 0};
 			any_hit = true;
 		}
 		objs = objs->next;
 	}
+	objs = scene->objs;
 	if (any_hit)
+	{
+		t_vec3	light_dir = substract_vec3(&scene->light->center, &tmp_hit.p);
+		t_ray	r_light;
+		r_light.orig = scene->light->center;
+		r_light.dir = unit_vector(&light_dir);
+		while (objs)
+		{
+			if (objs->hit(&r_light, objs->type, &tmp_hit))
+			{
+				return (hit);
+			}
+			objs = objs->next;
+		}
+		double	ratio = dot(&tmp_hit.normal, &r_light.dir);
+		hit = (t_color){ratio, ratio, ratio};
 		return (hit);
+	}
 	/* BACKGROUND */
 	t_vec3	unit_direction = unit_vector(&r->dir);
 	double	a = 0.5 * (unit_direction.y + 1.0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_events.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 12:46:29 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/30 17:33:37 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/02 10:46:57 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,33 +26,33 @@ void	move_camera(t_scene *scene, int key)
 
 	if (key == A_KEY)
 	{
-		scene->camera.center.x -= move;
-		//scene->camera.dir.x -= move;
+		scene->light->center.x -= move;
+		//scene->light->dir.x -= move;
 	}
 	else if (key == D_KEY)
 	{
-		scene->camera.center.x += move;
-		//scene->camera.dir.x += move;
+		scene->light->center.x += move;
+		//scene->light->dir.x += move;
 	}
 	if (key == W_KEY)
 	{
-		scene->camera.center.y += move;
-		//scene->camera.dir.y += move;
+		scene->light->center.y += move;
+		//scene->light->dir.y += move;
 
 	}
 	else if (key == S_KEY)
 	{
-		scene->camera.center.y -= move;
-		//scene->camera.dir.y -= move;
+		scene->light->center.y -= move;
+		//scene->light->dir.y -= move;
 	}
 	if (key == ONE_KEY)
 	{
-		scene->camera.center.z += move;
-		//scene->camera.dir.z += move;
+		scene->light->center.z += move;
+		//scene->light->dir.z += move;
 	}
 	else if (key == TWO_KEY)
 	{
-		scene->camera.center.z -= move;
+		scene->light->center.z -= move;
 		//scene->camera.dir.z -= move;
 	}
 	render_image(scene, IMG_W, IMG_H);
