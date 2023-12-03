@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 12:46:29 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/02 10:46:57 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/03 20:43:06 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,24 @@ void	move_camera(t_scene *scene, int key)
 		//scene->camera.dir.z -= move;
 	}
 	render_image(scene, IMG_W, IMG_H);
+}
+
+int	mouse_up(int button, int x, int y, void *param)
+{
+	t_scene	*scene;
+	t_world	*tmp;
+
+	scene = (t_scene *)param;
+	if (button == LEFT_CLICK)
+	{
+		tmp = select_object(scene, x, y);
+		if (tmp)
+		{
+			scene->selected = tmp;
+			ft_printf("Hit object\n");
+		}
+	}
+	return (0);
 }
 
 int	key_down(int key, void *param)

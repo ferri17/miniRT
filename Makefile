@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+         #
+#    By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2023/11/30 20:41:34 by fbosch           ###   ########.fr        #
+#    Updated: 2023/12/03 20:43:50 by fbosch           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ DIR_LIBFT		=	libft/
 FILE_MAKE		=	Makefile
 
 FILES_MAIN		=	main.c
-FILES_CAMERA	=	init_render.c intersections.c
+FILES_CAMERA	=	init_render.c intersections.c object_selector.c
 FILES_INIT		=	check_arguments.c init_structs.c fill_structs.c init_objs.c\
 					put_structs.c fill_objs.c
 FILES_MLX		=	mlx_color.c mlx_events.c mlx_init.c

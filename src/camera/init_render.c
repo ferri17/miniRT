@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/02 10:47:56 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/03 20:49:42 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_color	send_ray(const t_ray *r, t_scene *scene)
 	
 	tmp_hit.ray_tmin = 0;
 	tmp_hit.ray_tmax = INT_MAX;
+	hit = (t_color){0, 0, 0};
 	objs = scene->objs;
 	while (objs)
 	{
@@ -39,26 +40,27 @@ t_color	send_ray(const t_ray *r, t_scene *scene)
 			t_vec3 tmp2 = unit_vector(&tmp1);
 			double	a = dot(&tmp2, &tmp_hit.normal);
 			clamp_number(a, 0, 1); */
-
-			hit = (t_color){0, 0, 0};
 			any_hit = true;
 		}
 		objs = objs->next;
 	}
-	objs = scene->objs;
+	t_world *tmp_obj = scene->objs;
 	if (any_hit)
 	{
 		t_vec3	light_dir = substract_vec3(&scene->light->center, &tmp_hit.p);
 		t_ray	r_light;
 		r_light.orig = scene->light->center;
 		r_light.dir = unit_vector(&light_dir);
-		while (objs)
+		while (tmp_obj)
 		{
-			if (objs->hit(&r_light, objs->type, &tmp_hit))
+			tmp_hit.ray_tmin = 0;
+			tmp_hit.ray_tmin = INT_MAX;
+			if (tmp_obj->hit(&r_light, tmp_obj->type, &tmp_hit))
 			{
+				//ft_printf("entraaaaaaaaaaaaaaaaaaaa\n");
 				return (hit);
 			}
-			objs = objs->next;
+			tmp_obj = tmp_obj->next;
 		}
 		double	ratio = dot(&tmp_hit.normal, &r_light.dir);
 		hit = (t_color){ratio, ratio, ratio};
@@ -82,7 +84,8 @@ void	render_image(t_scene *scene, int img_w, int img_h)
 	t_mlx	*data;
 	void	*tmp_img_ptr;
 	clock_t	t;
-
+	
+	printf("bright: (%f, %f, %f)\n", scene->light->center.x, scene->light->center.y, scene->light->center.z);
 	t = clock();
 	data = &scene->data;
 	tmp_img_ptr = data->img.ptr;
@@ -101,7 +104,6 @@ void	start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h)
 	t_camera	*camera;
 	t_vec3		tmp_i;
 	t_vec3		tmp_j;
-	t_vec3		ray_direction;
 	t_point3	pixel_center;
 	t_ray	r;
 	t_color pixel;
@@ -126,12 +128,10 @@ void	start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h)
 			pixel_center = add_vec3(&camera->pixel00_loc, &tmp_i);
 			pixel_center = add_vec3(&pixel_center, &tmp_j);
 
-            //auto ray_direction = pixel_center - camera_center;
-			ray_direction = substract_vec3(&pixel_center, &camera->center);
 
             //ray r(camera_center, ray_direction);
 			r.orig = camera->center;
-			r.dir = ray_direction;
+			r.dir = substract_vec3(&pixel_center, &camera->center);
 	
             pixel = send_ray(&r, scene);
 			red = pixel.x * 255.999;

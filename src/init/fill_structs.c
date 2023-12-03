@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 12:24:41 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/02 10:47:56 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/02 21:26:23 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	fill_light(t_light *light, char **split)
 	ft_free_malloc_array(coord);
 	if (ft_test_double(split[2], 0.0, 1.0))
 		return (1);
-	light->brigt = ft_atod(split[2]);
+	light->bright = ft_atod(split[2]);
 	if (put_colors(&light->color, split[3]))
 		return (1);
 	return (0);

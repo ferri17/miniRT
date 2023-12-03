@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/02 10:47:56 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/03 20:57:48 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,12 @@ a valid extension *[.rt]\n"
 # define ONE_KEY	0x12
 # define TWO_KEY	0x13
 # define ESC_KEY	0x35
+// MOUSE EVENTS
+# define LEFT_CLICK 1
+# define RIGHT_CLICK 2
+# define MID_CLICK 3
+# define SCROLL_UP 4
+# define SCROLL_DOWN 5
 /*###	X11 EVENTS SUPPORTED BY MINILIBX	###*/
 # define KEYDOWN 2
 # define KEYUP 3
@@ -117,8 +123,8 @@ typedef struct s_camera
 
 typedef struct s_light
 {
-	t_point3			center;
-	double			brigt;
+	t_point3		center;
+	double			bright;
 	t_color			color;
 	struct s_light	*next;
 }					t_light;
@@ -173,6 +179,7 @@ typedef struct s_scene
 	t_light			*light;
 	t_amblight		amblight;
 	t_camera		camera;
+	t_world			*selected;
 	t_mlx			data;
 }					t_scene;
 
@@ -215,6 +222,7 @@ int					my_put_pixel(t_mlx *data, int x, int y, int color);
 void				set_color(t_image *img, int pixel, int color);
 int					close_program(t_scene *scene, int exit_code);
 int					key_down(int key, void *param);
+int					mouse_up(int button, int x, int y, void *param);
 
 /*------------------------------  CAMERA  ------------------------------*/
 
@@ -225,6 +233,8 @@ void				set_pixel00(t_camera *camera, t_vec3 *cam_axis);
 bool				hit_sphere(const t_ray *ray, t_objects obj, t_hit *rec);
 bool				hit_plane(const t_ray *ray, t_objects obj, t_hit *rec);
 bool				hit_cylinder(const t_ray *ray, t_objects obj, t_hit *hit_record);
+t_world				*select_object(t_scene *scene, int x, int y);
+t_world				*send_selector_ray(t_ray *r, t_scene *scene);
 
 /*------------------------------  UTILS  -------------------------------*/
 

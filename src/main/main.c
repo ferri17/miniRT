@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/02 10:47:56 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/03 20:58:14 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void print_shit(t_scene scene)
 	printf("COLOR: R:%f G:%f B:%f\n", scene.amblight.color.x, scene.amblight.color.y, scene.amblight.color.z);
 	printf("RATIO: %f\n", scene.amblight.ratio);
 	printf("-----light-----\n");
-	//printf("BRIGT: %f\n", scene.light.brigt);
+	//printf("bright: %f\n", scene.light.bright);
 	while (scene.objs)
 	{
 		ft_printf("-----OBJS-----\n");
@@ -50,6 +50,7 @@ int	main(int argc, char **argv)
 	init_mlx_windows(&scene.data, WIN_W, WIN_H);
 	render_image(&scene, IMG_W, IMG_H);
 	mlx_hook(scene.data.mlx_win, KEYDOWN, 0, key_down, (void *)&scene);
+	mlx_hook(scene.data.mlx_win, MOUSEUP, 0, mouse_up, (void *)&scene);
 	mlx_hook(scene.data.mlx_win, DESTROY, 0, close_program, (void *)&scene);
 	mlx_loop(scene.data.mlx);
 	//print_shit(scene);
