@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/30 15:26:26 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/04 13:29:31 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,11 @@ int	main(int argc, char **argv)
 		ft_printf_fd(STDERR_FILENO, ERR_INVALID_MAP);
 		return (1);
 	}
-	print_shit(scene);
-	free_structs(scene);
-	//init_mlx_windows(&scene.data, WIN_W, WIN_H);
-	//render_image(&scene, IMG_W, IMG_H);
-	//mlx_hook(scene.data.mlx_win, KEYDOWN, 0, key_down, (void *)&scene);
-	//mlx_hook(scene.data.mlx_win, DESTROY, 0, close_program, (void *)&scene);
-	//mlx_loop(scene.data.mlx);
+	init_mlx_windows(&scene.data, WIN_W, WIN_H);
+	render_image(&scene, IMG_W, IMG_H);
+	mlx_hook(scene.data.mlx_win, KEYDOWN, 0, key_down, (void *)&scene);
+	mlx_hook(scene.data.mlx_win, DESTROY, 0, close_program, (void *)&scene);
+	mlx_loop(scene.data.mlx);
 	//print_shit(scene);
 	//data.mlx = mlx_init();
 	//data.mlx_win = mlx_new_window(data.mlx, WIN_W, WIN_H, "MINIRT");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_events.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 12:46:29 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/29 18:34:15 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/04 13:31:11 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	close_program(t_scene *scene, int exit_code)
 {
+	free_structs(*scene);
 	mlx_destroy_image(scene->data.mlx, scene->data.img.ptr);
 	mlx_destroy_window(scene->data.mlx, scene->data.mlx_win);
 	mlx_destroy(scene->data.mlx);
