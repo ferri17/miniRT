@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/03 20:57:48 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/04 19:49:13 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ a valid extension *[.rt]\n"
 # define S_KEY		0x01
 # define D_KEY		0x02
 # define W_KEY		0x0D
+# define M_KEY		0x2E
 # define ONE_KEY	0x12
 # define TWO_KEY	0x13
 # define ESC_KEY	0x35
@@ -66,7 +67,7 @@ a valid extension *[.rt]\n"
 # define MID_CLICK 3
 # define SCROLL_UP 4
 # define SCROLL_DOWN 5
-/*###	X11 EVENTS SUPPORTED BY MINILIBX	###*/
+// X11 EVENTS SUPPORTED BY MINILIBX
 # define KEYDOWN 2
 # define KEYUP 3
 # define MOUSEDOWN 4
@@ -74,6 +75,8 @@ a valid extension *[.rt]\n"
 # define MOUSEMOVE 6
 # define EXPOSE 12
 # define DESTROY 17
+// GENERAL DEFINITIONS
+# define MOVE 0.05
 
 /*===============================	STRUCTURES	==============================*/
 
@@ -170,17 +173,25 @@ typedef struct s_world
 	t_objects		type;
 	t_color			color; // MATERIAAAAAAAAAAAL
 	bool			(*hit)(const t_ray *, t_objects, t_hit *);
+	void			(*move)(t_objects *, t_vec3 *move);
 	struct s_world	*next;
 }					t_world;
 
+enum	render_mode
+{
+	EDIT_MODE = 0,
+	RAYTRACE = 1
+};
+
 typedef struct s_scene
 {
-	t_world			*objs;
-	t_light			*light;
-	t_amblight		amblight;
-	t_camera		camera;
-	t_world			*selected;
-	t_mlx			data;
+	t_world				*objs;
+	t_light				*light;
+	t_amblight			amblight;
+	t_camera			camera;
+	t_world				*selected;
+	t_mlx				data;
+	enum render_mode	render_mode;
 }					t_scene;
 
 /*==============================  FUNCTIONS  =============================*/
@@ -223,6 +234,8 @@ void				set_color(t_image *img, int pixel, int color);
 int					close_program(t_scene *scene, int exit_code);
 int					key_down(int key, void *param);
 int					mouse_up(int button, int x, int y, void *param);
+void				move_object(t_scene *scene, int key);
+void				change_render_mode(t_scene *scene);
 
 /*------------------------------  CAMERA  ------------------------------*/
 
@@ -235,6 +248,9 @@ bool				hit_plane(const t_ray *ray, t_objects obj, t_hit *rec);
 bool				hit_cylinder(const t_ray *ray, t_objects obj, t_hit *hit_record);
 t_world				*select_object(t_scene *scene, int x, int y);
 t_world				*send_selector_ray(t_ray *r, t_scene *scene);
+void				move_sphere(t_objects *obj, t_vec3 *move);
+void				move_cylinder(t_objects *obj, t_vec3 *move);
+void				move_plane(t_objects *obj, t_vec3 *move);
 
 /*------------------------------  UTILS  -------------------------------*/
 

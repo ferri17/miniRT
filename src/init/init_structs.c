@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 17:18:57 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/02 10:47:56 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/04 19:20:21 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,5 @@ void	init_structs(t_scene *scene)
 	scene->objs = NULL;
 	scene->data.img.ptr = NULL;
 	scene->light = NULL;
+	scene->render_mode = EDIT_MODE;
 }

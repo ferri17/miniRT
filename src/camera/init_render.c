@@ -6,11 +6,12 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/03 20:49:42 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/04 20:16:02 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MiniRT.h"
+#include <time.h>
 
 #define U 0
 #define V 1
@@ -35,7 +36,14 @@ t_color	send_ray(const t_ray *r, t_scene *scene)
 			//t_vec3 unit = unit_vector(&tmp_hit.normal);
 			//t_vec3 unit = unit_vector(&objs->color);
 
-			
+			if (scene->render_mode == EDIT_MODE)
+			{
+				t_vec3 tmp1 = product_vec3_r(&r->dir, -1);
+				t_vec3 tmp2 = unit_vector(&tmp1);
+				double	a = dot(&tmp2, &tmp_hit.normal);
+				clamp_number(a, 0, 1);
+				hit = (t_color){a, a, a};
+			}
 			/* t_vec3 tmp1 = product_vec3_r(&r->dir, -1);
 			t_vec3 tmp2 = unit_vector(&tmp1);
 			double	a = dot(&tmp2, &tmp_hit.normal);
@@ -44,6 +52,8 @@ t_color	send_ray(const t_ray *r, t_scene *scene)
 		}
 		objs = objs->next;
 	}
+	if (any_hit && scene->render_mode == EDIT_MODE)
+		return (hit);
 	t_world *tmp_obj = scene->objs;
 	if (any_hit)
 	{
@@ -77,15 +87,13 @@ t_color	send_ray(const t_ray *r, t_scene *scene)
 	/* BACKGROUND */
 }
 
-#include <time.h>
-
 void	render_image(t_scene *scene, int img_w, int img_h)
 {
 	t_mlx	*data;
 	void	*tmp_img_ptr;
 	clock_t	t;
 	
-	printf("bright: (%f, %f, %f)\n", scene->light->center.x, scene->light->center.y, scene->light->center.z);
+	//printf("bright: (%f, %f, %f)\n", scene->light->center.x, scene->light->center.y, scene->light->center.z);
 	t = clock();
 	data = &scene->data;
 	tmp_img_ptr = data->img.ptr;

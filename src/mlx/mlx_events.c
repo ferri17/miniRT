@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 12:46:29 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/03 20:43:06 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/04 19:48:29 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,41 +20,24 @@ int	close_program(t_scene *scene, int exit_code)
 	exit(exit_code);
 }
 
-void	move_camera(t_scene *scene, int key)
+void	move_object(t_scene *scene, int key)
 {
-	const double	move = 0.2;
+	t_vec3	move;
 
+	move = (t_vec3){0.0, 0.0, 0.0};
 	if (key == A_KEY)
-	{
-		scene->light->center.x -= move;
-		//scene->light->dir.x -= move;
-	}
+		move.x = -MOVE;
 	else if (key == D_KEY)
-	{
-		scene->light->center.x += move;
-		//scene->light->dir.x += move;
-	}
-	if (key == W_KEY)
-	{
-		scene->light->center.y += move;
-		//scene->light->dir.y += move;
-
-	}
+		move.x = +MOVE;
+	else if (key == W_KEY)
+		move.y = +MOVE;
 	else if (key == S_KEY)
-	{
-		scene->light->center.y -= move;
-		//scene->light->dir.y -= move;
-	}
-	if (key == ONE_KEY)
-	{
-		scene->light->center.z += move;
-		//scene->light->dir.z += move;
-	}
+		move.y = -MOVE;
+	else if (key == ONE_KEY)
+		move.z = +MOVE;
 	else if (key == TWO_KEY)
-	{
-		scene->light->center.z -= move;
-		//scene->camera.dir.z -= move;
-	}
+		move.z = -MOVE;
+	scene->selected->move(&scene->selected->type, &move);
 	render_image(scene, IMG_W, IMG_H);
 }
 
@@ -68,13 +51,17 @@ int	mouse_up(int button, int x, int y, void *param)
 	{
 		tmp = select_object(scene, x, y);
 		if (tmp)
-		{
 			scene->selected = tmp;
-			ft_printf("Hit object\n");
-		}
 	}
 	return (0);
 }
+
+void	change_render_mode(t_scene *scene)
+{
+	scene->render_mode = (scene->render_mode + 1) % 2; 
+	render_image(scene, IMG_W, IMG_H);
+}
+
 
 int	key_down(int key, void *param)
 {
@@ -84,6 +71,8 @@ int	key_down(int key, void *param)
 		close_program(scene, EXIT_SUCCESS);
 	else if (key == A_KEY || key == D_KEY || key == W_KEY || key == S_KEY
 			|| key == ONE_KEY || key == TWO_KEY)
-		move_camera(scene, key);
+		move_object(scene, key);
+	else if (key == M_KEY)
+		change_render_mode(scene);
 	return (0);
 }

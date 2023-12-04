@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 20:41:32 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/03 20:57:11 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/04 18:49:09 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,28 @@ t_world	*send_selector_ray(t_ray *r, t_scene *scene)
 		objs = objs->next;
 	}
 	return (hit_obj);
+}
+
+void	move_sphere(t_objects *obj, t_vec3 *move)
+{
+	t_sphere *sp;
+
+	sp = obj->sp;
+	sp->center = add_vec3(&sp->center, move);
+}
+
+void	move_cylinder(t_objects *obj, t_vec3 *move)
+{
+	t_cylinder *cy;
+
+	cy = obj->cy;
+	cy->center = add_vec3(&cy->center, move);
+}
+
+void	move_plane(t_objects *obj, t_vec3 *move)
+{
+	t_plane *pl;
+
+	pl = obj->pl;
+	pl->center = add_vec3(&pl->center, move);
 }
