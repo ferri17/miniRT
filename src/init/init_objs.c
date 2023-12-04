@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/30 12:37:41 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/04 19:38:13 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,25 +98,10 @@ bool	hit_plane(const t_ray *ray, t_objects obj, t_hit *rec)
 	
 	pl = obj.pl;
 	denom = dot(&pl->normal, &ray->dir);
-        // No hit if the ray is parallel to the plane.
 	if (fabs(denom) < 1e-8)
 		return false;
 	d = dot(&pl->normal, &pl->center);
-        // Return false if the hit point parameter t is outside the ray interval.
 	t = (d - dot(&pl->normal, &ray->orig)) / denom;
-        //if (!ray_t.contains(t))
-        //  return false;
-
-        // Determine the hit point lies within the planar shape using its plane coordinates.
-        /* auto intersection = r.at(t);
-        vec3 planar_hitpt_vector = intersection - Q;
-        auto alpha = dot(w, cross(planar_hitpt_vector, v));
-        auto beta = dot(w, cross(u, planar_hitpt_vector));
-
-        if (!is_interior(alpha, beta, rec))
-            return false; */
-
-        // Ray hits the 2D shape; set the rest of the hit record and return true.
 		if (t <= rec->ray_tmin || t >= rec->ray_tmax)
 			return (false);
         rec->t = t;
@@ -124,23 +109,6 @@ bool	hit_plane(const t_ray *ray, t_objects obj, t_hit *rec)
         rec->normal = pl->normal;
 
         return true;
-	/* t_plane	*pl;
-	double	divisor;
-	double	solution;
-
-	pl = obj.pl;
-	divisor = dot(&pl->normal, &ray->dir);
-	if (fabs(divisor) < 1e-6)
-		return (false);
-	solution = (dot(&pl->normal, &pl->center) - dot(&pl->normal, &ray->orig)) / divisor;
-	if (solution <= rec->ray_tmin || solution >= rec->ray_tmax)
-		return (false);
-
-
-	rec->t = solution;
-	rec->p = ray_at(ray, solution);
-	rec->normal = pl->normal;
-	return (true); */
 }
 
 /* double divisor = dot(normal, r.direction());
@@ -183,15 +151,63 @@ int	check_plane(t_scene *scene, char **split)
 	return (0);
 }
 
-bool	hit_cylinder(const t_ray *ray, t_objects obj, t_hit *hit_record)
+t_vec3 calculate_normal(const t_cylinder *cylinder, const t_point3 p) {
+    t_vec3 tmp = {p.e[0] - cylinder->center.e[0], p.e[1] - cylinder->center.e[1], p.e[2] - cylinder->center.e[2]};
+    t_vec3 tmp2 = {
+        tmp.e[0] - cylinder->dir.e[0] * dot(&tmp, &cylinder->dir),
+        tmp.e[1] - cylinder->dir.e[1] * dot(&tmp, &cylinder->dir),
+        tmp.e[2] - cylinder->dir.e[2] * dot(&tmp, &cylinder->dir)
+    };
+    return unit_vector(&tmp2);
+}
+
+bool	hit_cylinder(const t_ray *ray, t_objects obj, t_hit *rec)
 {
 	t_cylinder	*cy;
 
-	(void)hit_record;
-	(void)ray;
 	cy = obj.cy;
-	//printf("Cylinder: Color: r: %f g: %f b: %f\n", cy->color.e[R], cy->color.e[G], cy->color.e[B]);
-	return (false);
+
+    t_vec3 oc = substract_vec3(&ray->orig, &cy->center);
+
+    // Proyecta el vector de dirección del rayo en el plano del cilindro
+	t_vec3 tmp = product_vec3_r(&cy->dir, dot(&ray->dir, &cy->dir));
+    t_vec3 direction_parallel = substract_vec3(&ray->dir, &tmp);
+
+    // Proyecta el vector desde el origen al centro del cilindro en el plano del cilindro
+	tmp = product_vec3_r(&cy->dir, dot(&oc, &cy->dir));
+    t_vec3 oc_parallel = substract_vec3(&oc, &tmp);
+
+    double a = length_squared(&direction_parallel);
+    double half_b = dot(&oc_parallel, &direction_parallel);
+    double c = length_squared(&oc_parallel) - cy->radius * cy->radius;
+
+    double discriminant = half_b * half_b - a * c;
+
+    if (discriminant < 0)
+        return false;
+
+    double sqrtd = sqrt(discriminant);
+
+    double root = (-half_b - sqrtd) / a;
+    if (root <= rec->ray_tmin || root >= rec->ray_tmax) {
+        root = (-half_b + sqrtd) / a;
+        if (root <= rec->ray_tmin || root >= rec->ray_tmax)
+            return false;
+    }
+
+    rec->t = root;
+    rec->p = ray_at(ray, root);
+
+    // Verifica que la intersección esté dentro de la altura del cilindro
+    tmp = substract_vec3(&rec->p, &cy->center);
+    double projection = dot(&cy->dir, &tmp);
+
+    if (projection < 0 || projection > cy->height)
+        return false;
+
+    rec->normal = calculate_normal(cy, rec->p);
+
+    return true;
 }
 
 int	check_cylinder(t_scene *scene, char **split)
