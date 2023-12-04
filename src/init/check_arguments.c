@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:10:32 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/30 15:17:05 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/04 12:56:52 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ int	check_ident(t_scene *scene, char **split)
 	if (!split[0])
 		return (0);
 	out = 0;
-	if (ft_strcmp(split[0], AMBIENT) == 0 && scene->ambligth.init == false)
+	if (split[0][0] == '#')
+		out = 0;
+	else if (ft_strcmp(split[0], AMBIENT) == 0 && scene->ambligth.init == false)
 		out = fill_ambient(scene, split);
 	else if (ft_strcmp(split[0], CAMERA) == 0 && scene->camera.init == false)
 		out = fill_camera(scene, split);

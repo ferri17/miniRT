@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 12:24:41 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/30 10:56:58 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/04 13:23:40 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,17 @@ int	fill_ambient(t_scene *scene, char **split)
 	return (0);
 }
 
+int	invalid_pos(t_point3 center)
+{
+	if (center.e[X] == 0.0 && center.e[Y] == 0.0 && center.e[Z] == 0.0)
+		return (1);
+	return (0);
+}
+
 int	fill_camera(t_scene *scene, char **split)
 {
 	char	**center;
-	char	**orientation;
+	char	**dir;
 
 	if (ft_array_len(split) != 4)
 		return (1);
@@ -45,14 +52,14 @@ int	fill_camera(t_scene *scene, char **split)
 	if (put_coord(&scene->camera.center, center))
 		return (ft_free_malloc_array(center), 1);
 	ft_free_malloc_array(center);
-	orientation = ft_split(split[2], ',');
-	if (!orientation)
+	dir = ft_split(split[2], ',');
+	if (!dir)
 		return (1);
-	if (ft_array_len(orientation) != 3)
-		return (ft_free_malloc_array(orientation), 1);
-	if (put_dir(&scene->camera.dir, orientation))
-		return (ft_free_malloc_array(orientation), 1);
-	ft_free_malloc_array(orientation);
+	if (ft_array_len(dir) != 3)
+		return (ft_free_malloc_array(dir), 1);
+	if (put_dir(&scene->camera.dir, dir) || invalid_pos(scene->camera.dir))
+		return (ft_free_malloc_array(dir), 1);
+	ft_free_malloc_array(dir);
 	if (put_fov(&scene->camera.hfov, split[3]))
 		return (1);
 	scene->camera.init = true;
