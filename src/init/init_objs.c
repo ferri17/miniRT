@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/04 19:38:13 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/05 15:35:12 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,12 +202,73 @@ bool	hit_cylinder(const t_ray *ray, t_objects obj, t_hit *rec)
     tmp = substract_vec3(&rec->p, &cy->center);
     double projection = dot(&cy->dir, &tmp);
 
-    if (projection < 0 || projection > cy->height)
-        return false;
+	if (projection < 0 || projection > cy->height) {
+		// La intersección está fuera de la altura del cilindro
+		return false;
+	}
 
-    rec->normal = calculate_normal(cy, rec->p);
+	rec->normal = calculate_normal(cy, rec->p);
+    return true;
+}
+
+t_vec3 translate_point_in_direction(const t_vec3 *point, double distance, const t_vec3 *direction) {
+    t_vec3 result;
+    result.e[0] = point->e[0] + distance * direction->e[0];
+    result.e[1] = point->e[1] + distance * direction->e[1];
+    result.e[2] = point->e[2] + distance * direction->e[2];
+    return result;
+}
+
+bool hit_disk(const t_ray *ray, t_objects obj, t_hit *rec)
+{
+	t_cylinder *disk;
+
+	disk = obj.cy;
+	disk->dir = unit_vector(&disk->dir);
+    double denom = dot(&disk->dir, &ray->dir);
+    
+    if (fabs(denom) < 1e-8) {
+        return false;
+    }
+
+    t_vec3 oc = substract_vec3(&disk->center, &ray->orig);
+    double t = dot(&oc, &disk->dir) / denom;
+
+    if (t <= rec->ray_tmin || t >= rec->ray_tmax) {
+        return false;
+    }
+
+    t_vec3 p = ray_at(ray, t);
+
+    t_vec3 to_center = substract_vec3(&p, &disk->center);
+    double distance_squared = dot(&to_center, &to_center);
+
+    if (distance_squared > disk->radius * disk->radius) {
+        return false;
+    }
+
+    rec->t = t;
+    rec->p = p;
+    rec->normal = disk->dir;
 
     return true;
+}
+
+bool hit_2disk(const t_ray *ray, t_objects obj, t_hit *rec)
+{
+	bool r[3];
+	t_objects tmp;
+
+	tmp.cy = malloc(sizeof(t_cylinder));
+	tmp.cy->center = translate_point_in_direction(&obj.cy->center, 2, &obj.cy->dir);
+	tmp.cy->dir = obj.cy->dir;
+	tmp.cy->height = obj.cy->height;
+	tmp.cy->radius = obj.cy->radius;
+	r[0] = hit_disk(ray, obj, rec);
+	r[1] = hit_disk(ray, tmp, rec);
+	r[2] = hit_cylinder(ray, obj, rec);
+	free(tmp.cy);
+	return (r[0] || r[1] || r[2]);
 }
 
 int	check_cylinder(t_scene *scene, char **split)
@@ -233,7 +294,7 @@ int	check_cylinder(t_scene *scene, char **split)
 	cy->type.cy = malloc(sizeof(t_cylinder)); //PROTEEEEEEEEEEEEEEEEEEEEEEEEEEECT MALLOC?
 	if (fill_cylinder(cy->type.cy, split) || put_colors(&cy->color, split[5]))
 		return (1);
-	cy->hit = hit_cylinder;
+	cy->hit = hit_2disk;
 	cy->free_type = free_cylinder;
 	return (0);
 }
