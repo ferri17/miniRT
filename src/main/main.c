@@ -6,12 +6,13 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/03 20:58:14 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/06 00:31:54 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
 	- MALLOCS NO PROTEGITS AL CREAR OBJECTES
+	- CHECK OBJECTS CANT BE MOVED OVER LIMITS INT MAX
 */
 #include "MiniRT.h"
 

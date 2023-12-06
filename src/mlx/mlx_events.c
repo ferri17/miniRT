@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 12:46:29 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/04 19:48:29 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/06 01:57:40 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	move_object(t_scene *scene, int key)
 {
 	t_vec3	move;
 
+	if (scene->selected == NULL)
+		return ;
 	move = (t_vec3){0.0, 0.0, 0.0};
 	if (key == A_KEY)
 		move.x = -MOVE;
@@ -44,14 +46,12 @@ void	move_object(t_scene *scene, int key)
 int	mouse_up(int button, int x, int y, void *param)
 {
 	t_scene	*scene;
-	t_world	*tmp;
 
 	scene = (t_scene *)param;
 	if (button == LEFT_CLICK)
 	{
-		tmp = select_object(scene, x, y);
-		if (tmp)
-			scene->selected = tmp;
+		scene->selected = select_object(scene, x, y);
+		render_image(scene, IMG_W, IMG_H);
 	}
 	return (0);
 }

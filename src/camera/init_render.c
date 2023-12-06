@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/04 20:16:02 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/06 01:56:01 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ t_color	send_ray(const t_ray *r, t_scene *scene)
 				double	a = dot(&tmp2, &tmp_hit.normal);
 				clamp_number(a, 0, 1);
 				hit = (t_color){a, a, a};
+				if (objs == scene->selected)
+				{
+					hit.z += 0.2;
+					hit.z = clamp_number(hit.z, 0 , 1);
+				}
 			}
 			/* t_vec3 tmp1 = product_vec3_r(&r->dir, -1);
 			t_vec3 tmp2 = unit_vector(&tmp1);
@@ -105,6 +110,7 @@ void	render_image(t_scene *scene, int img_w, int img_h)
 		mlx_destroy_image(data->mlx, tmp_img_ptr);
 	t = clock() - t;
 	ft_printf("\r Render time: %ims", (int)((double)t / CLOCKS_PER_SEC * 1000));
+	//draw_menu(scene);
 }
 
 void	start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h)

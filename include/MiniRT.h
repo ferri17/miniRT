@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/04 19:49:13 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/06 00:28:59 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,5 +258,6 @@ double				clamp_number(double nb, int low_limit, int high_limit);
 int					create_color(int a, int r, int g, int b);
 double				deg_to_rad(double degree);
 t_point3			ray_at(const t_ray *ray, double t);
+void				draw_menu(t_scene *scene);
 
 #endif
