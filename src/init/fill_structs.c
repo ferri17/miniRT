@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 12:24:41 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/04 13:23:40 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/06 11:45:49 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	fill_ambient(t_scene *scene, char **split)
 
 int	invalid_pos(t_point3 center)
 {
-	if (center.e[X] == 0.0 && center.e[Y] == 0.0 && center.e[Z] == 0.0)
+	if (center.x == 0.0 && center.y == 0.0 && center.z == 0.0)
 		return (1);
 	return (0);
 }

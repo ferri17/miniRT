@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 12:46:29 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/04 13:31:11 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/06 11:45:49 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,34 +27,34 @@ void	move_camera(t_scene *scene, int key)
 
 	if (key == A_KEY)
 	{
-		scene->camera.center.e[X] -= move;
-		//scene->camera.dir.e[X] -= move;
+		scene->camera.center.x -= move;
+		//scene->camera.dir.x -= move;
 	}
 	else if (key == D_KEY)
 	{
-		scene->camera.center.e[X] += move;
-		//scene->camera.dir.e[X] += move;
+		scene->camera.center.x += move;
+		//scene->camera.dir.x += move;
 	}
 	if (key == W_KEY)
 	{
-		scene->camera.center.e[Y] += move;
-		//scene->camera.dir.e[Y] += move;
+		scene->camera.center.y += move;
+		//scene->camera.dir.y += move;
 
 	}
 	else if (key == S_KEY)
 	{
-		scene->camera.center.e[Y] -= move;
-		//scene->camera.dir.e[Y] -= move;
+		scene->camera.center.y -= move;
+		//scene->camera.dir.y -= move;
 	}
 	if (key == ONE_KEY)
 	{
-		scene->camera.center.e[Z] += move;
-		//scene->camera.dir.e[Z] += move;
+		scene->camera.center.z += move;
+		//scene->camera.dir.z += move;
 	}
 	else if (key == TWO_KEY)
 	{
-		scene->camera.center.e[Z] -= move;
-		//scene->camera.dir.e[Z] -= move;
+		scene->camera.center.z -= move;
+		//scene->camera.dir.z -= move;
 	}
 	render_image(scene, IMG_W, IMG_H);
 }

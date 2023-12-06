@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:10:32 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/04 12:56:52 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/06 18:14:09 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int	check_ident(t_scene *scene, char **split)
 		out = check_plane(scene, split);
 	else if (ft_strcmp(split[0], CYLINDER) == 0)
 		out = check_cylinder(scene, split);
+	else if (ft_strcmp(split[0], CONE) == 0)
+		out = check_cone(scene, split);
 	else
 		out = 1;
 	return (out);

@@ -6,59 +6,53 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/05 15:35:12 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/06 18:43:00 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MiniRT.h"
 
-//SEND OBJ BY ADDRESS
+// SEND OBJ BY ADDRESS
 bool	hit_sphere(const t_ray *ray, t_objects obj, t_hit *rec)
 {
 	t_sphere	*sp;
 	t_vec3		oc;
-	double		a;
-	double		half_b;
-	double		c;
-	double		discriminant;
-	double		root;
-	double		sqrtd;
+	t_evars		vars;
 
 	sp = obj.sp;
 	oc = substract_vec3(&ray->orig, &sp->center);
-	a = length_squared(&ray->dir);
-	half_b = dot(&oc, &ray->dir);
-	c = length_squared(&oc) - (sp->radius * sp->radius);
-	discriminant = (half_b * half_b) - (a * c);
-
-	sqrtd = sqrt(discriminant);
-	if (discriminant < 0)
-        return (false);
-    root = (-half_b - sqrtd) / a;
-	if (root <= rec->ray_tmin || root >= rec->ray_tmax)
+	vars.a = length_squared(&ray->dir);
+	vars.half_b = dot(&oc, &ray->dir);
+	vars.c = length_squared(&oc) - (sp->radius * sp->radius);
+	vars.discriminant = (vars.half_b * vars.half_b) - (vars.a * vars.c);
+	vars.sqrtd = sqrt(vars.discriminant);
+	if (vars.discriminant < 0)
+		return (false);
+	vars.root = (-vars.half_b - vars.sqrtd) / vars.a;
+	if (vars.root <= rec->ray_tmin || vars.root >= rec->ray_tmax)
 	{
-    	root = (-half_b + sqrtd) / a;
-		if (root <= rec->ray_tmin || root >= rec->ray_tmax)
+		vars.root = (-vars.half_b + vars.sqrtd) / vars.a;
+		if (vars.root <= rec->ray_tmin || vars.root >= rec->ray_tmax)
 			return (false);
 	}
-	rec->t = root;
-	rec->p = ray_at(ray, root);
+	rec->t = vars.root;
+	rec->p = ray_at(ray, vars.root);
 	rec->normal = substract_vec3(&rec->p, &sp->center);
 	division_vec3(&rec->normal, sp->radius);
-    return (true);
+	return (true);
 }
 
-/* 
+/*
 	vec3 oc = r.origin() - center;
-    auto a = r.direction().length_squared();
-    auto half_b = dot(oc, r.direction());
-    auto c = oc.length_squared() - radius*radius;
-    auto discriminant = half_b*half_b - a*c;
+	auto a = r.direction().length_squared();
+	auto half_b = dot(oc, r.direction());
+	auto c = oc.length_squared() - radius*radius;
+	auto discriminant = half_b*half_b - a*c;
 
-    if (discriminant < 0)
-        return -1.0;
-    else
-    	return (-half_b - sqrt(discriminant) ) / a;
+	if (discriminant < 0)
+		return (-1.0);
+	else
+		return ((-half_b - sqrt(discriminant) ) / a);
 */
 
 int	check_sphere(t_scene *scene, char **split)
@@ -81,7 +75,8 @@ int	check_sphere(t_scene *scene, char **split)
 	if (!sp)
 		return (1);
 	sp->next = NULL;
-	sp->type.sp = malloc(sizeof(t_sphere)); //PROTEEEEEEEEEEEEEEEEEEEEEEEEEEECT MALLOC?
+	sp->type.sp = malloc(sizeof(t_sphere));
+		// PROTEEEEEEEEEEEEEEEEEEEEEEEEEEECT MALLOC?
 	if (fill_sphere(sp->type.sp, split) || put_colors(&sp->color, split[3]))
 		return (1);
 	sp->hit = hit_sphere;
@@ -95,28 +90,27 @@ bool	hit_plane(const t_ray *ray, t_objects obj, t_hit *rec)
 	double	denom;
 	double	t;
 	double	d;
-	
+
 	pl = obj.pl;
 	denom = dot(&pl->normal, &ray->dir);
 	if (fabs(denom) < 1e-8)
-		return false;
+		return (false);
 	d = dot(&pl->normal, &pl->center);
 	t = (d - dot(&pl->normal, &ray->orig)) / denom;
-		if (t <= rec->ray_tmin || t >= rec->ray_tmax)
-			return (false);
-        rec->t = t;
-        rec->p = ray_at(ray, t);
-        rec->normal = pl->normal;
-
-        return true;
+	if (t <= rec->ray_tmin || t >= rec->ray_tmax)
+		return (false);
+	rec->t = t;
+	rec->p = ray_at(ray, t);
+	rec->normal = pl->normal;
+	return (true);
 }
 
 /* double divisor = dot(normal, r.direction());
-if (fabs(divisor) < 1e-6)
-	return false;
-double solution = (dot(normal, center) - dot(normal, r.origin())) / divisor;
+if	(fabs(divisor) < 1e-6)
+	return (false);
+double	solution = (dot(normal, center) - dot(normal, r.origin())) / divisor;
 if (!ray_t.surrounds(solution))
-	return false;
+	return (false);
 rec.t = solution;
 rec.p = r.at(rec.t);
 rec.normal = normal;
@@ -143,7 +137,8 @@ int	check_plane(t_scene *scene, char **split)
 	if (!pl)
 		return (1);
 	pl->next = NULL;
-	pl->type.pl = malloc (sizeof(t_plane)); //PROTEEEEEEEEEEEEEEEEEEEEEEEEEEECT MALLOC?
+	pl->type.pl = malloc(sizeof(t_plane));
+		// PROTEEEEEEEEEEEEEEEEEEEEEEEEEEECT MALLOC?
 	if (fill_plane(pl->type.pl, split) || put_colors(&pl->color, split[3]))
 		return (1);
 	pl->hit = hit_plane;
@@ -151,120 +146,105 @@ int	check_plane(t_scene *scene, char **split)
 	return (0);
 }
 
-t_vec3 calculate_normal(const t_cylinder *cylinder, const t_point3 p) {
-    t_vec3 tmp = {p.e[0] - cylinder->center.e[0], p.e[1] - cylinder->center.e[1], p.e[2] - cylinder->center.e[2]};
-    t_vec3 tmp2 = {
-        tmp.e[0] - cylinder->dir.e[0] * dot(&tmp, &cylinder->dir),
-        tmp.e[1] - cylinder->dir.e[1] * dot(&tmp, &cylinder->dir),
-        tmp.e[2] - cylinder->dir.e[2] * dot(&tmp, &cylinder->dir)
-    };
-    return unit_vector(&tmp2);
+t_vec3	calculate_normal(const t_cylinder *cylinder, const t_point3 p)
+{
+    t_vec3 tmp;
+    t_vec3 tmp2;
+	t_vec3 normal;
+
+	tmp = substract_vec3(&cylinder->center, &p);
+	tmp2 = product_vec3_r(&cylinder->dir, dot(&tmp, &cylinder->dir));
+	normal = substract_vec3(&tmp2, &tmp);
+	return (unit_vector(&normal));
+}
+
+bool	calc_hit_cilinder(t_evars vars, const t_ray *ray, t_hit *rec, t_objects obj)
+{
+	double	projection;
+	t_vec3 tmp;
+
+	if (vars.discriminant < 0)
+		return (false);
+	vars.sqrtd = sqrt(vars.discriminant);
+	vars.root = (-vars.half_b - vars.sqrtd) / vars.a;
+	if (vars.root <= rec->ray_tmin || vars.root >= rec->ray_tmax)
+	{
+		vars.root = (-vars.half_b + vars.sqrtd) / vars.a;
+		if (vars.root <= rec->ray_tmin || vars.root >= rec->ray_tmax)
+			return (false);
+	}
+	rec->t = vars.root;
+	rec->p = ray_at(ray, vars.root);
+	tmp = substract_vec3(&rec->p, &obj.cy->center);
+	projection = dot(&obj.cy->dir, &tmp);
+	if (projection < 0 || projection > obj.cy->height)
+		return (false);
+	rec->normal = calculate_normal(obj.cy, rec->p);
+	return (true);
 }
 
 bool	hit_cylinder(const t_ray *ray, t_objects obj, t_hit *rec)
 {
-	t_cylinder	*cy;
+	t_vec3	oc;
+	t_vec3	tmp;
+	t_vec3	direction_parallel;
+	t_vec3	oc_parallel;
+	t_evars	vars;
 
-	cy = obj.cy;
-
-    t_vec3 oc = substract_vec3(&ray->orig, &cy->center);
-
-    // Proyecta el vector de dirección del rayo en el plano del cilindro
-	t_vec3 tmp = product_vec3_r(&cy->dir, dot(&ray->dir, &cy->dir));
-    t_vec3 direction_parallel = substract_vec3(&ray->dir, &tmp);
-
-    // Proyecta el vector desde el origen al centro del cilindro en el plano del cilindro
-	tmp = product_vec3_r(&cy->dir, dot(&oc, &cy->dir));
-    t_vec3 oc_parallel = substract_vec3(&oc, &tmp);
-
-    double a = length_squared(&direction_parallel);
-    double half_b = dot(&oc_parallel, &direction_parallel);
-    double c = length_squared(&oc_parallel) - cy->radius * cy->radius;
-
-    double discriminant = half_b * half_b - a * c;
-
-    if (discriminant < 0)
-        return false;
-
-    double sqrtd = sqrt(discriminant);
-
-    double root = (-half_b - sqrtd) / a;
-    if (root <= rec->ray_tmin || root >= rec->ray_tmax) {
-        root = (-half_b + sqrtd) / a;
-        if (root <= rec->ray_tmin || root >= rec->ray_tmax)
-            return false;
-    }
-
-    rec->t = root;
-    rec->p = ray_at(ray, root);
-
-    // Verifica que la intersección esté dentro de la altura del cilindro
-    tmp = substract_vec3(&rec->p, &cy->center);
-    double projection = dot(&cy->dir, &tmp);
-
-	if (projection < 0 || projection > cy->height) {
-		// La intersección está fuera de la altura del cilindro
-		return false;
-	}
-
-	rec->normal = calculate_normal(cy, rec->p);
-    return true;
+	oc = substract_vec3(&ray->orig, &obj.cy->center);
+	tmp = product_vec3_r(&obj.cy->dir, dot(&ray->dir, &obj.cy->dir));
+	direction_parallel = substract_vec3(&ray->dir, &tmp);
+	tmp = product_vec3_r(&obj.cy->dir, dot(&oc, &obj.cy->dir));
+	oc_parallel = substract_vec3(&oc, &tmp);
+	vars.a = length_squared(&direction_parallel);
+	vars.half_b = dot(&oc_parallel, &direction_parallel);
+	vars.c = length_squared(&oc_parallel) - obj.cy->radius * obj.cy->radius;
+	vars.discriminant = vars.half_b * vars.half_b - vars.a * vars.c;
+	return (calc_hit_cilinder(vars, ray, rec, obj));
 }
 
-t_vec3 translate_point_in_direction(const t_vec3 *point, double distance, const t_vec3 *direction) {
-    t_vec3 result;
-    result.e[0] = point->e[0] + distance * direction->e[0];
-    result.e[1] = point->e[1] + distance * direction->e[1];
-    result.e[2] = point->e[2] + distance * direction->e[2];
-    return result;
-}
-
-bool hit_disk(const t_ray *ray, t_objects obj, t_hit *rec)
+bool	hit_disk(const t_ray *ray, t_objects obj, t_hit *rec)
 {
-	t_cylinder *disk;
+	double	denom;
+	t_vec3	oc;
+	double	t;
+	t_vec3	p;
+	t_vec3	to_center;
 
-	disk = obj.cy;
-	disk->dir = unit_vector(&disk->dir);
-    double denom = dot(&disk->dir, &ray->dir);
-    
-    if (fabs(denom) < 1e-8) {
-        return false;
-    }
-
-    t_vec3 oc = substract_vec3(&disk->center, &ray->orig);
-    double t = dot(&oc, &disk->dir) / denom;
-
-    if (t <= rec->ray_tmin || t >= rec->ray_tmax) {
-        return false;
-    }
-
-    t_vec3 p = ray_at(ray, t);
-
-    t_vec3 to_center = substract_vec3(&p, &disk->center);
-    double distance_squared = dot(&to_center, &to_center);
-
-    if (distance_squared > disk->radius * disk->radius) {
-        return false;
-    }
-
-    rec->t = t;
-    rec->p = p;
-    rec->normal = disk->dir;
-
-    return true;
+	denom = dot(&obj.cy->dir, &ray->dir);
+	if (fabs(denom) < 1e-8)
+		return (false);
+	oc = substract_vec3(&obj.cy->center, &ray->orig);
+	t = dot(&oc, &obj.cy->dir) / denom;
+	if (t <= rec->ray_tmin || t >= rec->ray_tmax)
+		return (false);
+	p = ray_at(ray, t);
+	to_center = substract_vec3(&p, &obj.cy->center);
+	if (dot(&to_center, &to_center) > obj.cy->radius * obj.cy->radius)
+		return (false);
+	rec->t = t;
+	rec->p = p;
+	rec->normal = product_vec3_r(&obj.cy->dir, -1);
+	return (true);
 }
 
-bool hit_2disk(const t_ray *ray, t_objects obj, t_hit *rec)
+bool	hit_2disk(const t_ray *ray, t_objects obj, t_hit *rec)
 {
-	bool r[3];
-	t_objects tmp;
+	bool		r[3];
+	t_objects	tmp;
+	t_ray		displace;
 
 	tmp.cy = malloc(sizeof(t_cylinder));
-	tmp.cy->center = translate_point_in_direction(&obj.cy->center, 2, &obj.cy->dir);
+	obj.cy->dir = unit_vector(&obj.cy->dir);
+	displace.orig = obj.cy->center;
+	displace.dir = obj.cy->dir;
+	tmp.cy->center = obj.cy->center;
 	tmp.cy->dir = obj.cy->dir;
 	tmp.cy->height = obj.cy->height;
 	tmp.cy->radius = obj.cy->radius;
-	r[0] = hit_disk(ray, obj, rec);
+	r[0] = hit_disk(ray, tmp, rec);
+	tmp.cy->center = ray_at(&displace, obj.cy->height);
+	tmp.cy->dir = product_vec3_r(&obj.cy->dir, -1);
 	r[1] = hit_disk(ray, tmp, rec);
 	r[2] = hit_cylinder(ray, obj, rec);
 	free(tmp.cy);
@@ -274,6 +254,7 @@ bool hit_2disk(const t_ray *ray, t_objects obj, t_hit *rec)
 int	check_cylinder(t_scene *scene, char **split)
 {
 	t_world	*cy;
+	t_ray	ray;
 
 	cy = scene->objs;
 	if (cy)
@@ -291,10 +272,43 @@ int	check_cylinder(t_scene *scene, char **split)
 	if (!cy)
 		return (1);
 	cy->next = NULL;
-	cy->type.cy = malloc(sizeof(t_cylinder)); //PROTEEEEEEEEEEEEEEEEEEEEEEEEEEECT MALLOC?
+	cy->type.cy = malloc(sizeof(t_cylinder));
+		// PROTEEEEEEEEEEEEEEEEEEEEEEEEEEECT MALLOC?
 	if (fill_cylinder(cy->type.cy, split) || put_colors(&cy->color, split[5]))
 		return (1);
+	ray.dir = cy->type.cy->dir;
+	ray.orig = cy->type.cy->center;
+	cy->type.cy->center = ray_at(&ray, -(cy->type.cy->height / 2));
 	cy->hit = hit_2disk;
 	cy->free_type = free_cylinder;
+	return (0);
+}
+
+int	check_cone(t_scene *scene, char **split)
+{
+	t_world *cn;
+
+	cn = scene->objs;
+	if (cn)
+	{
+		while (cn->next)
+			cn = cn->next;
+		cn->next = malloc(sizeof(t_world));
+		cn = cn->next;
+	}
+	else
+	{
+		scene->objs = malloc(sizeof(t_world));
+		cn = scene->objs;
+	}
+	if (!cn)
+		return (1);
+	cn->next = NULL;
+	cn->type.cn = malloc(sizeof(t_cone));
+		// PROTEEEEEEEEEEEEEEEEEEEEEEEEEEECT MALLOC?
+	if (fill_cone(cn->type.cn, split) || put_colors(&cn->color, split[5]))
+		return (1);
+	cn->hit = hit_cone;
+	cn->free_type = free_cone;
 	return (0);
 }

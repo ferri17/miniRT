@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_render.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/29 18:39:00 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/06 16:07:34 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,12 @@ t_color	send_ray(const t_ray *r, t_scene *scene)
 		if (objs->hit(r, objs->type, &tmp_hit))
 		{
 			tmp_hit.ray_tmax = tmp_hit.t;
-			//t_vec3 unit = unit_vector(&tmp_hit.normal);
-			t_vec3 unit = unit_vector(&objs->color);
-			hit = (t_color){unit.e[X], unit.e[Y], unit.e[Z]};
+			tmp_hit.normal = product_vec3_r(&tmp_hit.normal, -1);
+			t_vec3 unit = unit_vector(&tmp_hit.normal);
+			//t_vec3 unit = unit_vector(&objs->color);
+			t_color color = {unit.x+1, unit.y+1, unit.z+1};
+			division_vec3(&color, 2);
+			hit = color;
 			any_hit = true;
 		}
 		objs = objs->next;
@@ -38,7 +41,7 @@ t_color	send_ray(const t_ray *r, t_scene *scene)
 		return (hit);
 	/* BACKGROUND */
 	t_vec3	unit_direction = unit_vector(&r->dir);
-	double	a = 0.5 * (unit_direction.e[Y] + 1.0);
+	double	a = 0.5 * (unit_direction.y + 1.0);
 	t_color	color1 = {1.0, 1.0, 1.0};
 	product_vec3(&color1, (1.0 - a));
 	t_color	color2 = {0.5, 0.7, 1.0};
@@ -97,9 +100,9 @@ void	start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h)
 			r.dir = ray_direction;
 	
             t_color pixl = send_ray(&r, scene);
-			int	red = pixl.e[X] * 255.999;
-			int	green = pixl.e[Y] * 255.999;
-			int	blue = pixl.e[Z] * 255.999;
+			int	red = pixl.x * 255.999;
+			int	green = pixl.y * 255.999;
+			int	blue = pixl.z * 255.999;
 			int	color = create_color(0, red, green, blue);
 
 			my_put_pixel(data, i, j, color);

@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 12:13:21 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/30 13:03:33 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/06 18:25:47 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,14 @@ void	free_cylinder(t_objects obj)
 
 	cy = obj.cy;
 	free(cy);
+}
+
+void	free_cone(t_objects obj)
+{
+	t_cone	*cn;
+
+	cn = obj.cn;
+	free(cn);
 }
 
 void	free_obj(t_world *objs)

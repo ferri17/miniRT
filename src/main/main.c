@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/04 13:29:31 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/06 11:48:44 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@
 void print_shit(t_scene scene)
 {
 	printf("-----CAMERA-----\n");
-	printf("Coord: x:%f y:%f z:%f\n", scene.camera.center.e[X], scene.camera.center.e[Y], scene.camera.center.e[Z]);
-	printf("Direct: x:%f y:%f z:%f\n", scene.camera.dir.e[X], scene.camera.dir.e[Y], scene.camera.dir.e[Z]);
+	printf("Coord: x:%f y:%f z:%f\n", scene.camera.center.x, scene.camera.center.y, scene.camera.center.z);
+	printf("Direct: x:%f y:%f z:%f\n", scene.camera.dir.x, scene.camera.dir.y, scene.camera.dir.z);
 	printf("FOV: %d\n", scene.camera.hfov);
 	printf("-----AMBIENT-----\n");
-	printf("COLOR: R:%f G:%f B:%f\n", scene.ambligth.color.e[R], scene.ambligth.color.e[G], scene.ambligth.color.e[B]);
+	printf("COLOR: R:%f G:%f B:%f\n", scene.ambligth.color.x, scene.ambligth.color.y, scene.ambligth.color.z);
 	printf("RATIO: %f\n", scene.ambligth.ratio);
 	printf("-----LIGTH-----\n");
 	//printf("BRIGT: %f\n", scene.ligth.brigt);

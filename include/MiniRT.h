@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/04 15:59:30 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/06 18:43:29 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ a valid extension *[.rt]\n"
 # define SPHERE "sp"
 # define PLANE "pl"
 # define CYLINDER "cy"
+# define CONE "cn"
 // MLX
 # define WIN_W 900
 # define WIN_H 506
@@ -142,11 +143,20 @@ typedef struct s_cylinder
 	double			height;
 }					t_cylinder;
 
+typedef struct s_cone
+{
+	t_point3		apex;
+	t_vec3			dir;
+	double			angle;
+	double			height;
+}					t_cone;
+
 typedef union u_objects
 {
 	t_cylinder		*cy;
 	t_plane			*pl;
 	t_sphere		*sp;
+	t_cone			*cn;
 }					t_objects;
 
 typedef struct	s_hit_record
@@ -176,6 +186,16 @@ typedef struct s_scene
 	t_mlx			data;
 }					t_scene;
 
+typedef struct s_evars
+{
+	double		a;
+	double		half_b;
+	double		c;
+	double		discriminant;
+	double		root;
+	double		sqrtd;
+}	t_evars;
+
 /*==============================  FUNCTIONS  =============================*/
 /*------------------------------  INIT_TOOL  -----------------------------*/
 
@@ -186,13 +206,19 @@ void				init_structs(t_scene *scene);
 void				free_plane(t_objects obj);
 void				free_sphere(t_objects obj);
 void				free_cylinder(t_objects obj);
+void				free_cone(t_objects obj);
 void				free_structs(t_scene scene);
+
+/*------------------------------ HIT_OBJECTS ------------------------------*/
+
+bool				hit_cone(const t_ray *ray, const t_objects obj, t_hit *rec);
 
 /*------------------------------  INIT_OBJS  ------------------------------*/
 
 int					check_sphere(t_scene *scene, char **split);
 int					check_plane(t_scene *scene, char **split);
 int					check_cylinder(t_scene *scene, char **split);
+int					check_cone(t_scene *scene, char **split);
 int					check_light(t_scene *scene, char **split);
 
 /*----------------------------- INIT_STRUCTS -----------------------------*/
@@ -200,6 +226,7 @@ int					check_light(t_scene *scene, char **split);
 int					put_colors(t_color *colors, char *split);
 int					put_coord(t_point3 *coord, char **coords);
 int					put_dir(t_vec3 *dir, char **norm);
+int					fill_cone(t_cone *cn, char **split);
 int					put_fov(uint8_t *hfov, char *num);
 
 /*------------------------------  CHECK_ARG  -----------------------------*/

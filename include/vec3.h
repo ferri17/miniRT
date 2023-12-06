@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec3.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:31:34 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/27 17:45:18 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/06 11:44:35 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@
 
 struct	s_vec3
 {
-	double	e[3];
+	double	x;
+	double	y;
+	double	z;
 };
 
 typedef struct s_vec3	t_vec3;
