@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 00:17:03 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/06 13:47:19 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/06 15:16:17 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,15 @@ void	draw_menu(t_scene *scene)
 	{
 		//printf("%f\n", scene->selected->type.sp->center.x);
 		data = &scene->data;
-		sprintf(value, "%.2f", scene->selected->type.sp->center.x);
-		mlx_string_put(data->mlx, data->mlx_win, WIN_W - 50, 0, 0xFFFFFF, value);
-		sprintf(value, "%.2f", scene->selected->type.sp->center.y);
-		mlx_string_put(data->mlx, data->mlx_win, WIN_W - 50, 20, 0xFFFFFF, value);
-		sprintf(value, "%.2f", scene->selected->type.sp->center.z);
-		mlx_string_put(data->mlx, data->mlx_win, WIN_W - 50, 40, 0xFFFFFF, value);
+		if (sprintf(value, "%.2f", scene->selected->type.sp->center.x) < 0)
+			value[0] = '\0';
+		mlx_string_put(data->mlx, data->mlx_win, WIN_W - 200, 0, 0xFFFFFF, value);
+		if (sprintf(value, "%.2f", scene->selected->type.sp->center.y) < 0)
+			value[0] = '\0';
+		mlx_string_put(data->mlx, data->mlx_win, WIN_W - 200, 20, 0xFFFFFF, value);
+		if (sprintf(value, "%.2f", scene->selected->type.sp->center.z) < 0)
+			value[0] = '\0';
+		mlx_string_put(data->mlx, data->mlx_win, WIN_W - 200, 40, 0xFFFFFF, value);
 		//mlx_string_put(data->mlx, data->mlx_win, 0, 50, 0xFFFFFF, ft_itoa(y));
 		//mlx_string_put(data->mlx, data->mlx_win, 0, 100, 0xFFFFFF, ft_itoa(z));
 		//screen_object_center(scene, &center);

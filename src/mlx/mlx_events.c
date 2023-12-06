@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_events.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 12:46:29 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/06 01:57:40 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/06 16:15:43 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,25 @@ int	key_down(int key, void *param)
 		move_object(scene, key);
 	else if (key == M_KEY)
 		change_render_mode(scene);
+	else if (key == J_KEY)
+	{
+		scene->light->center.x -= 1;
+		render_image(scene, IMG_W, IMG_H);
+	}
+	else if (key == K_KEY)
+	{
+		scene->light->center.y -= 1;
+		render_image(scene, IMG_W, IMG_H);
+	}
+	else if (key == L_KEY)
+	{
+		scene->light->center.x += 1;
+		render_image(scene, IMG_W, IMG_H);
+	}
+	else if (key == I_KEY)
+	{
+		scene->light->center.y += 1;
+		render_image(scene, IMG_W, IMG_H);
+	}
 	return (0);
 }

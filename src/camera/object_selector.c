@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   object_selector.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 20:41:32 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/04 18:49:09 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/06 14:57:54 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ void	move_sphere(t_objects *obj, t_vec3 *move)
 
 	sp = obj->sp;
 	sp->center = add_vec3(&sp->center, move);
+	sp->center.x = clamp_number(sp->center.x, INT_MIN, INT_MAX);
+	sp->center.y = clamp_number(sp->center.y, INT_MIN, INT_MAX);
+	sp->center.z = clamp_number(sp->center.z, INT_MIN, INT_MAX);
 }
 
 void	move_cylinder(t_objects *obj, t_vec3 *move)
@@ -66,6 +69,9 @@ void	move_cylinder(t_objects *obj, t_vec3 *move)
 
 	cy = obj->cy;
 	cy->center = add_vec3(&cy->center, move);
+	cy->center.x = clamp_number(cy->center.x, INT_MIN, INT_MAX);
+	cy->center.y = clamp_number(cy->center.y, INT_MIN, INT_MAX);
+	cy->center.z = clamp_number(cy->center.z, INT_MIN, INT_MAX);
 }
 
 void	move_plane(t_objects *obj, t_vec3 *move)
@@ -74,4 +80,7 @@ void	move_plane(t_objects *obj, t_vec3 *move)
 
 	pl = obj->pl;
 	pl->center = add_vec3(&pl->center, move);
+	pl->center.x = clamp_number(pl->center.x, INT_MIN, INT_MAX);
+	pl->center.y = clamp_number(pl->center.y, INT_MIN, INT_MAX);
+	pl->center.z = clamp_number(pl->center.z, INT_MIN, INT_MAX);
 }

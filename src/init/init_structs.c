@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_structs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 17:18:57 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/06 00:20:01 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/06 15:06:10 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@ void	init_structs(t_scene *scene)
 	scene->objs = NULL;
 	scene->data.img.ptr = NULL;
 	scene->light = NULL;
-	scene->render_mode = EDIT_MODE;
+	scene->render_mode = RAYTRACE_MODE;
 	scene->selected = NULL;
 }

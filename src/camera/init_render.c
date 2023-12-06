@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/06 13:48:28 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/06 16:41:26 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ t_color	send_ray(const t_ray *r, t_scene *scene)
 		if (scene->render_mode == EDIT_MODE)
 			return (render_edit_mode(scene, hit_obj, r, &tmp_hit));
 		else
-			return (render_raytrace_mode(scene, &tmp_hit));
+			return (render_raytrace_mode(scene, hit_obj, &tmp_hit));
 	}
-	return ((t_color){0,0,0});
+	//return ((t_color){0,0,0});
 	/* BACKGROUND */
 	t_vec3	unit_direction = unit_vector(&r->dir);
 	double	a = 0.5 * (unit_direction.y + 1.0);
