@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/06 00:31:54 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/06 13:21:27 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,5 @@ int	main(int argc, char **argv)
 	mlx_hook(scene.data.mlx_win, MOUSEUP, 0, mouse_up, (void *)&scene);
 	mlx_hook(scene.data.mlx_win, DESTROY, 0, close_program, (void *)&scene);
 	mlx_loop(scene.data.mlx);
-	//print_shit(scene);
-	//data.mlx = mlx_init();
-	//data.mlx_win = mlx_new_window(data.mlx, WIN_W, WIN_H, "MINIRT");
-	//mlx_hook(data.mlx_win, KEYDOWN, 0, key_down, (void *)&data);
-	//mlx_loop(data.mlx);
 	return (0);
 }

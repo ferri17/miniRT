@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/06 00:28:59 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/06 13:14:06 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ typedef struct s_world
 enum	render_mode
 {
 	EDIT_MODE = 0,
-	RAYTRACE = 1
+	RAYTRACE_MODE = 1
 };
 
 typedef struct s_scene
@@ -251,6 +251,8 @@ t_world				*send_selector_ray(t_ray *r, t_scene *scene);
 void				move_sphere(t_objects *obj, t_vec3 *move);
 void				move_cylinder(t_objects *obj, t_vec3 *move);
 void				move_plane(t_objects *obj, t_vec3 *move);
+t_color				render_edit_mode(t_scene *scene, t_world *objs, const t_ray *r, t_hit *hit);
+t_color				render_raytrace_mode(t_scene *scene, t_hit*tmp_hit);
 
 /*------------------------------  UTILS  -------------------------------*/
 

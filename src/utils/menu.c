@@ -3,35 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   menu.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 00:17:03 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/06 01:50:47 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/06 13:47:19 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MiniRT.h"
+#include <stdio.h>
 
 void	draw_menu(t_scene *scene)
 {
 	t_mlx	*data;
-	int	x;
-	int	y;
-	int	z;
-
+	char	value[100];
 	
 	if (scene->selected)
 	{
-		ft_printf("%f\n", scene->objs->type.sp->center.x);
-		ft_printf("%f\n", scene->objs->type.sp->center.y);
-		ft_printf("%f\n", scene->objs->type.sp->center.z);
+		//printf("%f\n", scene->selected->type.sp->center.x);
 		data = &scene->data;
-		x = scene->objs->type.sp->center.x;
-		y = scene->objs->type.sp->center.y;
-		z = scene->objs->type.sp->center.z;
-		mlx_string_put(data->mlx, data->mlx_win, 0, 0, 0xFFFFFF, ft_itoa(x));
-		mlx_string_put(data->mlx, data->mlx_win, 0, 50, 0xFFFFFF, ft_itoa(y));
-		mlx_string_put(data->mlx, data->mlx_win, 0, 100, 0xFFFFFF, ft_itoa(z));
+		sprintf(value, "%.2f", scene->selected->type.sp->center.x);
+		mlx_string_put(data->mlx, data->mlx_win, WIN_W - 50, 0, 0xFFFFFF, value);
+		sprintf(value, "%.2f", scene->selected->type.sp->center.y);
+		mlx_string_put(data->mlx, data->mlx_win, WIN_W - 50, 20, 0xFFFFFF, value);
+		sprintf(value, "%.2f", scene->selected->type.sp->center.z);
+		mlx_string_put(data->mlx, data->mlx_win, WIN_W - 50, 40, 0xFFFFFF, value);
+		//mlx_string_put(data->mlx, data->mlx_win, 0, 50, 0xFFFFFF, ft_itoa(y));
+		//mlx_string_put(data->mlx, data->mlx_win, 0, 100, 0xFFFFFF, ft_itoa(z));
 		//screen_object_center(scene, &center);
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_render.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/06 01:56:01 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/06 13:48:28 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,68 +19,31 @@
 
 t_color	send_ray(const t_ray *r, t_scene *scene)
 {
-	t_color	hit;
 	t_hit	tmp_hit;
 	t_world	*objs;
-	bool	any_hit = false;
+	t_world	*hit_obj;
 	
+	hit_obj = NULL;
 	tmp_hit.ray_tmin = 0;
 	tmp_hit.ray_tmax = INT_MAX;
-	hit = (t_color){0, 0, 0};
 	objs = scene->objs;
 	while (objs)
 	{
 		if (objs->hit(r, objs->type, &tmp_hit))
 		{
 			tmp_hit.ray_tmax = tmp_hit.t;
-			//t_vec3 unit = unit_vector(&tmp_hit.normal);
-			//t_vec3 unit = unit_vector(&objs->color);
-
-			if (scene->render_mode == EDIT_MODE)
-			{
-				t_vec3 tmp1 = product_vec3_r(&r->dir, -1);
-				t_vec3 tmp2 = unit_vector(&tmp1);
-				double	a = dot(&tmp2, &tmp_hit.normal);
-				clamp_number(a, 0, 1);
-				hit = (t_color){a, a, a};
-				if (objs == scene->selected)
-				{
-					hit.z += 0.2;
-					hit.z = clamp_number(hit.z, 0 , 1);
-				}
-			}
-			/* t_vec3 tmp1 = product_vec3_r(&r->dir, -1);
-			t_vec3 tmp2 = unit_vector(&tmp1);
-			double	a = dot(&tmp2, &tmp_hit.normal);
-			clamp_number(a, 0, 1); */
-			any_hit = true;
+			hit_obj = objs;
 		}
 		objs = objs->next;
 	}
-	if (any_hit && scene->render_mode == EDIT_MODE)
-		return (hit);
-	t_world *tmp_obj = scene->objs;
-	if (any_hit)
+	if (hit_obj)
 	{
-		t_vec3	light_dir = substract_vec3(&scene->light->center, &tmp_hit.p);
-		t_ray	r_light;
-		r_light.orig = scene->light->center;
-		r_light.dir = unit_vector(&light_dir);
-		while (tmp_obj)
-		{
-			tmp_hit.ray_tmin = 0;
-			tmp_hit.ray_tmin = INT_MAX;
-			if (tmp_obj->hit(&r_light, tmp_obj->type, &tmp_hit))
-			{
-				//ft_printf("entraaaaaaaaaaaaaaaaaaaa\n");
-				return (hit);
-			}
-			tmp_obj = tmp_obj->next;
-		}
-		double	ratio = dot(&tmp_hit.normal, &r_light.dir);
-		hit = (t_color){ratio, ratio, ratio};
-		return (hit);
+		if (scene->render_mode == EDIT_MODE)
+			return (render_edit_mode(scene, hit_obj, r, &tmp_hit));
+		else
+			return (render_raytrace_mode(scene, &tmp_hit));
 	}
+	return ((t_color){0,0,0});
 	/* BACKGROUND */
 	t_vec3	unit_direction = unit_vector(&r->dir);
 	double	a = 0.5 * (unit_direction.y + 1.0);
@@ -98,7 +61,6 @@ void	render_image(t_scene *scene, int img_w, int img_h)
 	void	*tmp_img_ptr;
 	clock_t	t;
 	
-	//printf("bright: (%f, %f, %f)\n", scene->light->center.x, scene->light->center.y, scene->light->center.z);
 	t = clock();
 	data = &scene->data;
 	tmp_img_ptr = data->img.ptr;
@@ -110,7 +72,7 @@ void	render_image(t_scene *scene, int img_w, int img_h)
 		mlx_destroy_image(data->mlx, tmp_img_ptr);
 	t = clock() - t;
 	ft_printf("\r Render time: %ims", (int)((double)t / CLOCKS_PER_SEC * 1000));
-	//draw_menu(scene);
+	draw_menu(scene);
 }
 
 void	start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h)
