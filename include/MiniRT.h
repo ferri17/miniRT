@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/06 16:42:26 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/07 20:10:44 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,7 +256,7 @@ void				move_sphere(t_objects *obj, t_vec3 *move);
 void				move_cylinder(t_objects *obj, t_vec3 *move);
 void				move_plane(t_objects *obj, t_vec3 *move);
 t_color				render_edit_mode(t_scene *scene, t_world *objs, const t_ray *r, t_hit *hit);
-t_color				render_raytrace_mode(t_scene *scene, t_world *hit_obj, t_hit*tmp_hit);
+t_color				render_raytrace_mode(t_scene *scene, t_world *hit_obj, t_hit *hit_rec);
 
 /*------------------------------  UTILS  -------------------------------*/
 

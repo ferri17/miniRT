@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/06 16:41:26 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/07 20:19:44 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,19 @@
 
 t_color	send_ray(const t_ray *r, t_scene *scene)
 {
-	t_hit	tmp_hit;
+	t_hit	hit_rec;
 	t_world	*objs;
 	t_world	*hit_obj;
 	
 	hit_obj = NULL;
-	tmp_hit.ray_tmin = 0;
-	tmp_hit.ray_tmax = INT_MAX;
+	hit_rec.ray_tmin = 0;
+	hit_rec.ray_tmax = INT_MAX;
 	objs = scene->objs;
 	while (objs)
 	{
-		if (objs->hit(r, objs->type, &tmp_hit))
+		if (objs->hit(r, objs->type, &hit_rec))
 		{
-			tmp_hit.ray_tmax = tmp_hit.t;
+			hit_rec.ray_tmax = hit_rec.t;
 			hit_obj = objs;
 		}
 		objs = objs->next;
@@ -39,12 +39,12 @@ t_color	send_ray(const t_ray *r, t_scene *scene)
 	if (hit_obj)
 	{
 		if (scene->render_mode == EDIT_MODE)
-			return (render_edit_mode(scene, hit_obj, r, &tmp_hit));
+			return (render_edit_mode(scene, hit_obj, r, &hit_rec));
 		else
-			return (render_raytrace_mode(scene, hit_obj, &tmp_hit));
+			return (render_raytrace_mode(scene, hit_obj, &hit_rec));
 	}
-	//return ((t_color){0,0,0});
-	/* BACKGROUND */
+	return ((t_color){0,0,0});
+	/* //return ((t_color){0,0,0});
 	t_vec3	unit_direction = unit_vector(&r->dir);
 	double	a = 0.5 * (unit_direction.y + 1.0);
 	t_color	color1 = {1.0, 1.0, 1.0};
@@ -52,7 +52,7 @@ t_color	send_ray(const t_ray *r, t_scene *scene)
 	t_color	color2 = {0.5, 0.7, 1.0};
 	product_vec3(&color2, a);
 	return (add_vec3(&color1, &color2));
-	/* BACKGROUND */
+	 */
 }
 
 void	render_image(t_scene *scene, int img_w, int img_h)
