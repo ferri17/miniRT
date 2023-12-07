@@ -6,7 +6,7 @@
 #    By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2023/12/06 13:13:37 by fbosch           ###   ########.fr        #
+#    Updated: 2023/12/07 16:42:50 by fbosch           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,8 +29,8 @@ FILES_CAMERA	=	init_render.c intersections.c object_selector.c render.c
 FILES_INIT		=	check_arguments.c init_structs.c fill_structs.c init_objs.c\
 					put_structs.c fill_objs.c
 FILES_MLX		=	mlx_color.c mlx_events.c mlx_init.c
-FILES_UTILS		=	vec3_utils.c vec3_utils2.c math_utils.c ray_utils.c menu.c
-
+FILES_UTILS		=	vec3_utils.c vec3_utils2.c vec3_utils3.c math_utils.c\
+					ray_utils.c menu.c
 DIR_MAIN		=	src/main/
 DIR_CAMERA		=	src/camera/
 DIR_INIT		=	src/init/

@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 12:46:29 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/06 16:15:43 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/07 12:45:42 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,22 +76,22 @@ int	key_down(int key, void *param)
 		change_render_mode(scene);
 	else if (key == J_KEY)
 	{
-		scene->light->center.x -= 1;
+		scene->light->center.x -= MOVE;
 		render_image(scene, IMG_W, IMG_H);
 	}
 	else if (key == K_KEY)
 	{
-		scene->light->center.y -= 1;
+		scene->light->center.y -= MOVE;
 		render_image(scene, IMG_W, IMG_H);
 	}
 	else if (key == L_KEY)
 	{
-		scene->light->center.x += 1;
+		scene->light->center.x += MOVE;
 		render_image(scene, IMG_W, IMG_H);
 	}
 	else if (key == I_KEY)
 	{
-		scene->light->center.y += 1;
+		scene->light->center.y += MOVE;
 		render_image(scene, IMG_W, IMG_H);
 	}
 	return (0);

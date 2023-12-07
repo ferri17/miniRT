@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:42:57 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/30 17:43:32 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/07 17:20:08 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	put_colors(t_color *colors, char *split)
 		colors->z = gradient;
 	else
 		return (1);
+	*colors = normal_vector(colors, 255, 1);
 	return (0);
 }
 
