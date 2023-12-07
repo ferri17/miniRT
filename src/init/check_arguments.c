@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:10:32 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/06 18:14:09 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/07 14:30:39 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,11 @@ int	init_map(char *file, t_scene *scene)
 	{
 		line = ft_purge_line(line);
 		split = ft_split(line, ' ');
-		if (!split)
-			return (free(line), 1);        // Si t_scene fa algun malloc() aixo podria tenir leaks (no ho se si en te)
 		free(line);
+		if (!split)
+			return (close(fd), 1);        // Si t_scene fa algun malloc() aixo podria tenir leaks (no ho se si en te)
 		if (check_ident(scene, split))
-			return (ft_free_malloc_array(split), 1);
+			return (ft_free_malloc_array(split), close(fd), 1);
 		ft_free_malloc_array(split);
 		line = get_next_line(fd);
 	}

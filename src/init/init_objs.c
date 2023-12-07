@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/06 18:43:00 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/07 15:39:05 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ int	check_sphere(t_scene *scene, char **split)
 	sp->next = NULL;
 	sp->type.sp = malloc(sizeof(t_sphere));
 		// PROTEEEEEEEEEEEEEEEEEEEEEEEEEEECT MALLOC?
+	sp->free_type = free_sphere;
 	if (fill_sphere(sp->type.sp, split) || put_colors(&sp->color, split[3]))
 		return (1);
 	sp->hit = hit_sphere;
-	sp->free_type = free_sphere;
 	return (0);
 }
 
@@ -139,10 +139,10 @@ int	check_plane(t_scene *scene, char **split)
 	pl->next = NULL;
 	pl->type.pl = malloc(sizeof(t_plane));
 		// PROTEEEEEEEEEEEEEEEEEEEEEEEEEEECT MALLOC?
+	pl->free_type = free_plane;
 	if (fill_plane(pl->type.pl, split) || put_colors(&pl->color, split[3]))
 		return (1);
 	pl->hit = hit_plane;
-	pl->free_type = free_plane;
 	return (0);
 }
 
@@ -274,13 +274,13 @@ int	check_cylinder(t_scene *scene, char **split)
 	cy->next = NULL;
 	cy->type.cy = malloc(sizeof(t_cylinder));
 		// PROTEEEEEEEEEEEEEEEEEEEEEEEEEEECT MALLOC?
+	cy->free_type = free_cylinder;
 	if (fill_cylinder(cy->type.cy, split) || put_colors(&cy->color, split[5]))
 		return (1);
 	ray.dir = cy->type.cy->dir;
 	ray.orig = cy->type.cy->center;
 	cy->type.cy->center = ray_at(&ray, -(cy->type.cy->height / 2));
 	cy->hit = hit_2disk;
-	cy->free_type = free_cylinder;
 	return (0);
 }
 
@@ -306,9 +306,10 @@ int	check_cone(t_scene *scene, char **split)
 	cn->next = NULL;
 	cn->type.cn = malloc(sizeof(t_cone));
 		// PROTEEEEEEEEEEEEEEEEEEEEEEEEEEECT MALLOC?
+	cn->free_type = free_cone;
 	if (fill_cone(cn->type.cn, split) || put_colors(&cn->color, split[5]))
 		return (1);
+	cn->type.cn->angle = degree_to_radians(cn->type.cn->angle);
 	cn->hit = hit_cone;
-	cn->free_type = free_cone;
 	return (0);
 }

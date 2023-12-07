@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/06 18:43:29 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/07 13:00:28 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,7 @@ void				free_structs(t_scene scene);
 
 /*------------------------------ HIT_OBJECTS ------------------------------*/
 
-bool				hit_cone(const t_ray *ray, const t_objects obj, t_hit *rec);
+bool				hit_cone(const t_ray *ray, t_objects obj, t_hit *rec);
 
 /*------------------------------  INIT_OBJS  ------------------------------*/
 

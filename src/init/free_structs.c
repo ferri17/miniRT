@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 12:13:21 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/06 18:25:47 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/07 14:32:38 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	free_sphere(t_objects obj)
 	t_sphere *sp;
 
 	sp = obj.sp;
-	free(sp);
+	if (sp)
+		free(sp);
 }
 
 void	free_cylinder(t_objects obj)
