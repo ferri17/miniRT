@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_render.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/07 20:19:44 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/08 16:50:58 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,6 @@ t_color	send_ray(const t_ray *r, t_scene *scene)
 			return (render_raytrace_mode(scene, hit_obj, &hit_rec));
 	}
 	return ((t_color){0,0,0});
-	/* //return ((t_color){0,0,0});
-	t_vec3	unit_direction = unit_vector(&r->dir);
-	double	a = 0.5 * (unit_direction.y + 1.0);
-	t_color	color1 = {1.0, 1.0, 1.0};
-	product_vec3(&color1, (1.0 - a));
-	t_color	color2 = {0.5, 0.7, 1.0};
-	product_vec3(&color2, a);
-	return (add_vec3(&color1, &color2));
-	 */
 }
 
 void	render_image(t_scene *scene, int img_w, int img_h)

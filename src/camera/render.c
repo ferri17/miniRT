@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:13:17 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/07 20:12:55 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/09 13:29:09 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,27 @@ t_color	calc_diffuse_light(t_scene *scene, t_ray *r_light, t_hit *tmp_hit, doubl
 	return (diffuse_color);
 }
 
+bool	calc_hard_shadows(t_world *objs, t_ray *r_light, double length_lray)
+{
+	t_hit	hit;
+
+	while (objs)
+	{
+		hit.ray_tmin = 0.00001;
+		hit.ray_tmax = length_lray;
+		if (objs->hit(r_light, objs->type, &hit))
+			return (true);
+		objs = objs->next;
+	}
+	return (false);
+}
+
 
 t_color	render_raytrace_mode(t_scene *scene, t_world *hit_obj, t_hit* hit_rec)
 {
-	t_world	*tmp_obj;
 	t_ray	r_light;
-	t_hit	hit;
 	t_color pxl_color;
+	t_color	diffuse_color;
 	double	length_lray;
 
 	pxl_color = calc_ambient_light(&scene->amblight.color, &hit_obj->color, scene->amblight.ratio);
@@ -62,18 +76,9 @@ t_color	render_raytrace_mode(t_scene *scene, t_world *hit_obj, t_hit* hit_rec)
 	length_lray = length(&r_light.dir);
 	r_light.dir = unit_vector(&r_light.dir);
 	r_light.orig = hit_rec->p;
-	tmp_obj = scene->objs;
-	while (tmp_obj)
-	{
-		hit.ray_tmin = 0.0001;
-		hit.ray_tmax = length_lray;
-		if (tmp_obj->hit(&r_light, tmp_obj->type, &hit))
-		{
-			return (pxl_color);
-		}
-		tmp_obj = tmp_obj->next;
-	}
-	t_color	diffuse_color = calc_diffuse_light(scene, &r_light, hit_rec, length_lray, hit_obj);
+	if (calc_hard_shadows(scene->objs, &r_light, length_lray))
+		return (pxl_color);
+	diffuse_color = calc_diffuse_light(scene, &r_light, hit_rec, length_lray, hit_obj);
 	pxl_color = add_vec3(&pxl_color, &diffuse_color);
 	return (pxl_color);
 }

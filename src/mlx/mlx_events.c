@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_events.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 12:46:29 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/07 12:45:42 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/09 13:46:11 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,23 @@ int	close_program(t_scene *scene, int exit_code)
 
 void	move_object(t_scene *scene, int key)
 {
-	t_vec3	move;
+	t_vec3	*vector;
 
 	if (scene->selected == NULL)
 		return ;
-	move = (t_vec3){0.0, 0.0, 0.0};
+	vector = scene->selected->get_position_pointer(&scene->selected->type);
 	if (key == A_KEY)
-		move.x = -MOVE;
+		vector->x += -MOVE;
 	else if (key == D_KEY)
-		move.x = +MOVE;
+		vector->x += +MOVE;
 	else if (key == W_KEY)
-		move.y = +MOVE;
+		vector->y += +MOVE;
 	else if (key == S_KEY)
-		move.y = -MOVE;
+		vector->y += -MOVE;
 	else if (key == ONE_KEY)
-		move.z = +MOVE;
+		vector->z += +MOVE;
 	else if (key == TWO_KEY)
-		move.z = -MOVE;
-	scene->selected->move(&scene->selected->type, &move);
+		vector->z += -MOVE;
 	render_image(scene, IMG_W, IMG_H);
 }
 

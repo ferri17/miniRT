@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/07 20:10:44 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/09 13:44:13 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ typedef struct s_world
 	t_objects		type;
 	t_color			color; // MATERIAAAAAAAAAAAL
 	bool			(*hit)(const t_ray *, t_objects, t_hit *);
-	void			(*move)(t_objects *, t_vec3 *move);
+	t_vec3*			(*get_position_pointer)(t_objects *);
 	struct s_world	*next;
 }					t_world;
 
@@ -252,9 +252,9 @@ bool				hit_plane(const t_ray *ray, t_objects obj, t_hit *rec);
 bool				hit_cylinder(const t_ray *ray, t_objects obj, t_hit *hit_record);
 t_world				*select_object(t_scene *scene, int x, int y);
 t_world				*send_selector_ray(t_ray *r, t_scene *scene);
-void				move_sphere(t_objects *obj, t_vec3 *move);
-void				move_cylinder(t_objects *obj, t_vec3 *move);
-void				move_plane(t_objects *obj, t_vec3 *move);
+t_vec3				*get_position_sphere(t_objects *obj);
+t_vec3				*get_position_cylinder(t_objects *obj);
+t_vec3				*get_position_plane(t_objects *obj);
 t_color				render_edit_mode(t_scene *scene, t_world *objs, const t_ray *r, t_hit *hit);
 t_color				render_raytrace_mode(t_scene *scene, t_world *hit_obj, t_hit *hit_rec);
 

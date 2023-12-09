@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   object_selector.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 20:41:32 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/06 14:57:54 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/09 13:41:15 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,35 +52,17 @@ t_world	*send_selector_ray(t_ray *r, t_scene *scene)
 	return (hit_obj);
 }
 
-void	move_sphere(t_objects *obj, t_vec3 *move)
+t_vec3	*get_position_sphere(t_objects *obj)
 {
-	t_sphere *sp;
-
-	sp = obj->sp;
-	sp->center = add_vec3(&sp->center, move);
-	sp->center.x = clamp_number(sp->center.x, INT_MIN, INT_MAX);
-	sp->center.y = clamp_number(sp->center.y, INT_MIN, INT_MAX);
-	sp->center.z = clamp_number(sp->center.z, INT_MIN, INT_MAX);
+	return (&obj->sp->center);
 }
 
-void	move_cylinder(t_objects *obj, t_vec3 *move)
+t_vec3	*get_position_cylinder(t_objects *obj)
 {
-	t_cylinder *cy;
-
-	cy = obj->cy;
-	cy->center = add_vec3(&cy->center, move);
-	cy->center.x = clamp_number(cy->center.x, INT_MIN, INT_MAX);
-	cy->center.y = clamp_number(cy->center.y, INT_MIN, INT_MAX);
-	cy->center.z = clamp_number(cy->center.z, INT_MIN, INT_MAX);
+	return (&obj->cy->center);
 }
 
-void	move_plane(t_objects *obj, t_vec3 *move)
+t_vec3	*get_position_plane(t_objects *obj)
 {
-	t_plane *pl;
-
-	pl = obj->pl;
-	pl->center = add_vec3(&pl->center, move);
-	pl->center.x = clamp_number(pl->center.x, INT_MIN, INT_MAX);
-	pl->center.y = clamp_number(pl->center.y, INT_MIN, INT_MAX);
-	pl->center.z = clamp_number(pl->center.z, INT_MIN, INT_MAX);
+	return (&obj->pl->center);
 }
