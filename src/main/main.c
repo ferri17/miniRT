@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/06 13:21:27 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/11 02:15:22 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
 	- MALLOCS NO PROTEGITS AL CREAR OBJECTES
 	- CHECK OBJECTS CANT BE MOVED OVER LIMITS INT MAX
+	- CONVERT ALL USER VECTORS TO UNIT VECTORS
 */
 #include "MiniRT.h"
 
