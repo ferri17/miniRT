@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/07 15:39:05 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/11 18:10:09 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,6 +310,7 @@ int	check_cone(t_scene *scene, char **split)
 	if (fill_cone(cn->type.cn, split) || put_colors(&cn->color, split[5]))
 		return (1);
 	cn->type.cn->angle = degree_to_radians(cn->type.cn->angle);
+	cn->type.cn->dir = unit_vector(&cn->type.cn->dir);
 	cn->hit = hit_cone;
 	return (0);
 }
