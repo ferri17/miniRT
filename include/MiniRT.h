@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/09 13:44:13 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/12 01:58:02 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ a valid extension *[.rt]\n"
 
 /*=================================	MACROS	==================================*/
 
-// Colours
+// COLOURS
 # define GREENBASH "\033[1;38;2;180;235;31m"
 # define NO_COL "\033[0m"
 # define REDBASH "\033[1;38;2;255;0;0m"
-// Inentity
+// OBJECTS
 # define AMBIENT "A"
 # define CAMERA "C"
 # define LIGHT "L"
@@ -65,6 +65,9 @@ a valid extension *[.rt]\n"
 # define K_KEY		0x28
 # define L_KEY		0x25
 # define I_KEY		0x22
+// HEXA COLOURS
+# define WHITE		0xFFFFFF
+# define BLACK		0x000000
 // MOUSE EVENTS
 # define LEFT_CLICK 1
 # define RIGHT_CLICK 2
@@ -81,6 +84,14 @@ a valid extension *[.rt]\n"
 # define DESTROY 17
 // GENERAL DEFINITIONS
 # define MOVE 0.05
+// UI
+# define SM_PAD 25
+# define MD_PAD 50
+# define XL_PAD 100
+// OTHERS
+# ifndef M_PI
+#  define M_PI 3.1415926
+# endif
 
 /*===============================	STRUCTURES	==============================*/
 
@@ -194,6 +205,7 @@ typedef struct s_scene
 	t_amblight			amblight;
 	t_camera			camera;
 	t_world				*selected;
+	t_color				bg_color;
 	t_mlx				data;
 	enum render_mode	render_mode;
 }					t_scene;
@@ -256,14 +268,21 @@ t_vec3				*get_position_sphere(t_objects *obj);
 t_vec3				*get_position_cylinder(t_objects *obj);
 t_vec3				*get_position_plane(t_objects *obj);
 t_color				render_edit_mode(t_scene *scene, t_world *objs, const t_ray *r, t_hit *hit);
-t_color				render_raytrace_mode(t_scene *scene, t_world *hit_obj, t_hit *hit_rec);
+t_color				render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t_hit *hit_rec);
+t_color				send_ray(const t_ray *r, t_scene *scene);
+t_color				calc_ambient_light(t_color *ambient, t_color *obj, double ratio);
+t_color				calc_diffuse_light(t_scene *scene, t_ray *r_light, t_hit *tmp_hit, double length_lray, t_world *hit_obj);
+t_color				calc_specular_light(t_scene *scene, const t_ray *r, t_ray *r_light, t_hit *tmp_hit, double length_lray);
+bool				calc_hard_shadows(t_world *objs, t_ray *r_light, double length_lray);
 
 /*------------------------------  UTILS  -------------------------------*/
 
 double				clamp_number(double nb, int low_limit, int high_limit);
-int					create_color(int a, int r, int g, int b);
+int					create_color(double a, double r, double g, double b);
 double				deg_to_rad(double degree);
 t_point3			ray_at(const t_ray *ray, double t);
 void				draw_menu(t_scene *scene);
+int					screen_object_center(t_scene *scene, double coord[2]);
+void				my_string_put(t_mlx *data, int x, int y, char *txt);
 
 #endif

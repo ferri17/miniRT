@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/11 02:32:02 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/12 00:53:09 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,35 +16,6 @@
 #define U 0
 #define V 1
 #define W 2
-
-t_color	send_ray(const t_ray *r, t_scene *scene)
-{
-	t_hit	hit_rec;
-	t_world	*objs;
-	t_world	*hit_obj;
-	
-	hit_obj = NULL;
-	hit_rec.ray_tmin = 0;
-	hit_rec.ray_tmax = INT_MAX;
-	objs = scene->objs;
-	while (objs)
-	{
-		if (objs->hit(r, objs->type, &hit_rec))
-		{
-			hit_rec.ray_tmax = hit_rec.t;
-			hit_obj = objs;
-		}
-		objs = objs->next;
-	}
-	if (hit_obj)
-	{
-		if (scene->render_mode == EDIT_MODE)
-			return (render_edit_mode(scene, hit_obj, r, &hit_rec));
-		else
-			return (render_raytrace_mode(scene, hit_obj, &hit_rec));
-	}
-	return ((t_color){0,0,0});
-}
 
 void	render_image(t_scene *scene, int img_w, int img_h)
 {
@@ -66,47 +37,39 @@ void	render_image(t_scene *scene, int img_w, int img_h)
 	draw_menu(scene);
 }
 
+void	create_ray(t_camera *camera, t_ray *r, int i, int j)
+{
+	t_point3	pixel_center;
+	t_vec3		tmp_i;
+	t_vec3		tmp_j;
+
+	tmp_i = product_vec3_r(&camera->pixel_delta_u, i);
+	tmp_j = product_vec3_r(&camera->pixel_delta_v, j);
+	pixel_center = add_vec3(&camera->pixel00_loc, &tmp_i);
+	pixel_center = add_vec3(&pixel_center, &tmp_j);
+	r->orig = camera->center;
+	r->dir = substract_vec3(&pixel_center, &camera->center);
+}
+
+
 void	start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h)
 {
 	t_camera	*camera;
-	t_vec3		tmp_i;
-	t_vec3		tmp_j;
-	t_point3	pixel_center;
-	t_ray	r;
-	t_color pixel;
-	int	red;
-	int	green;
-	int	blue;
-	int	color;
-	int	i;
-	int	j;
+	t_ray		r;
+	t_color		color;
+	int			i;
+	int			j;
 	
 	camera = &scene->camera;
 	j = 0;
 	while (j < img_h)
 	{
-		//ft_printf("\r Scaning line %i/%i", j + 1, WIN_H);
 		i = 0;
 		while (i < img_w)
 		{
-			//auto pixel_center = pixel00_loc + (i * pixel_delta_u) + (j * pixel_delta_v);
-			tmp_i = product_vec3_r(&camera->pixel_delta_u, i);
-			tmp_j = product_vec3_r(&camera->pixel_delta_v, j);
-			pixel_center = add_vec3(&camera->pixel00_loc, &tmp_i);
-			pixel_center = add_vec3(&pixel_center, &tmp_j);
-
-
-            //ray r(camera_center, ray_direction);
-			r.orig = camera->center;
-			r.dir = substract_vec3(&pixel_center, &camera->center);
-	
-            pixel = send_ray(&r, scene);
-			red = pixel.x * 255.999;
-			green = pixel.y * 255.999;
-			blue = pixel.z * 255.999;
-			color = create_color(0, red, green, blue);
-
-			my_put_pixel(data, i, j, color);
+			create_ray(camera, &r, i, j);
+			color = send_ray(&r, scene);
+			my_put_pixel(data, i, j, create_color(0, color.x, color.y, color.z));
 			i++;
 		}
 		j++;
