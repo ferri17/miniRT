@@ -6,7 +6,7 @@
 #    By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2023/12/11 11:24:22 by apriego-         ###   ########.fr        #
+#    Updated: 2023/12/12 12:54:33 by apriego-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ FILE_MAKE		=	Makefile
 FILES_MAIN		=	main.c
 FILES_CAMERA	=	init_render.c
 FILES_INIT		=	check_arguments.c init_structs.c fill_structs.c init_objs.c\
-					put_structs.c fill_objs.c free_structs.c hit_cone.c
+					put_structs.c fill_objs.c free_structs.c hit_cone.c free_objs.c hit_first.c hit_cylinder.c
 FILES_MLX		=	mlx_color.c mlx_events.c mlx_init.c
 FILES_UTILS		=	vec3_utils.c vec3_utils2.c math_utils.c ray_utils.c
 

@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/07 13:00:28 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/12 14:26:26 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,14 @@ typedef struct s_cylinder
 	double			height;
 }					t_cylinder;
 
+typedef struct s_disk
+{
+	t_point3		center;
+	t_vec3			dir;
+	double			radius;
+	double			height;
+}					t_disk;
+
 typedef struct s_cone
 {
 	t_point3		apex;
@@ -159,7 +167,7 @@ typedef union u_objects
 	t_cone			*cn;
 }					t_objects;
 
-typedef struct	s_hit_record
+typedef struct s_hit_record
 {
 	t_point3	p;
 	t_vec3		normal;
@@ -212,6 +220,11 @@ void				free_structs(t_scene scene);
 /*------------------------------ HIT_OBJECTS ------------------------------*/
 
 bool				hit_cone(const t_ray *ray, t_objects obj, t_hit *rec);
+bool				hit_sphere(const t_ray *ray, t_objects obj, t_hit *rec);
+bool				hit_plane(const t_ray *ray, t_objects obj, t_hit *rec);
+bool				hit_disk(const t_ray *ray, t_disk *obj, t_hit *rec);
+bool				hit_2disk(const t_ray *ray, t_objects obj, t_hit *rec);
+bool				hit_disk_cone(const t_ray *ray, t_objects obj, t_hit *rec);
 
 /*------------------------------  INIT_OBJS  ------------------------------*/
 

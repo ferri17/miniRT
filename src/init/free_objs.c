@@ -1,22 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray_utils.c                                        :+:      :+:    :+:   */
+/*   free_objs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/22 13:25:03 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/11 18:29:16 by apriego-         ###   ########.fr       */
+/*   Created: 2023/12/12 12:23:45 by apriego-          #+#    #+#             */
+/*   Updated: 2023/12/12 13:12:23 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ray.h"
+#include "MiniRT.h"
 
-t_point3	ray_at(const t_ray *ray, double t)
+void	free_plane(t_objects obj)
 {
-	t_vec3		dir;
+	t_plane	*pl;
 
-	dir = ray->dir;
-	product_vec3(&dir, t);
-	return (add_vec3(&ray->orig, &dir));
+	pl = obj.pl;
+	free(pl);
+}
+
+void	free_sphere(t_objects obj)
+{
+	t_sphere	*sp;
+
+	sp = obj.sp;
+	if (sp)
+		free(sp);
+}
+
+void	free_cylinder(t_objects obj)
+{
+	t_cylinder	*cy;
+
+	cy = obj.cy;
+	free(cy);
+}
+
+void	free_cone(t_objects obj)
+{
+	t_cone	*cn;
+
+	cn = obj.cn;
+	free(cn);
 }

@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:42:57 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/06 11:48:44 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/12 13:16:35 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ int	put_colors(t_color *colors, char *split)
 	if (ft_test_int(s_colors[0]) == 0 && gradient < 256 && gradient >= 0)
 		colors->x = gradient;
 	else
-		return (ft_free_malloc_array(s_colors),1);
+		return (ft_free_malloc_array(s_colors), 1);
 	gradient = ft_atoi(s_colors[1]);
 	if (ft_test_int(s_colors[1]) == 0 && gradient < 256 && gradient >= 0)
 		colors->y = gradient;
 	else
-		return (ft_free_malloc_array(s_colors),1);
+		return (ft_free_malloc_array(s_colors), 1);
 	gradient = ft_atoi(s_colors[2]);
 	if (ft_test_int(s_colors[2]) == 0 && gradient < 256 && gradient >= 0)
 		colors->z = gradient;

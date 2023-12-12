@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 12:13:21 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/07 14:32:38 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/12 13:12:26 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,39 +23,6 @@ void	free_light(t_ligth *ligth)
 		free(aux);
 		aux = ligth;
 	}
-}
-
-void	free_plane(t_objects obj)
-{
-	t_plane	*pl;
-	
-	pl = obj.pl;
-	free(pl);
-}
-
-void	free_sphere(t_objects obj)
-{
-	t_sphere *sp;
-
-	sp = obj.sp;
-	if (sp)
-		free(sp);
-}
-
-void	free_cylinder(t_objects obj)
-{
-	t_cylinder	*cy;
-
-	cy = obj.cy;
-	free(cy);
-}
-
-void	free_cone(t_objects obj)
-{
-	t_cone	*cn;
-
-	cn = obj.cn;
-	free(cn);
 }
 
 void	free_obj(t_world *objs)

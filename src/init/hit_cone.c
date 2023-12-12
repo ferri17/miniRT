@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 17:00:29 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/11 18:08:11 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/12 14:39:23 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,27 +27,12 @@ t_vec3	calculate_normal_cone(t_cone *cn, const t_vec3 *p)
 	return (outward_normal);
 }
 
-bool	hit_cone(const t_ray *ray, t_objects obj, t_hit *rec)
+bool	calc_hit_cone(const t_ray *ray, t_objects obj, t_hit *rec, t_evars vars)
 {
-	t_vec3	oc;
-	t_evars	vars;
-	double	half_a;
-	t_vec3	tmp;
 	double	hit_z;
+	t_vec3	tmp;
 	t_vec3	outward_normal;
 
-	oc = substract_vec3(&ray->orig, &obj.cn->apex);
-	half_a = tan(obj.cn->angle / 2);
-	vars.a = length_squared(&ray->dir) - (1 + half_a * half_a)
-		* pow(dot(&ray->dir, &obj.cn->dir), 2);
-	vars.half_b = 2 * (dot(&oc, &ray->dir) - (1 + half_a * half_a)
-			* dot(&oc, &obj.cn->dir) * dot(&ray->dir, &obj.cn->dir));
-	vars.c = length_squared(&oc) - (1 + half_a * half_a)
-		* pow(dot(&oc, &obj.cn->dir), 2);
-	vars.discriminant = vars.half_b * vars.half_b - 4 *	vars.a * vars.c;
-	if (vars.discriminant < 0)
-		return (false);
-	vars.sqrtd = sqrt(vars.discriminant);
 	vars.root = (-vars.half_b - vars.sqrtd) / (2 * vars.a);
 	if (vars.root <= rec->ray_tmin || vars.root >= rec->ray_tmax)
 	{
@@ -69,4 +54,42 @@ bool	hit_cone(const t_ray *ray, t_objects obj, t_hit *rec)
 	else
 		rec->normal = product_vec3_r(&outward_normal, -1);
 	return (true);
+}
+
+bool	hit_cone(const t_ray *ray, t_objects obj, t_hit *rec)
+{
+	t_vec3	oc;
+	t_evars	vars;
+	double	half_a;
+
+	oc = substract_vec3(&ray->orig, &obj.cn->apex);
+	half_a = tan(obj.cn->angle / 2);
+	vars.a = length_squared(&ray->dir) - (1 + half_a * half_a)
+		* pow(dot(&ray->dir, &obj.cn->dir), 2);
+	vars.half_b = 2 * (dot(&oc, &ray->dir) - (1 + half_a * half_a)
+			* dot(&oc, &obj.cn->dir) * dot(&ray->dir, &obj.cn->dir));
+	vars.c = length_squared(&oc) - (1 + half_a * half_a)
+		* pow(dot(&oc, &obj.cn->dir), 2);
+	vars.discriminant = vars.half_b * vars.half_b - 4 * vars.a * vars.c;
+	if (vars.discriminant < 0)
+		return (false);
+	vars.sqrtd = sqrt(vars.discriminant);
+	return (calc_hit_cone(ray, obj, rec, vars));
+}
+
+bool	hit_disk_cone(const t_ray *ray, t_objects obj, t_hit *rec)
+{
+	bool		r[2];
+	t_ray		displace;
+	t_disk		disk;
+
+	obj.cn->dir = unit_vector(&obj.cn->dir);
+	disk.radius = tan(obj.cn->angle / 2) * obj.cn->height;
+	displace.orig = obj.cn->apex;
+	displace.dir = obj.cn->dir;
+	disk.center = ray_at(&displace, obj.cn->height);
+	disk.dir = obj.cn->dir;
+	r[1] = hit_disk(ray, &disk, rec);
+	r[0] = hit_cone(ray, obj, rec);
+	return (r[0] || r[1]);
 }
