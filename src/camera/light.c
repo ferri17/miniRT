@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 00:54:17 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/13 01:29:21 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/13 12:58:03 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,14 @@ t_color	calc_ambient_light(t_color *ambient, t_color *obj, double ratio)
 t_color	calc_diffuse_light(t_scene *scene, t_ray *r_light, t_hit *tmp_hit, double len_sqrd, t_world *hit_obj)
 {
 	t_color	diffuse_color;
-	double	ratio;
+	double	angle_ratio;
 
 	diffuse_color = vproduct_vec3(&hit_obj->color, &scene->light->color);
-	ratio = clamp_number(dot(&tmp_hit->normal, &r_light->dir), 0, 1);
-	product_vec3(&diffuse_color, ratio);
-	product_vec3(&diffuse_color, scene->light->bright);
-	division_vec3(&diffuse_color, len_sqrd);
+	angle_ratio = ft_max(dot(&tmp_hit->normal, &r_light->dir), 0);
+	product_vec3(&diffuse_color, angle_ratio);
+	(void)len_sqrd;
+	//product_vec3(&diffuse_color, scene->light->bright);
+	//division_vec3(&diffuse_color, len_sqrd);
 	return (diffuse_color);
 }
 
