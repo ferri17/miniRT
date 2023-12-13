@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 12:11:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/12 00:48:51 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/13 00:44:22 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,14 @@ double	clamp_number(double nb, int low_limit, int high_limit)
 		nb = high_limit;
 	return (nb);
 }
+
+double	ft_max(double nb, double limit)
+{
+	if (nb > limit)
+		return (nb);
+	return (limit);
+}
+
 
 double	deg_to_rad(double degree)
 {

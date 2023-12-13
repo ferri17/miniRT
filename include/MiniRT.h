@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/12 01:58:02 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/13 00:44:37 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,5 +284,6 @@ t_point3			ray_at(const t_ray *ray, double t);
 void				draw_menu(t_scene *scene);
 int					screen_object_center(t_scene *scene, double coord[2]);
 void				my_string_put(t_mlx *data, int x, int y, char *txt);
+double				ft_max(double nb, double limit);
 
 #endif

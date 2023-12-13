@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:13:17 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/12 02:00:01 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/13 01:22:27 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,23 +57,28 @@ t_color	render_edit_mode(t_scene *scene, t_world *objs, const t_ray *r, t_hit *h
 
 t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t_hit* hit_rec)
 {
-	t_ray	r_light;
 	t_color pxl_color;
-	t_color	diffuse_color;
-	//t_color	specular_color;
-	double	length_lray;
+	t_ray	r_light;
+	//t_color	diffuse_color;
+	t_color	specular_color;
+	double	len_sqrd;
 
-	pxl_color = calc_ambient_light(&scene->amblight.color, &hit_obj->color, scene->amblight.ratio);
+	(void)r;
+	(void)hit_rec;
+	(void)specular_color;
+	(void)hit_obj;
+	//pxl_color = calc_ambient_light(&scene->amblight.color, &hit_obj->color, scene->amblight.ratio);
 	r_light.dir = substract_vec3(&scene->light->center, &hit_rec->p);
-	length_lray = length(&r_light.dir);
+	len_sqrd = ft_max(length_squared(&r_light.dir), 0.000001);
 	r_light.dir = unit_vector(&r_light.dir);
 	r_light.orig = hit_rec->p;
-	if (calc_hard_shadows(scene->objs, &r_light, length_lray))
-		return (pxl_color);
-	diffuse_color = calc_diffuse_light(scene, &r_light, hit_rec, length_lray, hit_obj);
-	pxl_color = add_vec3(&pxl_color, &diffuse_color);
-	(void)r;
-	//specular_color = calc_specular_light(scene, r, &r_light, hit_rec, length_lray);
+	//if (calc_hard_shadows(scene->objs, &r_light, len_sqrd))
+		//return (pxl_color);
+	//diffuse_color = calc_diffuse_light(scene, &r_light, hit_rec, len_sqrd, hit_obj);
+	//pxl_color = add_vec3(&pxl_color, &diffuse_color);
+	//(void)r;
+	specular_color = calc_specular_light(scene, r, &r_light, hit_rec, len_sqrd);
+	pxl_color = specular_color;
 	//pxl_color = add_vec3(&pxl_color, &specular_color);
 	return (pxl_color);
 }
