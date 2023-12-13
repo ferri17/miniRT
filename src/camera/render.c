@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:13:17 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/13 12:54:39 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/13 18:41:20 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,18 @@ t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t
 	t_color pxl_color;
 	t_color	ambient_light;
 	t_color	diffuse_light;
-	//t_color	specular_light;
+	t_color	specular_light;
 	t_ray	r_light;
 	//t_color	diffuse_color;
-	double	len_sqrd;
+	double	fallof;
 
 	(void)r;
 	(void)hit_rec;
 	(void)hit_obj;
 
 	r_light.dir = substract_vec3(&scene->light->center, &hit_rec->p);
-	len_sqrd = ft_max(length_squared(&r_light.dir), 0.000001);
-	r_light.dir = unit_vector(&r_light.dir);
+	fallof = 1 + length_squared(&r_light.dir);
+	//r_light.dir = unit_vector(&r_light.dir);
 	r_light.orig = hit_rec->p;
 	
 	ambient_light = calc_ambient_light(&scene->amblight.color, &hit_obj->color, scene->amblight.ratio);
@@ -79,12 +79,12 @@ t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t
 	//if (calc_hard_shadows(scene->objs, &r_light, len_sqrd))
 		//return (pxl_color);
 		
-	diffuse_light = calc_diffuse_light(scene, &r_light, hit_rec, len_sqrd, hit_obj);
+	diffuse_light = calc_diffuse_light(scene, &r_light, hit_rec, fallof, hit_obj);
 	
-	//specular_light = calc_specular_light(scene, r, &r_light, hit_rec, len_sqrd);
+	specular_light = calc_specular_light(scene, r, &r_light, hit_rec, fallof);
 	
-	pxl_color = add_vec3(&ambient_light, &diffuse_light);
-	pxl_color = diffuse_light;
+	pxl_color = add_vec3(&specular_light, &diffuse_light);
+	//pxl_color = specular_light;
 	//pxl_color = add_vec3(&pxl_color, &specular_light);
 	return (pxl_color);
 }
