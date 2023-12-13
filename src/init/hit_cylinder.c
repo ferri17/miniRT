@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 12:52:37 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/12 14:25:47 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/13 17:09:53 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,12 +106,17 @@ bool	hit_2disk(const t_ray *ray, t_objects obj, t_hit *rec)
 	displace.dir = obj.cy->dir;
 	disk.center = obj.cy->center;
 	disk.dir = obj.cy->dir;
-	disk.height = obj.cy->height;
 	disk.radius = obj.cy->radius;
 	r[0] = hit_disk(ray, &disk, rec);
+	if (r[0])
+		rec->ray_tmax = rec->t;
 	disk.center = ray_at(&displace, obj.cy->height);
 	disk.dir = product_vec3_r(&obj.cy->dir, -1);
 	r[1] = hit_disk(ray, &disk, rec);
+	if (r[1])
+		rec->ray_tmax = rec->t;
 	r[2] = hit_cylinder(ray, obj, rec);
+	if (r[2])
+		rec->ray_tmax = rec->t;
 	return (r[0] || r[1] || r[2]);
 }

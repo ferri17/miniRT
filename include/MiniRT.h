@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/12 14:26:26 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/13 15:25:45 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,6 @@ typedef struct s_disk
 	t_point3		center;
 	t_vec3			dir;
 	double			radius;
-	double			height;
 }					t_disk;
 
 typedef struct s_cone

@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/06 16:07:34 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/13 15:02:24 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,14 @@ t_color	send_ray(const t_ray *r, t_scene *scene)
 			t_vec3 unit = unit_vector(&tmp_hit.normal);
 			//t_vec3 unit = unit_vector(&objs->color);
 			t_color color = {unit.x+1, unit.y+1, unit.z+1};
+			// double inv_scale = 15;
+			// int xInteger = (int)floor(inv_scale * unit.x);
+			// int yInteger = (int)floor(inv_scale * unit.y);
+			// int zInteger = (int)floor(inv_scale * unit.z);
+			// if ((xInteger + yInteger + zInteger) % 2 == 0)
+			// 	color = (t_color){255, 255, 255};
+			// else
+			// 	color = (t_color){0, 0, 0};
 			division_vec3(&color, 2);
 			hit = color;
 			any_hit = true;

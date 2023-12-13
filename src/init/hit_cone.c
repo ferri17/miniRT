@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 17:00:29 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/12 14:39:23 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/13 17:09:25 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ t_vec3	calculate_normal_cone(t_cone *cn, const t_vec3 *p)
 	tmp = substract_vec3(p, &cn->apex);
 	tmp1 = product_vec3_r(&cn->dir, dot(&cn->dir, &tmp));
 	tmp2 = substract_vec3(&tmp, &tmp1);
-	outward_normal = division_vec3_r(&tmp2, cn->angle / 2 * dot(&cn->dir,
+	outward_normal = division_vec3_r(&tmp2, (cn->angle / 2.0) * dot(&cn->dir,
 				&tmp));
-	return (outward_normal);
+	return (unit_vector(&outward_normal));
 }
 
 bool	calc_hit_cone(const t_ray *ray, t_objects obj, t_hit *rec, t_evars vars)
@@ -49,10 +49,7 @@ bool	calc_hit_cone(const t_ray *ray, t_objects obj, t_hit *rec, t_evars vars)
 	rec->t = vars.root;
 	rec->p = ray_at(ray, vars.root);
 	outward_normal = calculate_normal_cone(obj.cn, &rec->p);
-	if (dot(&ray->dir, &outward_normal) < 0)
-		rec->normal = outward_normal;
-	else
-		rec->normal = product_vec3_r(&outward_normal, -1);
+	rec->normal = outward_normal;
 	return (true);
 }
 
@@ -63,7 +60,7 @@ bool	hit_cone(const t_ray *ray, t_objects obj, t_hit *rec)
 	double	half_a;
 
 	oc = substract_vec3(&ray->orig, &obj.cn->apex);
-	half_a = tan(obj.cn->angle / 2);
+	half_a = tan(obj.cn->angle / 2.0);
 	vars.a = length_squared(&ray->dir) - (1 + half_a * half_a)
 		* pow(dot(&ray->dir, &obj.cn->dir), 2);
 	vars.half_b = 2 * (dot(&oc, &ray->dir) - (1 + half_a * half_a)
@@ -83,13 +80,14 @@ bool	hit_disk_cone(const t_ray *ray, t_objects obj, t_hit *rec)
 	t_ray		displace;
 	t_disk		disk;
 
-	obj.cn->dir = unit_vector(&obj.cn->dir);
 	disk.radius = tan(obj.cn->angle / 2) * obj.cn->height;
 	displace.orig = obj.cn->apex;
 	displace.dir = obj.cn->dir;
 	disk.center = ray_at(&displace, obj.cn->height);
 	disk.dir = obj.cn->dir;
-	r[1] = hit_disk(ray, &disk, rec);
 	r[0] = hit_cone(ray, obj, rec);
+	if (r[0])
+		rec->ray_tmax = rec->t;
+	r[1] = hit_disk(ray, &disk, rec);
 	return (r[0] || r[1]);
 }
