@@ -25,10 +25,10 @@ void print_shit(t_scene scene)
 	printf("Direct: x:%f y:%f z:%f\n", scene.camera.dir.x, scene.camera.dir.y, scene.camera.dir.z);
 	printf("FOV: %d\n", scene.camera.hfov);
 	printf("-----AMBIENT-----\n");
-	printf("COLOR: R:%f G:%f B:%f\n", scene.amblight.color.x, scene.amblight.color.y, scene.amblight.color.z);
-	printf("RATIO: %f\n", scene.amblight.ratio);
-	printf("-----light-----\n");
-	//printf("bright: %f\n", scene.light.bright);
+	printf("COLOR: R:%f G:%f B:%f\n", scene.ambligth.color.x, scene.ambligth.color.y, scene.ambligth.color.z);
+	printf("RATIO: %f\n", scene.ambligth.ratio);
+	printf("-----LIGTH-----\n");
+	//printf("BRIGT: %f\n", scene.ligth.brigt);
 	while (scene.objs)
 	{
 		ft_printf("-----OBJS-----\n");
@@ -46,7 +46,8 @@ int	main(int argc, char **argv)
 	init_structs(&scene);
 	if (init_map(argv[1], &scene))
 	{
-		print_shit(scene);
+		free_structs(scene);
+		//print_shit(scene);
 		ft_printf_fd(STDERR_FILENO, ERR_INVALID_MAP);
 		return (1);
 	}

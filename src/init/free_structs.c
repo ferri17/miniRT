@@ -1,24 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   free_structs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/16 12:31:34 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/11 18:28:23 by apriego-         ###   ########.fr       */
+/*   Created: 2023/11/30 12:13:21 by apriego-          #+#    #+#             */
+/*   Updated: 2023/12/12 13:12:26 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
+#include "MiniRT.h"
 
-# include "vec3.h"
-
-typedef struct s_ray
+void	free_light(t_ligth *ligth)
 {
-	t_point3	orig;
-	t_vec3		dir;
-}	t_ray;
+	t_ligth	*aux;
 
-#endif
+	aux = ligth;
+	while (ligth)
+	{
+		ligth = ligth->next;
+		free(aux);
+		aux = ligth;
+	}
+}
+
+void	free_obj(t_world *objs)
+{
+	t_world	*tmp;
+
+	tmp = objs;
+	while (objs)
+	{
+		objs = objs->next;
+		tmp->free_type(tmp->type);
+		free(tmp);
+		tmp = objs;
+	}
+}
+
+void	free_structs(t_scene scene)
+{
+	free_light(scene.ligth);
+	free_obj(scene.objs);
+}

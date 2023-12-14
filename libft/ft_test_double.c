@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_test_double.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 11:48:51 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/18 12:23:57 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/11/30 15:37:45 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static int	testing_double(char *str, double min, double max, double sign)
 	double	divisor;
 
 	res = 0.0;
+	if(!(*str >= '0' && *str <= '9'))
+		return(1);
 	while (*str >= '0' && *str <= '9')
 	{
 		res = res * 10.0 + (*str - '0');
@@ -76,7 +78,7 @@ int	ft_test_double(char *str, double min, double max)
 	sign = is_negative(str);
 	if (is_valid_double(str))
 		return (1);
-	if (sign == -1)
+	if (*str == '-' || *str == '+')
 		str++;
 	if (testing_double(str, min, max, sign))
 		return (1);

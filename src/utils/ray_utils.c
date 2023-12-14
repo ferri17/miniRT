@@ -12,7 +12,7 @@
 
 #include "ray.h"
 
-t_point3 ray_at(const t_ray *ray, double t)
+t_point3	ray_at(const t_ray *ray, double t)
 {
 	t_vec3		dir;
 

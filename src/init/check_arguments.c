@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:10:32 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/02 10:47:56 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/12 12:22:36 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ int	check_ident(t_scene *scene, char **split)
 	if (!split[0])
 		return (0);
 	out = 0;
-	if (ft_strcmp(split[0], AMBIENT) == 0 && scene->amblight.init == false)
+	if (split[0][0] == '#')
+		out = 0;
+	else if (ft_strcmp(split[0], AMBIENT) == 0 && scene->ambligth.init == false)
 		out = fill_ambient(scene, split);
 	else if (ft_strcmp(split[0], CAMERA) == 0 && scene->camera.init == false)
 		out = fill_camera(scene, split);
@@ -31,6 +33,8 @@ int	check_ident(t_scene *scene, char **split)
 		out = check_plane(scene, split);
 	else if (ft_strcmp(split[0], CYLINDER) == 0)
 		out = check_cylinder(scene, split);
+	else if (ft_strcmp(split[0], CONE) == 0)
+		out = check_cone(scene, split);
 	else
 		out = 1;
 	return (out);
@@ -64,11 +68,11 @@ int	init_map(char *file, t_scene *scene)
 	{
 		line = ft_purge_line(line);
 		split = ft_split(line, ' ');
-		if (!split)
-			return (free(line), 1);        // Si t_scene fa algun malloc() aixo podria tenir leaks (no ho se si en te)
 		free(line);
+		if (!split)
+			return (close(fd), 1);
 		if (check_ident(scene, split))
-			return (ft_free_malloc_array(split), 1);
+			return (ft_free_malloc_array(split), close(fd), 1);
 		ft_free_malloc_array(split);
 		line = get_next_line(fd);
 	}
@@ -96,16 +100,16 @@ int	check_args(int argc, char **argv)
 	filename = argv[1];
 	if (argc == 2)
 	{
+		if (compare_str_end(filename, ".rt") != 0)
+		{
+			ft_printf_fd(STDERR_FILENO, ERR_MISSING_RT_EXTENSION);
+			return (1);
+		}
 		fd = open(filename, O_RDONLY);
 		close(fd);
 		if (fd == -1)
 		{
 			ft_printf_fd(STDERR_FILENO, ERR_OPENING_MAP);
-			return (1);
-		}
-		if (compare_str_end(filename, ".rt") != 0)
-		{
-			ft_printf_fd(STDERR_FILENO, ERR_MISSING_RT_EXTENSION);
 			return (1);
 		}
 	}
