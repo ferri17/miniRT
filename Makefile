@@ -6,7 +6,7 @@
 #    By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2023/11/30 11:56:00 by fbosch           ###   ########.fr        #
+#    Updated: 2023/12/12 00:55:13 by fbosch           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,12 +25,13 @@ DIR_LIBFT		=	libft/
 FILE_MAKE		=	Makefile
 
 FILES_MAIN		=	main.c
-FILES_CAMERA	=	init_render.c
+FILES_CAMERA	=	init_render.c intersections.c object_selector.c render.c\
+					light.c
 FILES_INIT		=	check_arguments.c init_structs.c fill_structs.c init_objs.c\
 					put_structs.c fill_objs.c
 FILES_MLX		=	mlx_color.c mlx_events.c mlx_init.c
-FILES_UTILS		=	vec3_utils.c vec3_utils2.c math_utils.c ray_utils.c
-
+FILES_UTILS		=	vec3_utils.c vec3_utils2.c vec3_utils3.c math_utils.c\
+					ray_utils.c menu.c
 DIR_MAIN		=	src/main/
 DIR_CAMERA		=	src/camera/
 DIR_INIT		=	src/init/
@@ -60,7 +61,7 @@ OBJ_ALL			=	$(OBJ_MAIN) $(OBJ_CAMERA) $(OBJ_INIT) $(OBJ_MLX) $(OBJ_UTILS)
 DEP				=	$(OBJ_ALL:%.o=%.d) #$(BONUS_OBJ:%.o=%.d)
 
 CC				=	cc
-CFLAGS			=	-Wall -Wextra -Werror -O2
+CFLAGS			=	-Wall -Wextra -Werror -O3
 DEPFLAGS		=	-I $(DIR_INCLUDE) -I $(DIR_LIBFT) -I $(DIR_MLX) -MMD -MP
 MLXFLGS			=	-L$(DIR_MLX) -lmlx -lm -framework OpenGL -framework AppKit
 DIR_DUP			=	mkdir -p $(@D)

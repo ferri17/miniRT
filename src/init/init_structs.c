@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_structs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 17:18:57 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/30 11:02:02 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/12 00:29:53 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,20 @@
 
 int	check_light(t_scene *scene, char **split)
 {
-	t_ligth	*lg;
+	t_light	*lg;
 
-	lg = scene->ligth;
+	lg = scene->light;
 	if (lg)
 	{
 		while (lg->next)
 			lg = lg->next;
-		lg->next = malloc(sizeof(t_ligth));
+		lg->next = malloc(sizeof(t_light));
 		lg = lg->next;
 	}
 	else
 	{
-		scene->ligth = malloc(sizeof(t_ligth));
-		lg = scene->ligth;
+		scene->light = malloc(sizeof(t_light));
+		lg = scene->light;
 	}
 	if (!lg)
 		return (1);
@@ -39,9 +39,12 @@ int	check_light(t_scene *scene, char **split)
 
 void	init_structs(t_scene *scene)
 {
-	scene->ambligth.init = false;
+	scene->amblight.init = false;
 	scene->camera.init = false;
 	scene->objs = NULL;
 	scene->data.img.ptr = NULL;
-	scene->ligth = NULL;
+	scene->light = NULL;
+	scene->render_mode = RAYTRACE_MODE;
+	scene->selected = NULL;
+	scene->bg_color = (t_color){0,0,0};
 }
