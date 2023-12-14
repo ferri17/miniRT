@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/13 00:44:37 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/14 00:49:17 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,8 +271,8 @@ t_color				render_edit_mode(t_scene *scene, t_world *objs, const t_ray *r, t_hit
 t_color				render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t_hit *hit_rec);
 t_color				send_ray(const t_ray *r, t_scene *scene);
 t_color				calc_ambient_light(t_color *ambient, t_color *obj, double ratio);
-t_color				calc_diffuse_light(t_scene *scene, t_ray *r_light, t_hit *tmp_hit, double length_lray, t_world *hit_obj);
-t_color				calc_specular_light(t_scene *scene, const t_ray *r, t_ray *r_light, t_hit *tmp_hit, double length_lray);
+t_color				calc_diffuse_light(t_light *lights, t_ray *r_light, t_hit *tmp_hit, double len_sqrd, t_world *hit_obj);
+t_color				calc_specular_light(t_light *lights, const t_ray *r, t_ray *r_light, t_hit *tmp_hit, double len_sqrd);
 bool				calc_hard_shadows(t_world *objs, t_ray *r_light, double length_lray);
 
 /*------------------------------  UTILS  -------------------------------*/
