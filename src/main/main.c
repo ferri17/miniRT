@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/14 11:54:53 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/14 13:54:36 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 	- CHECK OBJECTS CANT BE MOVED OVER LIMITS INT MAX
 	- CONVERT ALL USER VECTORS TO UNIT VECTORS
 	- AFEGIR LAMBERTIAN I ROUGHNESS ALS MATERIALS
+	- AFEGIR BIAS RAY_TMAX I RAY_TMIN
+	- ANTIALISING
+	- ARREGLAR ERROR INTERSECCIO DISC CILINDRE
 */
 #include "MiniRT.h"
 

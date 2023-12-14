@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:13:17 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/14 12:48:46 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/14 14:11:14 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,11 @@ t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t
 		fallof = 1 + length_squared(&r_light.dir);
 		//r_light.dir = unit_vector(&r_light.dir);
 
-
+		if (calc_hard_shadows(scene->objs, &r_light, fallof))
+		{
+			lights = lights->next;
+			continue ;
+		}
 		diffuse_light = calc_diffuse_light(lights, &r_light, hit_rec, fallof, hit_obj);
 
 		specular_light = calc_specular_light(lights, r, &r_light, hit_rec, fallof);
@@ -99,7 +103,6 @@ t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t
 		pxl_color = add_vec3(&pxl_color, &tmp_color);
 		lights = lights->next;
 	}
-	pxl_color = ambient_light;
 	(void)ambient_light;
 	(void)specular_light;
 	return (pxl_color);
