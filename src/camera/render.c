@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:13:17 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/14 12:48:46 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/14 15:28:21 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,15 @@ t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t
 
 	t_light	*lights;
 
-	ambient_light = calc_ambient_light(&scene->amblight.color, &hit_obj->color, scene->amblight.ratio);
+	if (scene->objs->materia.texture == CHECKBOARD)
+	{
+		tmp_color = hit_obj->get_color(hit_rec->p, hit_obj);
+		ambient_light = calc_ambient_light(&scene->amblight.color, &tmp_color, scene->amblight.ratio);
+	}
+	else
+	{
+		ambient_light = calc_ambient_light(&scene->amblight.color, &hit_obj->materia.color, scene->amblight.ratio);
+	}
 	pxl_color = (t_color){0,0,0};
 	lights = scene->light;
 	while (lights)

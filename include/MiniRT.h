@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/14 12:32:18 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/14 14:49:33 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,21 +201,35 @@ typedef struct s_hit_record
 	double		ray_tmax;
 }	t_hit;
 
+typedef	enum	e_texture
+{
+	DEFAULT = 0,
+	CHECKBOARD = 1,
+	BITMAP = 2 ////////////////////// MMMMMMMMMMMMMMMMMM
+}	t_texture;
+
+typedef	struct s_materia
+{
+	t_texture	texture;
+	t_color		color;
+}	t_materia;
+
 typedef struct s_world
 {
 	t_objects		type;
-	t_color			color; // MATERIAAAAAAAAAAAL
+	t_materia		materia; // MATERIAAAAAAAAAAAL
 	bool			(*hit)(const t_ray *, t_objects, t_hit *);
 	void			(*free_type)(t_objects type);
 	t_vec3*			(*get_position_pointer)(t_objects *);
+	t_color			(*get_color)(t_vec3, struct s_world *);
 	struct s_world	*next;
 }					t_world;
 
-enum	render_mode
+typedef	enum	e_render_mode
 {
 	EDIT_MODE = 0,
 	RAYTRACE_MODE = 1
-};
+}	t_render_mode;
 
 typedef struct s_scene
 {
@@ -226,7 +240,7 @@ typedef struct s_scene
 	t_world				*selected;
 	t_color				bg_color;
 	t_mlx				data;
-	enum render_mode	render_mode;
+	t_render_mode		render_mode;
 }					t_scene;
 
 typedef struct s_evars
@@ -260,6 +274,10 @@ bool				hit_plane(const t_ray *ray, t_objects obj, t_hit *rec);
 bool				hit_disk(const t_ray *ray, t_disk *obj, t_hit *rec);
 bool				hit_cylinder(const t_ray *ray, t_objects obj, t_hit *rec);
 bool				hit_disk_cone(const t_ray *ray, t_objects obj, t_hit *rec);
+
+/*------------------------------ CHECKBOARD  ------------------------------*/
+
+t_color				get_color_sphere(t_vec3 p_hit, t_world *world);
 
 /*------------------------------  INIT_OBJS  ------------------------------*/
 

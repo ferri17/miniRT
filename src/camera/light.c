@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 00:54:17 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/14 01:46:18 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/14 14:44:41 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_color	calc_diffuse_light(t_light *lights, t_ray *r_light, t_hit *tmp_hit, doub
 	t_vec3	unit_light_dir;
 
 	unit_light_dir = unit_vector(&r_light->dir);
-	diffuse_color = vproduct_vec3(&hit_obj->color, &lights->color);
+	diffuse_color = vproduct_vec3(&hit_obj->materia.color, &lights->color);
 	angle_ratio = ft_max(dot(&tmp_hit->normal, &unit_light_dir), 0);
 	product_vec3(&diffuse_color, angle_ratio);
 	product_vec3(&diffuse_color, lights->bright);

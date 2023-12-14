@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/14 11:54:53 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/14 15:45:32 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void print_shit(t_scene scene)
 	while (scene.objs)
 	{
 		ft_printf("-----OBJS-----\n");
+		ft_printf("%d\n", scene.objs->materia.texture);
 		//scene.objs->hit(scene.objs->type);
 		scene.objs = scene.objs->next;
 	}
@@ -47,7 +48,6 @@ int	main(int argc, char **argv)
 	if (init_map(argv[1], &scene))
 	{
 		free_structs(scene);
-		//print_shit(scene);
 		ft_printf_fd(STDERR_FILENO, ERR_INVALID_MAP);
 		return (1);
 	}
