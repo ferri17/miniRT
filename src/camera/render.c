@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:13:17 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/14 01:46:49 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/14 12:48:46 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t
 		pxl_color = add_vec3(&pxl_color, &tmp_color);
 		lights = lights->next;
 	}
+	pxl_color = ambient_light;
 	(void)ambient_light;
 	(void)specular_light;
 	return (pxl_color);

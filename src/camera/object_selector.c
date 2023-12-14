@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   object_selector.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 20:41:32 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/09 13:41:15 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/14 12:34:46 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,9 @@ t_vec3	*get_position_cylinder(t_objects *obj)
 t_vec3	*get_position_plane(t_objects *obj)
 {
 	return (&obj->pl->center);
+}
+
+t_vec3	*get_position_cone(t_objects *obj)
+{
+	return (&obj->cn->center);
 }

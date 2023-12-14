@@ -6,7 +6,7 @@
 #    By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2023/12/12 00:55:13 by fbosch           ###   ########.fr        #
+#    Updated: 2023/12/14 12:45:44 by apriego-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,10 +25,11 @@ DIR_LIBFT		=	libft/
 FILE_MAKE		=	Makefile
 
 FILES_MAIN		=	main.c
-FILES_CAMERA	=	init_render.c intersections.c object_selector.c render.c\
+FILES_CAMERA	=	init_render.c object_selector.c render.c\
 					light.c
 FILES_INIT		=	check_arguments.c init_structs.c fill_structs.c init_objs.c\
-					put_structs.c fill_objs.c free_structs.c hit_cone.c free_objs.c hit_first.c hit_cylinder.c
+					put_structs.c fill_objs.c free_structs.c free_objs.c
+FILES_HIT		=	hit_sphere.c hit_plane.c hit_cylinder.c hit_cone.c hit_disk.c
 FILES_MLX		=	mlx_color.c mlx_events.c mlx_init.c
 FILES_UTILS		=	vec3_utils.c vec3_utils2.c vec3_utils3.c math_utils.c\
 					ray_utils.c menu.c
@@ -37,6 +38,7 @@ DIR_CAMERA		=	src/camera/
 DIR_INIT		=	src/init/
 DIR_UTILS		=	src/utils/
 DIR_MLX_F		=	src/mlx/
+DIR_HIT			=	src/hit/
 
 DIR_INCLUDE		=	include/
 DIR_BUILD		=	.build/
@@ -49,14 +51,16 @@ SRC_CAMERA		=	$(addprefix $(DIR_CAMERA),$(FILES_CAMERA))
 SRC_INIT		=	$(addprefix $(DIR_INIT),$(FILES_INIT))
 SRC_MLX			=	$(addprefix $(DIR_MLX_F),$(FILES_MLX))
 SRC_UTILS		=	$(addprefix $(DIR_UTILS),$(FILES_UTILS))
+SRC_HIT			=	$(addprefix $(DIR_HIT),$(FILES_HIT))
 
 OBJ_MAIN		=	$(addprefix $(DIR_BUILD),$(SRC_MAIN:.c=.o))
 OBJ_CAMERA		=	$(addprefix $(DIR_BUILD),$(SRC_CAMERA:.c=.o))
 OBJ_INIT		=	$(addprefix $(DIR_BUILD),$(SRC_INIT:.c=.o))
 OBJ_UTILS		=	$(addprefix $(DIR_BUILD),$(SRC_UTILS:.c=.o))
 OBJ_MLX			=	$(addprefix $(DIR_BUILD),$(SRC_MLX:.c=.o))
+OBJ_HIT			=	$(addprefix $(DIR_BUILD),$(SRC_HIT:.c=.o))
 
-OBJ_ALL			=	$(OBJ_MAIN) $(OBJ_CAMERA) $(OBJ_INIT) $(OBJ_MLX) $(OBJ_UTILS)
+OBJ_ALL			=	$(OBJ_MAIN) $(OBJ_CAMERA) $(OBJ_INIT) $(OBJ_MLX) $(OBJ_UTILS) $(OBJ_HIT)
 
 DEP				=	$(OBJ_ALL:%.o=%.d) #$(BONUS_OBJ:%.o=%.d)
 

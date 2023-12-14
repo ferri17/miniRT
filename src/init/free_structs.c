@@ -6,22 +6,22 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 12:13:21 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/12 13:12:26 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/14 11:56:56 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MiniRT.h"
 
-void	free_light(t_ligth *ligth)
+void	free_light(t_light *light)
 {
-	t_ligth	*aux;
+	t_light	*aux;
 
-	aux = ligth;
-	while (ligth)
+	aux = light;
+	while (light)
 	{
-		ligth = ligth->next;
+		light = light->next;
 		free(aux);
-		aux = ligth;
+		aux = light;
 	}
 }
 
@@ -41,6 +41,6 @@ void	free_obj(t_world *objs)
 
 void	free_structs(t_scene scene)
 {
-	free_light(scene.ligth);
+	free_light(scene.light);
 	free_obj(scene.objs);
 }

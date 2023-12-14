@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/13 15:25:45 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/14 12:32:18 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,8 +143,8 @@ typedef struct s_camera
 typedef struct s_light
 {
 	t_point3		center;
-	double			bright;
 	t_color			color;
+	double			bright;
 	struct s_light	*next;
 }					t_light;
 
@@ -177,6 +177,7 @@ typedef struct s_disk
 
 typedef struct s_cone
 {
+	t_point3		center;
 	t_point3		apex;
 	t_vec3			dir;
 	double			angle;
@@ -257,7 +258,7 @@ bool				hit_cone(const t_ray *ray, t_objects obj, t_hit *rec);
 bool				hit_sphere(const t_ray *ray, t_objects obj, t_hit *rec);
 bool				hit_plane(const t_ray *ray, t_objects obj, t_hit *rec);
 bool				hit_disk(const t_ray *ray, t_disk *obj, t_hit *rec);
-bool				hit_2disk(const t_ray *ray, t_objects obj, t_hit *rec);
+bool				hit_cylinder(const t_ray *ray, t_objects obj, t_hit *rec);
 bool				hit_disk_cone(const t_ray *ray, t_objects obj, t_hit *rec);
 
 /*------------------------------  INIT_OBJS  ------------------------------*/
@@ -306,14 +307,12 @@ void				render_image(t_scene *scene, int img_w, int img_h);
 void				start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h);
 void				set_camera(t_camera *camera, int img_w, int img_h);
 void				set_pixel00(t_camera *camera, t_vec3 *cam_axis);
-bool				hit_sphere(const t_ray *ray, t_objects obj, t_hit *rec);
-bool				hit_plane(const t_ray *ray, t_objects obj, t_hit *rec);
-bool				hit_cylinder(const t_ray *ray, t_objects obj, t_hit *hit_record);
 t_world				*select_object(t_scene *scene, int x, int y);
 t_world				*send_selector_ray(t_ray *r, t_scene *scene);
 t_vec3				*get_position_sphere(t_objects *obj);
 t_vec3				*get_position_cylinder(t_objects *obj);
 t_vec3				*get_position_plane(t_objects *obj);
+t_vec3				*get_position_cone(t_objects *obj);
 t_color				render_edit_mode(t_scene *scene, t_world *objs, const t_ray *r, t_hit *hit);
 t_color				render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t_hit *hit_rec);
 t_color				send_ray(const t_ray *r, t_scene *scene);

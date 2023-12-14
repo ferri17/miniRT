@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 17:00:29 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/13 17:09:25 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/14 12:33:50 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,11 @@ bool	hit_disk_cone(const t_ray *ray, t_objects obj, t_hit *rec)
 	t_ray		displace;
 	t_disk		disk;
 
-	disk.radius = tan(obj.cn->angle / 2) * obj.cn->height;
-	displace.orig = obj.cn->apex;
 	displace.dir = obj.cn->dir;
-	disk.center = ray_at(&displace, obj.cn->height);
+	displace.orig = obj.cn->center;
+	obj.cn->apex = ray_at(&displace, -(obj.cn->height / 2));
+	disk.radius = tan(obj.cn->angle / 2) * obj.cn->height;
+	disk.center = ray_at(&displace, obj.cn->height / 2);
 	disk.dir = obj.cn->dir;
 	r[0] = hit_cone(ray, obj, rec);
 	if (r[0])

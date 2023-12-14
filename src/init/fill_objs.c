@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:51:31 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/07 14:29:10 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/14 12:32:37 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	fill_cone(t_cone *cn, char **split)
 	coord = ft_split(split[1], ',');
 	if (!coord)
 		return (1);
-	if (ft_array_len(coord) != 3 || put_coord(&cn->apex, coord))
+	if (ft_array_len(coord) != 3 || put_coord(&cn->center, coord))
 		return (ft_free_malloc_array(coord), 1);
 	ft_free_malloc_array(coord);
 	norm = ft_split(split[2], ',');

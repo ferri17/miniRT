@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 12:52:37 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/13 17:09:53 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/14 12:41:10 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ bool	calc_hit_cilinder(t_evars vars, const t_ray *ray, t_hit *rec,
 	return (true);
 }
 
-bool	hit_cylinder(const t_ray *ray, t_objects obj, t_hit *rec)
+bool	hit_body_cylinder(const t_ray *ray, t_objects obj, t_hit *rec)
 {
 	t_vec3	oc;
 	t_vec3	tmp;
@@ -70,32 +70,7 @@ bool	hit_cylinder(const t_ray *ray, t_objects obj, t_hit *rec)
 	return (calc_hit_cilinder(vars, ray, rec, obj));
 }
 
-bool	hit_disk(const t_ray *ray, t_disk *disk, t_hit *rec)
-{
-	double	denom;
-	t_vec3	oc;
-	double	t;
-	t_vec3	p;
-	t_vec3	to_center;
-
-	denom = dot(&disk->dir, &ray->dir);
-	if (fabs(denom) < 1e-8)
-		return (false);
-	oc = substract_vec3(&disk->center, &ray->orig);
-	t = dot(&oc, &disk->dir) / denom;
-	if (t <= rec->ray_tmin || t >= rec->ray_tmax)
-		return (false);
-	p = ray_at(ray, t);
-	to_center = substract_vec3(&p, &disk->center);
-	if (dot(&to_center, &to_center) > disk->radius * disk->radius)
-		return (false);
-	rec->t = t;
-	rec->p = p;
-	rec->normal = product_vec3_r(&disk->dir, -1);
-	return (true);
-}
-
-bool	hit_2disk(const t_ray *ray, t_objects obj, t_hit *rec)
+bool	hit_cylinder(const t_ray *ray, t_objects obj, t_hit *rec)
 {
 	bool		r[3];
 	t_disk		disk;
@@ -115,7 +90,7 @@ bool	hit_2disk(const t_ray *ray, t_objects obj, t_hit *rec)
 	r[1] = hit_disk(ray, &disk, rec);
 	if (r[1])
 		rec->ray_tmax = rec->t;
-	r[2] = hit_cylinder(ray, obj, rec);
+	r[2] = hit_body_cylinder(ray, obj, rec);
 	if (r[2])
 		rec->ray_tmax = rec->t;
 	return (r[0] || r[1] || r[2]);

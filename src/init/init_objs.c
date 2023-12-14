@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/12 14:27:07 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/14 12:17:54 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ int	check_cylinder(t_scene *scene, char **split)
 	ray.dir = cy->type.cy->dir;
 	ray.orig = cy->type.cy->center;
 	cy->type.cy->center = ray_at(&ray, -(cy->type.cy->height / 2));
-	cy->hit = hit_2disk;
-  cy->get_position_pointer = get_position_cylinder;
+	cy->hit = hit_cylinder;
+	cy->get_position_pointer = get_position_cylinder;
 	return (0);
 }
 
@@ -97,8 +97,9 @@ int	check_cone(t_scene *scene, char **split)
 	cn->free_type = free_cone;
 	if (fill_cone(cn->type.cn, split) || put_colors(&cn->color, split[5]))
 		return (1);
-	cn->type.cn->angle = degree_to_radians(cn->type.cn->angle);
+	cn->type.cn->angle = deg_to_rad(cn->type.cn->angle);
 	cn->type.cn->dir = unit_vector(&cn->type.cn->dir);
 	cn->hit = hit_disk_cone;
+	cn->get_position_pointer = get_position_cone;
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/12 01:36:39 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/14 11:54:53 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void print_shit(t_scene scene)
 	printf("Direct: x:%f y:%f z:%f\n", scene.camera.dir.x, scene.camera.dir.y, scene.camera.dir.z);
 	printf("FOV: %d\n", scene.camera.hfov);
 	printf("-----AMBIENT-----\n");
-	printf("COLOR: R:%f G:%f B:%f\n", scene.ambligth.color.x, scene.ambligth.color.y, scene.ambligth.color.z);
-	printf("RATIO: %f\n", scene.ambligth.ratio);
+	printf("COLOR: R:%f G:%f B:%f\n", scene.amblight.color.x, scene.amblight.color.y, scene.amblight.color.z);
+	printf("RATIO: %f\n", scene.amblight.ratio);
 	printf("-----LIGTH-----\n");
 	//printf("BRIGT: %f\n", scene.ligth.brigt);
 	while (scene.objs)
