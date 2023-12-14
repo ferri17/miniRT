@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
 /*   Updated: 2023/12/13 15:25:45 by apriego-         ###   ########.fr       */
@@ -36,11 +36,11 @@ a valid extension *[.rt]\n"
 
 /*=================================	MACROS	==================================*/
 
-// Colours
+// COLOURS
 # define GREENBASH "\033[1;38;2;180;235;31m"
 # define NO_COL "\033[0m"
 # define REDBASH "\033[1;38;2;255;0;0m"
-// Inentity
+// OBJECTS
 # define AMBIENT "A"
 # define CAMERA "C"
 # define LIGHT "L"
@@ -58,10 +58,24 @@ a valid extension *[.rt]\n"
 # define S_KEY		0x01
 # define D_KEY		0x02
 # define W_KEY		0x0D
+# define M_KEY		0x2E
 # define ONE_KEY	0x12
 # define TWO_KEY	0x13
 # define ESC_KEY	0x35
-/*###	X11 EVENTS SUPPORTED BY MINILIBX	###*/
+# define J_KEY		0x26
+# define K_KEY		0x28
+# define L_KEY		0x25
+# define I_KEY		0x22
+// HEXA COLOURS
+# define WHITE		0xFFFFFF
+# define BLACK		0x000000
+// MOUSE EVENTS
+# define LEFT_CLICK 1
+# define RIGHT_CLICK 2
+# define MID_CLICK 3
+# define SCROLL_UP 4
+# define SCROLL_DOWN 5
+// X11 EVENTS SUPPORTED BY MINILIBX
 # define KEYDOWN 2
 # define KEYUP 3
 # define MOUSEDOWN 4
@@ -69,6 +83,16 @@ a valid extension *[.rt]\n"
 # define MOUSEMOVE 6
 # define EXPOSE 12
 # define DESTROY 17
+// GENERAL DEFINITIONS
+# define MOVE 0.05
+// UI
+# define SM_PAD 25
+# define MD_PAD 50
+# define XL_PAD 100
+// OTHERS
+# ifndef M_PI
+#  define M_PI 3.1415926
+# endif
 
 /*===============================	STRUCTURES	==============================*/
 
@@ -92,12 +116,12 @@ typedef struct s_mlx
 
 /*-------------------------------      MAP      ------------------------------*/
 
-typedef struct s_ambligth
+typedef struct s_amblight
 {
 	double			ratio;
 	t_color			color;
 	bool			init;
-}					t_ambligth;
+}					t_amblight;
 
 typedef struct s_camera
 {
@@ -110,18 +134,19 @@ typedef struct s_camera
     t_vec3			viewport_v;
     t_vec3			pixel_delta_u;
     t_vec3			pixel_delta_v;
+	t_vec3			vup;
 	t_vec3			dir;
 	uint8_t			hfov;
 	bool			init;
 }					t_camera;
 
-typedef struct s_ligth
+typedef struct s_light
 {
-	t_point3			center;
-	double			brigt;
+	t_point3		center;
+	double			bright;
 	t_color			color;
-	struct s_ligth	*next;
-}					t_ligth;
+	struct s_light	*next;
+}					t_light;
 
 typedef struct s_sphere
 {
@@ -181,16 +206,26 @@ typedef struct s_world
 	t_color			color; // MATERIAAAAAAAAAAAL
 	bool			(*hit)(const t_ray *, t_objects, t_hit *);
 	void			(*free_type)(t_objects type);
+	t_vec3*			(*get_position_pointer)(t_objects *);
 	struct s_world	*next;
 }					t_world;
 
+enum	render_mode
+{
+	EDIT_MODE = 0,
+	RAYTRACE_MODE = 1
+};
+
 typedef struct s_scene
 {
-	t_world			*objs;
-	t_ligth			*ligth;
-	t_ambligth		ambligth;
-	t_camera		camera;
-	t_mlx			data;
+	t_world				*objs;
+	t_light				*light;
+	t_amblight			amblight;
+	t_camera			camera;
+	t_world				*selected;
+	t_color				bg_color;
+	t_mlx				data;
+	enum render_mode	render_mode;
 }					t_scene;
 
 typedef struct s_evars
@@ -248,7 +283,7 @@ int					compare_str_end(char *str, char *end);
 int					init_map(char *file, t_scene *scene);
 int					fill_ambient(t_scene *scene, char **split);
 int					fill_camera(t_scene *scene, char **split);
-int					fill_light(t_ligth *scene, char **split);
+int					fill_light(t_light *scene, char **split);
 int					fill_sphere(t_sphere *sp, char **split);
 int					fill_plane(t_plane *pl, char **split);
 int					fill_cylinder(t_cylinder *cy, char **split);
@@ -261,18 +296,41 @@ int					my_put_pixel(t_mlx *data, int x, int y, int color);
 void				set_color(t_image *img, int pixel, int color);
 int					close_program(t_scene *scene, int exit_code);
 int					key_down(int key, void *param);
+int					mouse_up(int button, int x, int y, void *param);
+void				move_object(t_scene *scene, int key);
+void				change_render_mode(t_scene *scene);
 
 /*------------------------------  CAMERA  ------------------------------*/
 
 void				render_image(t_scene *scene, int img_w, int img_h);
 void				start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h);
 void				set_camera(t_camera *camera, int img_w, int img_h);
+void				set_pixel00(t_camera *camera, t_vec3 *cam_axis);
+bool				hit_sphere(const t_ray *ray, t_objects obj, t_hit *rec);
+bool				hit_plane(const t_ray *ray, t_objects obj, t_hit *rec);
+bool				hit_cylinder(const t_ray *ray, t_objects obj, t_hit *hit_record);
+t_world				*select_object(t_scene *scene, int x, int y);
+t_world				*send_selector_ray(t_ray *r, t_scene *scene);
+t_vec3				*get_position_sphere(t_objects *obj);
+t_vec3				*get_position_cylinder(t_objects *obj);
+t_vec3				*get_position_plane(t_objects *obj);
+t_color				render_edit_mode(t_scene *scene, t_world *objs, const t_ray *r, t_hit *hit);
+t_color				render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t_hit *hit_rec);
+t_color				send_ray(const t_ray *r, t_scene *scene);
+t_color				calc_ambient_light(t_color *ambient, t_color *obj, double ratio);
+t_color				calc_diffuse_light(t_light *lights, t_ray *r_light, t_hit *tmp_hit, double len_sqrd, t_world *hit_obj);
+t_color				calc_specular_light(t_light *lights, const t_ray *r, t_ray *r_light, t_hit *tmp_hit, double len_sqrd);
+bool				calc_hard_shadows(t_world *objs, t_ray *r_light, double length_lray);
 
 /*------------------------------  UTILS  -------------------------------*/
 
-int					clamp_number(int nb, int low_limit, int high_limit);
-int					create_color(int a, int r, int g, int b);
-double				degree_to_radians(double degree);
+double				clamp_number(double nb, int low_limit, int high_limit);
+int					create_color(double a, double r, double g, double b);
+double				deg_to_rad(double degree);
 t_point3			ray_at(const t_ray *ray, double t);
+void				draw_menu(t_scene *scene);
+int					screen_object_center(t_scene *scene, double coord[2]);
+void				my_string_put(t_mlx *data, int x, int y, char *txt);
+double				ft_max(double nb, double limit);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec3_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:31:17 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/06 11:47:59 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/07 16:41:36 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,4 @@ double	length_squared(const t_vec3 *vector)
 	return (vector->x * vector->x
 		+ vector->y * vector->y
 		+ vector->z * vector->z);
-}
-
-t_vec3	unit_vector(const t_vec3 *vector)
-{
-	return (division_vec3_r(vector, length(vector)));
 }

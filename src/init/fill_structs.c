@@ -3,9 +3,9 @@
 /*                                                        :::      ::::::::   */
 /*   fill_structs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/09 12:24:41 by apriego-          #+#    #+#             */
+/*   Created: 2023/11/09 12:24:41 by apriego-          #+#    #+#             *
 /*   Updated: 2023/12/06 11:45:49 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -23,10 +23,10 @@ int	fill_ambient(t_scene *scene, char **split)
 	ratio = ft_atod(split[1]);
 	if (ratio < 0.0 || ratio > 1.0)
 		return (1);
-	scene->ambligth.ratio = ft_atod(split[1]);
-	if (put_colors(&scene->ambligth.color, split[2]))
+	scene->amblight.ratio = ft_atod(split[1]);
+	if (put_colors(&scene->amblight.color, split[2]))
 		return (1);
-	scene->ambligth.init = true;
+	scene->amblight.init = true;
 	return (0);
 }
 
@@ -66,7 +66,7 @@ int	fill_camera(t_scene *scene, char **split)
 	return (0);
 }
 
-int	fill_light(t_ligth *light, char **split)
+int	fill_light(t_light *light, char **split)
 {
 	char	**coord;
 
@@ -82,7 +82,7 @@ int	fill_light(t_ligth *light, char **split)
 	ft_free_malloc_array(coord);
 	if (ft_test_double(split[2], 0.0, 1.0))
 		return (1);
-	light->brigt = ft_atod(split[2]);
+	light->bright = ft_atod(split[2]);
 	if (put_colors(&light->color, split[3]))
 		return (1);
 	return (0);

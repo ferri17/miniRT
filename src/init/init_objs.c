@@ -29,6 +29,7 @@ t_world	*push_back(t_world *objs, t_scene *scene)
 	return (objs);
 }
 
+
 int	check_sphere(t_scene *scene, char **split)
 {
 	t_world	*sp;
@@ -42,6 +43,7 @@ int	check_sphere(t_scene *scene, char **split)
 	if (fill_sphere(sp->type.sp, split) || put_colors(&sp->color, split[3]))
 		return (1);
 	sp->hit = hit_sphere;
+	sp->get_position_pointer = get_position_sphere;
 	return (0);
 }
 
@@ -58,6 +60,7 @@ int	check_plane(t_scene *scene, char **split)
 	if (fill_plane(pl->type.pl, split) || put_colors(&pl->color, split[3]))
 		return (1);
 	pl->hit = hit_plane;
+	pl->get_position_pointer = get_position_plane;
 	return (0);
 }
 
@@ -78,6 +81,7 @@ int	check_cylinder(t_scene *scene, char **split)
 	ray.orig = cy->type.cy->center;
 	cy->type.cy->center = ray_at(&ray, -(cy->type.cy->height / 2));
 	cy->hit = hit_2disk;
+  cy->get_position_pointer = get_position_cylinder;
 	return (0);
 }
 

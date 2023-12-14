@@ -37,6 +37,7 @@ int	put_colors(t_color *colors, char *split)
 		colors->z = gradient;
 	else
 		return (ft_free_malloc_array(s_colors), 1);
+  *colors = normal_vector(colors, 255, 1);
 	return (ft_free_malloc_array(s_colors), 0);
 }
 

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   check_arguments.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:10:32 by apriego-          #+#    #+#             */
 /*   Updated: 2023/12/12 12:22:36 by apriego-         ###   ########.fr       */
@@ -77,7 +77,7 @@ int	init_map(char *file, t_scene *scene)
 		line = get_next_line(fd);
 	}
 	close(fd);
-	if (scene->camera.init == false || scene->ambligth.init == false)
+	if (scene->camera.init == false || scene->amblight.init == false)
 		return (1);
 	return (0);
 }
