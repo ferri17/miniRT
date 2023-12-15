@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/14 13:54:36 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/15 11:54:42 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 	- AFEGIR BIAS RAY_TMAX I RAY_TMIN
 	- ANTIALISING
 	- ARREGLAR ERROR INTERSECCIO DISC CILINDRE
+	- ARREGLAR LLUMS CAMERA MOVEMENT (SEGFAULT NO LIGHTS)
 */
 #include "MiniRT.h"
 
