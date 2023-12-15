@@ -80,7 +80,7 @@ t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t
 
 	t_light	*lights;
 
-	if (scene->objs->materia.texture == CHECKBOARD)
+	if (hit_obj->materia.texture == CHECKBOARD)
 	{
 		tmp_color = hit_obj->get_color(hit_rec->p, hit_obj);
 		ambient_light = calc_ambient_light(&scene->amblight.color, &tmp_color, scene->amblight.ratio);

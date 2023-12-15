@@ -23,6 +23,7 @@
 # include <limits.h>
 # include <math.h>
 # include <stdbool.h>
+# include <stdint.h>
 
 #include <stdio.h> //BORRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
 
@@ -93,7 +94,8 @@ a valid extension *[.rt]\n"
 # ifndef M_PI
 #  define M_PI 3.1415926
 # endif
-
+// CHECKBOARD FACTOR
+# define C_FACTOR 14
 /*===============================	STRUCTURES	==============================*/
 
 /*-------------------------------      MLX      ------------------------------*/
@@ -253,6 +255,9 @@ typedef struct s_evars
 	double		sqrtd;
 }	t_evars;
 
+
+void print_shit(t_scene scene);
+
 /*==============================  FUNCTIONS  =============================*/
 /*------------------------------  INIT_TOOL  -----------------------------*/
 
@@ -278,7 +283,9 @@ bool				hit_disk_cone(const t_ray *ray, t_objects obj, t_hit *rec);
 /*------------------------------ CHECKBOARD  ------------------------------*/
 
 t_color				get_color_sphere(t_vec3 p_hit, t_world *world);
-
+t_color				get_color_plane(t_vec3 p_hit, t_world *world);
+t_color				get_color_cone(t_vec3 p_hit, t_world *world);
+t_color				get_color_cylinder(t_vec3 p_hit, t_world *world);
 /*------------------------------  INIT_OBJS  ------------------------------*/
 
 int					check_sphere(t_scene *scene, char **split);

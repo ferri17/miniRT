@@ -71,11 +71,12 @@ int	check_plane(t_scene *scene, char **split)
 		return (1);
 	if (ft_array_len(split) == 5)
 	{
-		if (ft_strcmp(split[4], "CHECKBOARD"))
+		if (ft_strcmp(split[4], "CHECKBOARD") == 0)
 			pl->materia.texture = CHECKBOARD;
 		else
 			return (1);
 	}
+	pl->get_color = get_color_plane;
 	pl->hit = hit_plane;
 	pl->get_position_pointer = get_position_plane;
 	return (0);
@@ -96,7 +97,7 @@ int	check_cylinder(t_scene *scene, char **split)
 		return (1);
 	if (ft_array_len(split) == 7)
 	{
-		if (ft_strcmp(split[6], "CHECKBOARD"))
+		if (ft_strcmp(split[6], "CHECKBOARD") == 0)
 			cy->materia.texture = CHECKBOARD;
 		else
 			return (1);
@@ -108,6 +109,7 @@ int	check_cylinder(t_scene *scene, char **split)
 	cy->type.cy->center = ray_at(&ray, -(cy->type.cy->height / 2));
 	cy->hit = hit_cylinder;
 	cy->get_position_pointer = get_position_cylinder;
+	cy->get_color = get_color_cylinder;
 	return (0);
 }
 
@@ -125,7 +127,7 @@ int	check_cone(t_scene *scene, char **split)
 		return (1);
 	if (ft_array_len(split) == 7)
 	{
-		if (ft_strcmp(split[6], "CHECKBOARD"))
+		if (ft_strcmp(split[6], "CHECKBOARD") == 0)
 			cn->materia.texture = CHECKBOARD;
 		else
 			return (1);
@@ -136,5 +138,6 @@ int	check_cone(t_scene *scene, char **split)
 	cn->type.cn->dir = unit_vector(&cn->type.cn->dir);
 	cn->hit = hit_disk_cone;
 	cn->get_position_pointer = get_position_cone;
+	cn->get_color = get_color_cone;
 	return (0);
 }
