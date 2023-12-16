@@ -96,6 +96,13 @@ a valid extension *[.rt]\n"
 # endif
 // CHECKBOARD FACTOR
 # define C_FACTOR 14
+// HIT
+# define H_CONE 0
+# define H_DISK 1
+# define H_CYLINDER 0
+# define H_DISK_BA 1
+# define H_DISK_TA 2
+
 /*===============================	STRUCTURES	==============================*/
 
 /*-------------------------------      MLX      ------------------------------*/
@@ -168,6 +175,7 @@ typedef struct s_cylinder
 	t_vec3			dir;
 	double			radius;
 	double			height;
+	bool			hit[3];
 }					t_cylinder;
 
 typedef struct s_disk
@@ -184,6 +192,7 @@ typedef struct s_cone
 	t_vec3			dir;
 	double			angle;
 	double			height;
+	bool			hit[2];
 }					t_cone;
 
 typedef union u_objects

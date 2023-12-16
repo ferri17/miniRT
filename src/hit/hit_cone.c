@@ -76,7 +76,6 @@ bool	hit_cone(const t_ray *ray, t_objects obj, t_hit *rec)
 
 bool	hit_disk_cone(const t_ray *ray, t_objects obj, t_hit *rec)
 {
-	bool		r[2];
 	t_ray		displace;
 	t_disk		disk;
 
@@ -86,9 +85,9 @@ bool	hit_disk_cone(const t_ray *ray, t_objects obj, t_hit *rec)
 	disk.radius = tan(obj.cn->angle / 2) * obj.cn->height;
 	disk.center = ray_at(&displace, obj.cn->height / 2);
 	disk.dir = obj.cn->dir;
-	r[0] = hit_cone(ray, obj, rec);
-	if (r[0])
+	obj.cn->hit[H_CONE] = hit_cone(ray, obj, rec);
+	if (obj.cn->hit[H_CONE])
 		rec->ray_tmax = rec->t;
-	r[1] = hit_disk(ray, &disk, rec);
-	return (r[0] || r[1]);
+	obj.cn->hit[H_DISK] = hit_disk(ray, &disk, rec);
+	return (obj.cn->hit[H_CONE] || obj.cn->hit[H_DISK]);
 }

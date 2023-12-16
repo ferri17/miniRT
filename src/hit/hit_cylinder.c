@@ -72,7 +72,6 @@ bool	hit_body_cylinder(const t_ray *ray, t_objects obj, t_hit *rec)
 
 bool	hit_cylinder(const t_ray *ray, t_objects obj, t_hit *rec)
 {
-	bool		r[3];
 	t_disk		disk;
 	t_ray		displace;
 
@@ -82,16 +81,16 @@ bool	hit_cylinder(const t_ray *ray, t_objects obj, t_hit *rec)
 	disk.center = obj.cy->center;
 	disk.dir = obj.cy->dir;
 	disk.radius = obj.cy->radius;
-	r[0] = hit_disk(ray, &disk, rec);
-	if (r[0])
+	obj.cy->hit[H_DISK_BA] = hit_disk(ray, &disk, rec);
+	if (obj.cy->hit[H_DISK_BA])
 		rec->ray_tmax = rec->t;
 	disk.center = ray_at(&displace, obj.cy->height);
 	disk.dir = product_vec3_r(&obj.cy->dir, -1);
-	r[1] = hit_disk(ray, &disk, rec);
-	if (r[1])
+	obj.cy->hit[H_DISK_TA] = hit_disk(ray, &disk, rec);
+	if (obj.cy->hit[H_DISK_TA])
 		rec->ray_tmax = rec->t;
-	r[2] = hit_body_cylinder(ray, obj, rec);
-	if (r[2])
+	obj.cy->hit[H_CYLINDER] = hit_body_cylinder(ray, obj, rec);
+	if (obj.cy->hit[H_CYLINDER])
 		rec->ray_tmax = rec->t;
-	return (r[0] || r[1] || r[2]);
+	return (obj.cy->hit[H_DISK_BA] || obj.cy->hit[H_DISK_TA] || obj.cy->hit[H_CYLINDER]);
 }
