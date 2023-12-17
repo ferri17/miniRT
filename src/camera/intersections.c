@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 20:39:44 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/10 02:22:22 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/16 02:11:10 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ bool	hit_plane(const t_ray *ray, t_objects obj, t_hit *rec)
 	
 	pl = obj.pl;
 	denom = dot(&pl->normal, &ray->dir);
-	if (fabs(denom) < 1e-8)
+	if (fabs(denom) < BIAS)
 		return false;
 	d = dot(&pl->normal, &pl->center);
 	t = (d - dot(&pl->normal, &ray->orig)) / denom;

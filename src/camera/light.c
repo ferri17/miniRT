@@ -6,14 +6,14 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 00:54:17 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/15 17:05:45 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/16 02:22:03 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MiniRT.h"
 
-//specular = lights.color * lights.brightness * dot(vReflected,vView) ^ roughness;
-//Reflected = 2 * dot(vNormal, vLight) * vNormal - vLight 
+//specular = (lights.color * lights.brightness * dot(vReflected,vView) ^ roughness) / (distance ^ 2);
+//Reflected = 2 * dot(vNormal, vLight) * vNormal - vLight;
 t_color	calc_specular_light(t_light *lights, const t_ray *r, t_ray *r_light, t_hit *hit_rec, double len_sqrd)
 {
 	t_color	specular;
@@ -30,8 +30,8 @@ t_color	calc_specular_light(t_light *lights, const t_ray *r, t_ray *r_light, t_h
 	view_dir = product_vec3_r(&r->dir, -1);
 	view_dir = unit_vector(&view_dir);
 
-	specular_strength = clamp_number(dot(&reflected, &view_dir), 0, 1);
-	specular_strength = pow(specular_strength, 32);
+	specular_strength = ft_max(dot(&reflected, &view_dir), 0);
+	specular_strength = pow(specular_strength, 2);
 	specular = product_vec3_r(&lights->color, specular_strength * lights->bright);
 	specular = division_vec3_r(&specular, len_sqrd);
 	return (specular);
@@ -67,7 +67,7 @@ bool	calc_hard_shadows(t_world *objs, t_ray *r_light, double len_sqrd)
 
 	while (objs)
 	{
-		hit.ray_tmin = 0.00001;
+		hit.ray_tmin = 0.0001;
 		hit.ray_tmax = len_sqrd;
 		if (objs->hit(r_light, objs->type, &hit))
 			return (true);

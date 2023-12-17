@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/15 11:54:42 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/16 19:56:28 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 	- ANTIALISING
 	- ARREGLAR ERROR INTERSECCIO DISC CILINDRE
 	- ARREGLAR LLUMS CAMERA MOVEMENT (SEGFAULT NO LIGHTS)
+	- FIX PLANE NORMALS
 */
 #include "MiniRT.h"
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_plane.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:59:49 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/14 12:58:25 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/16 19:56:04 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ bool	hit_plane(const t_ray *ray, t_objects obj, t_hit *rec)
 
 	pl = obj.pl;
 	denom = dot(&pl->normal, &ray->dir);
-	if (fabs(denom) < 1e-8)
+	if (fabs(denom) < BIAS)
 		return (false);
 	d = dot(&pl->normal, &pl->center);
 	t = (d - dot(&pl->normal, &ray->orig)) / denom;
