@@ -6,30 +6,21 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:03:13 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/18 13:24:59 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/18 19:09:38 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MiniRT.h"
 
-t_color	checkboard(t_vec3 p_hit)
+t_color	pattern_at(double u, double v, t_color color)
 {
-	t_point3	coords;
-	t_point3	val;
-	int			party_mix;
-
-	coords.x = abs((int)floor(p_hit.x * 10));
-	coords.y = abs((int)floor(p_hit.y * 10));
-	coords.z = abs((int)floor(p_hit.z * 10));
-	val.x = (int)coords.x % 2;
-	val.y = (int)coords.y % 2;
-	val.z = (int)coords.z % 2;
-	party_mix = ((int)val.x ^ (int)val.y) ^ (int)val.z;
-	if (party_mix) {
-		return (t_color){0.0, 0.0, 0.0};
-	} else {
-		return (t_color){255, 255, 255};
-	}
+	double u2 = floor(u * 10);
+	double v2 = floor(v * 10);
+	double	test = (u2 + v2); 
+	if (fmod(test, 2) == 0)
+		return ((t_color){0, 0, 0});
+	else
+		return (color);
 }
 
 t_color	get_color_sphere(t_vec3 p_hit, t_world *world)
@@ -48,18 +39,17 @@ t_color	get_color_sphere(t_vec3 p_hit, t_world *world)
 
 t_color	get_color_plane(t_vec3 p_hit, t_world *world)
 {
-	//return (checkboard(p_hit));
-	int xInteger = (int)(floor(C_FACTOR * p_hit.x + 1e-6));
-	int yInteger = (int)(floor(C_FACTOR * p_hit.y + 1e-6));
-	int zInteger = (int)(floor(C_FACTOR * p_hit.z + 1e-6));
+	double u = 0.5 + dot(&world->type.pl->normal, &p_hit) / 2.0;
+	double v = 0.5 - asin(world->type.pl->normal.y) / M_PI;
 
-	bool isEven = (xInteger + yInteger + zInteger) % 2 == 0;
 
-	if (isEven) {
-		return (t_color){0.0, 0.0, 0.0};
-	} else {
-		return world->materia.color;
-	}
+	// Realiza el mapeo a cuadros alternados
+
+	// Aplica el patrón a cuadros
+	if (fmod(u + v, 2) == 0)
+		return ((t_color){0, 0, 0});
+	else
+		return (world->materia.color);
 }
 
 t_color	get_color_cone(t_vec3 p_hit, t_world *world)
@@ -79,24 +69,24 @@ t_color	get_color_cone(t_vec3 p_hit, t_world *world)
 	}
 	else
 	{
-		int xInteger = (int)(floor(C_FACTOR * p_hit.x + 1e-8));
-		int yInteger = (int)(floor(C_FACTOR * p_hit.y + 1e-8));
-		int zInteger = (int)(floor(C_FACTOR * p_hit.z + 1e-8));
-
-		t_vec3 test = {1, 1, 1};
-		// Calcular un valor basado en la dirección del rayo
-		float dirFactor = dot(&world->type.cn->dir, &test);
-
-		// Incorporar la dirección en el cálculo
-		bool isEven = (xInteger + yInteger + zInteger + (int)(dirFactor * C_FACTOR)) % 2 == 0;
-
-		if (isEven) {
-			return (t_color){0.0, 0.0, 0.0};
-		} else {
-			return world->materia.color;
-		}
+		double u = fmod(p_hit.x, 1.0);
+		double v = fmod(p_hit.y, 1.0);
+		
+		return (pattern_at(u, v, world->materia.color));
 	}
 	return (color);
+}
+
+double	ft_limit_cyl_height(double height, const t_cylinder *cy)
+{
+	const double	min_height = -0.999 * cy->height;
+	const double	max_height = 0.999 * cy->height;
+
+	if (height < min_height)
+		return (min_height);
+	if (height > max_height)
+		return (max_height);
+	return (height);
 }
 
 t_color	get_color_cylinder(t_vec3 p_hit, t_world *world)
@@ -106,35 +96,32 @@ t_color	get_color_cylinder(t_vec3 p_hit, t_world *world)
 
 	if (world->type.cy->hit[H_CYLINDER])
 	{
-	t_point3 p = substract_vec3(&p_hit, &world->type.cy->center);
-	p = unit_vector(&p);
-	double theta = acos(-p.y);
-	double phi = atan2(-p.z, p.x) + M_PI;
-	if (sin(phi * C_FACTOR) * sin(theta * C_FACTOR) > 0)
-		color = (t_color){0.0, 0.0, 0.0};
-	else
-		color = world->materia.color;
+		t_vec3	trash;
+		double	x;
+		double	y;
+		t_ray		displace;
+		t_point3	test;
+		double	u;
+		double	v;
+
+		test = ray_at(&displace, world->type.cy->height);
+
+		displace.orig = world->type.cy->center;
+		displace.dir = world->type.cy->dir;
+		trash = substract_vec3(&p_hit, &world->type.cy->center);
+		x = dot(&world->type.cy->center, &trash);
+		y = dot(&test, &trash);
+		v = dot(&world->type.cy->dir, &trash);
+		v = ft_limit_cyl_height(v, world->type.cy);
+		u = 1 - ((atan2(x, y) / (M_PI * 2)) + 0.5);
+		return (pattern_at(u, v, world->materia.color));
 	}
 	else
 	{
-		int xInteger = (int)(floor(C_FACTOR * p_hit.x + 1e-8));
-		int yInteger = (int)(floor(C_FACTOR * p_hit.y + 1e-8));
-		int zInteger = (int)(floor(C_FACTOR * p_hit.z + 1e-8));
-
-				// Calcular un valor basado en la dirección del rayo
-		t_vec3 test = {1, 1, 1};
-		// Calcular un valor basado en la dirección del rayo
-		float dirFactor = dot(&world->type.cy->dir, &test);
-
-		// Incorporar la dirección en el cálculo
-		bool isEven = (xInteger + yInteger + zInteger + (int)(dirFactor * C_FACTOR)) % 2 == 0;
-
-
-		if (isEven) {
-			return (t_color){0.0, 0.0, 0.0};
-		} else {
-			return world->materia.color;
-		}
+		double u = fmod(p_hit.x, 1.0);
+		double v = fmod(p_hit.y, 1.0);
+		
+		return (pattern_at(u, v, world->materia.color));
 	}
 	return (color);
 }
