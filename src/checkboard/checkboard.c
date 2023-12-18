@@ -6,11 +6,42 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:03:13 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/18 19:09:38 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/18 19:31:59 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MiniRT.h"
+
+double	ft_residual(double num)
+{
+	const double	ratio = (num + 1) / 1 / 2.0;
+
+	return (ratio - floor(ratio));
+}
+
+void	ft_rotate(double *rot_u, double *rot_v, double u, double v)
+{
+	const double	cos_a = cos(34);
+	const double	sin_a = sin(34);
+	double			aux[2];
+
+	aux[0] = u * cos_a - v * sin_a;
+	aux[1] = u * sin_a + v * cos_a;
+	*rot_u = aux[0];
+	*rot_v = aux[1];
+}
+
+int	ft_tile(double u, double v)
+{
+	double			residual[2];
+	double			rot_u;
+	double			rot_v;
+
+	ft_rotate(&rot_u, &rot_v, u, v);
+	residual[0] = ft_residual(rot_u);
+	residual[1] = ft_residual(rot_v);
+	return ((residual[0] < 0.5) ^ (residual[1] < 0.5));
+}
 
 t_color	pattern_at(double u, double v, t_color color)
 {
@@ -114,7 +145,9 @@ t_color	get_color_cylinder(t_vec3 p_hit, t_world *world)
 		v = dot(&world->type.cy->dir, &trash);
 		v = ft_limit_cyl_height(v, world->type.cy);
 		u = 1 - ((atan2(x, y) / (M_PI * 2)) + 0.5);
-		return (pattern_at(u, v, world->materia.color));
+		if (ft_tile(u, v))
+			return ((t_color){0,0,0});
+		return (world->materia.color);
 	}
 	else
 	{
