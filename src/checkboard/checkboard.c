@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:03:13 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/14 14:48:59 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/18 13:24:59 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ t_color	checkboard(t_vec3 p_hit)
 
 t_color	get_color_sphere(t_vec3 p_hit, t_world *world)
 {
-	return (checkboard(p_hit));
 	t_point3 p = substract_vec3(&p_hit, &world->type.sp->center);
 	p = unit_vector(&p);
 	t_color color;
@@ -49,7 +48,7 @@ t_color	get_color_sphere(t_vec3 p_hit, t_world *world)
 
 t_color	get_color_plane(t_vec3 p_hit, t_world *world)
 {
-	return (checkboard(p_hit));
+	//return (checkboard(p_hit));
 	int xInteger = (int)(floor(C_FACTOR * p_hit.x + 1e-6));
 	int yInteger = (int)(floor(C_FACTOR * p_hit.y + 1e-6));
 	int zInteger = (int)(floor(C_FACTOR * p_hit.z + 1e-6));
@@ -65,7 +64,7 @@ t_color	get_color_plane(t_vec3 p_hit, t_world *world)
 
 t_color	get_color_cone(t_vec3 p_hit, t_world *world)
 {
-	return (checkboard(p_hit));
+	//return (checkboard(p_hit));
 	t_color color;
 	if (world->type.cn->hit[H_CONE])
 	{
@@ -84,7 +83,12 @@ t_color	get_color_cone(t_vec3 p_hit, t_world *world)
 		int yInteger = (int)(floor(C_FACTOR * p_hit.y + 1e-8));
 		int zInteger = (int)(floor(C_FACTOR * p_hit.z + 1e-8));
 
-		bool isEven = (xInteger + yInteger + zInteger) % 2 == 0;
+		t_vec3 test = {1, 1, 1};
+		// Calcular un valor basado en la dirección del rayo
+		float dirFactor = dot(&world->type.cn->dir, &test);
+
+		// Incorporar la dirección en el cálculo
+		bool isEven = (xInteger + yInteger + zInteger + (int)(dirFactor * C_FACTOR)) % 2 == 0;
 
 		if (isEven) {
 			return (t_color){0.0, 0.0, 0.0};
@@ -97,7 +101,7 @@ t_color	get_color_cone(t_vec3 p_hit, t_world *world)
 
 t_color	get_color_cylinder(t_vec3 p_hit, t_world *world)
 {
-	return (checkboard(p_hit));
+	//return (checkboard(p_hit));
 	t_color color;
 
 	if (world->type.cy->hit[H_CYLINDER])
@@ -117,7 +121,14 @@ t_color	get_color_cylinder(t_vec3 p_hit, t_world *world)
 		int yInteger = (int)(floor(C_FACTOR * p_hit.y + 1e-8));
 		int zInteger = (int)(floor(C_FACTOR * p_hit.z + 1e-8));
 
-		bool isEven = (xInteger + yInteger + zInteger) % 2 == 0;
+				// Calcular un valor basado en la dirección del rayo
+		t_vec3 test = {1, 1, 1};
+		// Calcular un valor basado en la dirección del rayo
+		float dirFactor = dot(&world->type.cy->dir, &test);
+
+		// Incorporar la dirección en el cálculo
+		bool isEven = (xInteger + yInteger + zInteger + (int)(dirFactor * C_FACTOR)) % 2 == 0;
+
 
 		if (isEven) {
 			return (t_color){0.0, 0.0, 0.0};

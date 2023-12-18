@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 12:46:29 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/06 11:45:49 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/18 12:49:41 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	close_program(t_scene *scene, int exit_code)
 	free_structs(*scene);
 	mlx_destroy_image(scene->data.mlx, scene->data.img.ptr);
 	mlx_destroy_window(scene->data.mlx, scene->data.mlx_win);
-	mlx_destroy_display(scene->data.mlx);
+	mlx_destroy(scene->data.mlx);
 	exit(exit_code);
 }
 
