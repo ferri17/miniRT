@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:13:17 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/14 15:28:21 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/19 12:23:08 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,10 @@ t_color	render_edit_mode(t_scene *scene, t_world *objs, const t_ray *r, t_hit *h
 
 t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t_hit* hit_rec)
 {
-	t_color pxl_color;
 	t_color tmp_color;
 	t_color	ambient_light;
-	t_color	diffuse_light;
-	t_color	specular_light;
-	t_ray	r_light;
-	//t_color	diffuse_color;
-	double	fallof;
 
-	(void)r;
-	(void)hit_rec;
-	(void)hit_obj;
+
 
 	
 	//if (calc_hard_shadows(scene->objs, &r_light, len_sqrd))
@@ -78,8 +70,7 @@ t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t
 	//pxl_color = specular_light;
 	//pxl_color = add_vec3(&pxl_color, &specular_light);
 
-	t_light	*lights;
-
+	(void)r;
 	if (hit_obj->materia.texture == CHECKBOARD)
 	{
 		tmp_color = hit_obj->get_color(hit_rec->p, hit_obj);
@@ -89,28 +80,8 @@ t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t
 	{
 		ambient_light = calc_ambient_light(&scene->amblight.color, &hit_obj->materia.color, scene->amblight.ratio);
 	}
-	pxl_color = (t_color){0,0,0};
-	lights = scene->light;
-	while (lights)
-	{
-		r_light.dir = substract_vec3(&lights->center, &hit_rec->p);
-		r_light.orig = hit_rec->p;
-		fallof = 1 + length_squared(&r_light.dir);
-		//r_light.dir = unit_vector(&r_light.dir);
-
-
-		diffuse_light = calc_diffuse_light(lights, &r_light, hit_rec, fallof, hit_obj);
-
-		specular_light = calc_specular_light(lights, r, &r_light, hit_rec, fallof);
-
-		tmp_color = diffuse_light;
-		pxl_color = add_vec3(&pxl_color, &tmp_color);
-		lights = lights->next;
-	}
-	pxl_color = ambient_light;
-	(void)ambient_light;
-	(void)specular_light;
-	return (pxl_color);
+	
+	return (ambient_light);
 }
 
 //contribution = sphereColor * dot(N, L) * lightIntensity / distanceToLight^2;

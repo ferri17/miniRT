@@ -6,7 +6,7 @@
 #    By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2023/12/18 13:15:15 by apriego-         ###   ########.fr        #
+#    Updated: 2023/12/19 11:07:30 by apriego-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ FILES_HIT		=	hit_sphere.c hit_plane.c hit_cylinder.c hit_cone.c hit_disk.c
 FILES_MLX		=	mlx_color.c mlx_events.c mlx_init.c
 FILES_UTILS		=	vec3_utils.c vec3_utils2.c vec3_utils3.c math_utils.c\
 					ray_utils.c menu.c
-FILES_CHECK		=	checkboard.c
+FILES_CHECK		=	checkboard.c map_objects_uv.c
 DIR_MAIN		=	src/main/
 DIR_CAMERA		=	src/camera/
 DIR_INIT		=	src/init/

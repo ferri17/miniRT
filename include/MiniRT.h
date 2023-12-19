@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42barcel>       +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/18 23:16:40 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/19 14:39:30 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -301,7 +301,7 @@ t_color				get_color_sphere(t_vec3 p_hit, t_world *world);
 t_color				get_color_plane(t_vec3 p_hit, t_world *world);
 t_color				get_color_cone(t_vec3 p_hit, t_world *world);
 t_color				get_color_cylinder(t_vec3 p_hit, t_world *world);
-t_uv				get_planar_map(t_point3 p_hit);
+t_uv				get_planar_map(t_point3 *p_hit, t_point3 *dir);
 t_uv				get_spherical_map(t_point3 p_hit);
 t_uv				get_cylinder_map(t_point3 p_hit);
 t_uv				get_cone_map(t_point3 p_hit);
