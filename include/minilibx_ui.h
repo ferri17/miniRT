@@ -1,24 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   minilibx_ui.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/16 12:31:34 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/19 01:54:21 by fbosch           ###   ########.fr       */
+/*   Created: 2023/12/19 01:50:49 by fbosch            #+#    #+#             */
+/*   Updated: 2023/12/19 02:25:58 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
+#ifndef MINILIBX_UI_H
+# define MINILIBX_UI_H
 
-# include "vec3.h"
+# include <stdint.h>
+# include <stdbool.h>
 
-typedef struct s_ray
+# define SLIDER_PX 5
+# define SLIDER_HEIGHT 30
+
+typedef struct s_slider
 {
-	t_point3	orig;
-	t_vec3		dir;
-}	t_ray;
+	uint16_t	length;
+	int			min_value;
+	int			max_value;
+	int			*value;
+	int			pos_x;
+	int			pos_y;
+	bool		is_clicked;
+}	t_slider;
 
 #endif

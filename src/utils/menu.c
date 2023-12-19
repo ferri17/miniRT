@@ -6,28 +6,21 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 00:17:03 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/17 03:14:29 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/19 02:52:27 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MiniRT.h"
 #include <stdio.h>
 
-typedef struct s_slider
-{
-	uint8_t	length;
-	int		min_value;
-	int		max_value;
-	int		*status;
-}	t_slider;
-
-t_slider	init_slider(uint8_t length)
+t_slider	init_slider(int min_value, int max_value, int *value, uint16_t length)
 {
 	t_slider	slider;
 
+	slider.min_value = min_value;
+	slider.max_value = max_value;
+	slider.value = value;
 	slider.length = length;
-	slider.min_value = 1;
-	slider.max_value = 179;
 	return (slider);
 }
 
@@ -37,30 +30,36 @@ int	get_status_relative_increment(t_slider *slider)
 	float	ratio;
 
 	slider_range = slider->max_value - slider->min_value;
+	if (slider_range < 1)
+		return (-1);
 	ratio = (float)(slider_range) / (float)slider->length;
-	return (*(slider->status) / ratio);
+	return (*(slider->value) / ratio);
 }
-
-#define SPACE 10
 
 void	draw_slider(void *mlx_ptr, void *mlx_win, t_slider *slider, int x, int y)
 {
 	int	i;
-	int				start;
-	int				status_inc;
+	int	start;
+	int	status_inc;
 
-	start = x - (slider->length * SPACE / 2);
+	slider->pos_x = x - (slider->length * SLIDER_PX / 2);
+	slider->pos_y = y;
+	start = slider->pos_x;
 	status_inc = get_status_relative_increment(slider);
-	i = 0;
-	while (i < slider->length)
+	if (status_inc >= 0)
 	{
-		if (i < status_inc)
-			mlx_string_put(mlx_ptr, mlx_win, start + (i * SPACE), y, WHITE, "|");
-		else
-			mlx_string_put(mlx_ptr, mlx_win, start + (i * SPACE), y, WHITE, "-");
-		i++;
+		i = 0;
+		while (i < slider->length)
+		{
+			if (i < status_inc)
+				mlx_string_put(mlx_ptr, mlx_win, start + (i * SLIDER_PX), y, WHITE, "|");
+			else
+				mlx_string_put(mlx_ptr, mlx_win, start + (i * SLIDER_PX), y, WHITE, "-");
+			i++;
+		}
 	}
-	mlx_string_put(mlx_ptr, mlx_win, start + (status_inc * SPACE), y, WHITE, "O");
+	else
+		ft_printf("Slider error, invalid range\n");
 }
 
 void	my_string_put(t_mlx *data, int x, int y, char *txt)
@@ -142,10 +141,9 @@ void	draw_menu(t_scene *scene) //SPRINTF
 
 
 
-	t_slider	slider;
-	int			status = 90;
-
-	slider = init_slider(50);
-	slider.status = &status;
-	draw_slider(data->mlx, data->mlx_win, &slider, WIN_W / 2, WIN_H - MD_PAD);
+	scene->slider = init_slider(0, 180, &scene->camera.hfov, 100);
+	draw_slider(data->mlx, data->mlx_win, &scene->slider, WIN_W / 2, WIN_H - MD_PAD);
+	char	fov[100];
+	sprintf(fov, "Fov = %d", scene->camera.hfov);
+	my_string_put(data, WIN_W / 2 - SM_PAD, WIN_H - SM_PAD * 3, fov);
 }

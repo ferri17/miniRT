@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/16 19:56:28 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/19 02:29:09 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	main(int argc, char **argv)
 	init_mlx_windows(&scene.data, WIN_W, WIN_H);
 	render_image(&scene, IMG_W, IMG_H);
 	mlx_hook(scene.data.mlx_win, KEYDOWN, 0, key_down, (void *)&scene);
+	mlx_hook(scene.data.mlx_win, MOUSEMOVE, 0, mouse_move, (void *)&scene);
+	mlx_hook(scene.data.mlx_win, MOUSEDOWN, 0, mouse_down, (void *)&scene);
 	mlx_hook(scene.data.mlx_win, MOUSEUP, 0, mouse_up, (void *)&scene);
 	mlx_hook(scene.data.mlx_win, DESTROY, 0, close_program, (void *)&scene);
 	mlx_loop(scene.data.mlx);

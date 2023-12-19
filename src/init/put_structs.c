@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_structs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:42:57 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/12 13:16:35 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/19 00:58:01 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	put_dir(t_vec3 *dir, char **norm)
 	return (0);
 }
 
-int	put_fov(uint8_t *hfov, char *num)
+int	put_fov(int *hfov, char *num)
 {
 	int	number;
 

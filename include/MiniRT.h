@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/16 02:22:10 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/19 02:40:08 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "mlx.h"
 # include "vec3.h"
 # include "ray.h"
+# include "minilibx_ui.h"
 # include <fcntl.h>
 # include <limits.h>
 # include <math.h>
@@ -137,7 +138,7 @@ typedef struct s_camera
     t_vec3			pixel_delta_v;
 	t_vec3			vup;
 	t_vec3			dir;
-	uint8_t			hfov;
+	int				hfov;
 	bool			init;
 }					t_camera;
 
@@ -227,6 +228,7 @@ typedef struct s_scene
 	t_world				*selected;
 	t_color				bg_color;
 	t_mlx				data;
+	t_slider			slider;
 	enum render_mode	render_mode;
 }					t_scene;
 
@@ -276,7 +278,7 @@ int					put_colors(t_color *colors, char *split);
 int					put_coord(t_point3 *coord, char **coords);
 int					put_dir(t_vec3 *dir, char **norm);
 int					fill_cone(t_cone *cn, char **split);
-int					put_fov(uint8_t *hfov, char *num);
+int					put_fov(int *hfov, char *num);
 
 /*------------------------------  CHECK_ARG  -----------------------------*/
 
@@ -296,11 +298,13 @@ void				init_mlx_windows(t_mlx *data, int win_w, int win_h);
 void				init_mlx_image(t_mlx *data, int img_w, int img_h);
 int					my_put_pixel(t_mlx *data, int x, int y, int color);
 void				set_color(t_image *img, int pixel, int color);
-int					close_program(t_scene *scene, int exit_code);
 int					key_down(int key, void *param);
 int					mouse_up(int button, int x, int y, void *param);
+int					mouse_down(int button, int x, int y, void *param);
+int					mouse_move(int x, int y, void *param);
 void				move_object(t_scene *scene, int key);
-void				change_render_mode(t_scene *scene);
+int					close_program(t_scene *scene, int exit_code);
+void				update_slider(t_slider *slider, int x);
 
 /*------------------------------  CAMERA  ------------------------------*/
 

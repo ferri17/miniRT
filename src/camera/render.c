@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:13:17 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/16 19:50:33 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/19 02:47:46 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t
 			diffuse_light = calc_diffuse_light(lights, &r_light, hit_rec, fallof, hit_obj);
 			specular_light = calc_specular_light(lights, r, &r_light, hit_rec, fallof);
 			pxl_color = add_vec3(&pxl_color, &diffuse_light);
-			//pxl_color = add_vec3(&pxl_color, &specular_light);
+			pxl_color = add_vec3(&pxl_color, &specular_light);
 		}
 		lights = lights->next;
 	}
