@@ -17,7 +17,7 @@ int	close_program(t_scene *scene, int exit_code)
 	free_structs(*scene);
 	mlx_destroy_image(scene->data.mlx, scene->data.img.ptr);
 	mlx_destroy_window(scene->data.mlx, scene->data.mlx_win);
-	mlx_destroy(scene->data.mlx);
+	mlx_destroy_display(scene->data.mlx);
 	exit(exit_code);
 }
 

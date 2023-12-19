@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/14 14:49:33 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/18 23:16:40 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,6 +264,12 @@ typedef struct s_evars
 	double		sqrtd;
 }	t_evars;
 
+typedef struct s_uv
+{
+	double	u;
+	double	v;
+}	t_uv;
+
 
 void print_shit(t_scene scene);
 
@@ -295,6 +301,11 @@ t_color				get_color_sphere(t_vec3 p_hit, t_world *world);
 t_color				get_color_plane(t_vec3 p_hit, t_world *world);
 t_color				get_color_cone(t_vec3 p_hit, t_world *world);
 t_color				get_color_cylinder(t_vec3 p_hit, t_world *world);
+t_uv				get_planar_map(t_point3 p_hit);
+t_uv				get_spherical_map(t_point3 p_hit);
+t_uv				get_cylinder_map(t_point3 p_hit);
+t_uv				get_cone_map(t_point3 p_hit);
+
 /*------------------------------  INIT_OBJS  ------------------------------*/
 
 int					check_sphere(t_scene *scene, char **split);
