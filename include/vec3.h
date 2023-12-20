@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:31:34 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/12 12:07:44 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/20 12:22:39 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ double		length_squared(const t_vec3 *vector);
 t_vec3		unit_vector(const t_vec3 *vector);
 t_vec3		normal_vector(t_vec3 *vector, double old_range, double new_range);
 t_vec3		vproduct_vec3(t_vec3 *v1, t_vec3 *v2);
-
 
 
 /* t_vec3		add_vec3(t_vec3 vector1, t_vec3 vector2);
