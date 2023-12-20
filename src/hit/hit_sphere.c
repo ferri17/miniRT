@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_sphere.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:59:07 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/16 19:55:24 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/20 16:21:34 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ bool	hit_sphere(const t_ray *ray, t_objects obj, t_hit *rec)
 	vars.half_b = dot(&oc, &ray->dir);
 	vars.c = length_squared(&oc) - (sp->radius * sp->radius);
 	vars.discriminant = (vars.half_b * vars.half_b) - (vars.a * vars.c);
-	vars.sqrtd = sqrt(vars.discriminant);
 	if (vars.discriminant < 0)
 		return (false);
+	vars.sqrtd = sqrt(vars.discriminant);
 	vars.root = (-vars.half_b - vars.sqrtd) / vars.a;
 	if (vars.root <= rec->ray_tmin || vars.root >= rec->ray_tmax)
 	{

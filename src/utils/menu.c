@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   menu.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 00:17:03 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/19 02:52:27 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/20 16:54:53 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,11 +133,11 @@ void	draw_menu(t_scene *scene) //SPRINTF
 		my_string_put(data, WIN_W - MD_PAD * 3, SM_PAD / 2, "[RENDER MODE]");
 
 	sprintf(value, "x[%.4f]", scene->light->center.x);
-	my_string_put(data, WIN_W - MD_PAD * 3, WIN_H - MD_PAD * 3, value);
+	my_string_put(data, WIN_W - MD_PAD * 3, WIN_H - MD_PAD * 5, value);
 	sprintf(value, "y[%.4f]", scene->light->center.y);
-	my_string_put(data, WIN_W - MD_PAD * 3, MD_PAD * 4, value);
+	my_string_put(data, WIN_W - MD_PAD * 3, WIN_H - MD_PAD * 4, value);
 	sprintf(value, "z[%.4f]", scene->light->center.z);
-	my_string_put(data, WIN_W - MD_PAD * 3, MD_PAD * 5, value);
+	my_string_put(data, WIN_W - MD_PAD * 3, WIN_H - MD_PAD * 3, value);
 
 
 

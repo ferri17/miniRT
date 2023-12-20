@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/19 02:29:09 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/20 16:40:36 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 	- ARREGLAR ERROR INTERSECCIO DISC CILINDRE
 	- ARREGLAR LLUMS CAMERA MOVEMENT (SEGFAULT NO LIGHTS)
 	- FIX PLANE NORMALS
+	- CAMERA NOMES POT APUNTAR A LA DIRECCIO Z
 */
 #include "MiniRT.h"
 
