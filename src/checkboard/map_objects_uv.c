@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:06:24 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/20 17:28:20 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/21 15:47:56 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,42 +55,37 @@ void coordinate_system(t_vec3 *c, t_vec3 *a, t_vec3 *b)
         a->x = 0.0;
     else
         a->x = 1.0;
-
+    a->x = normalized_c.y;
     a->y = normalized_c.z;
-    a->z = -normalized_c.y;
+    a->z = -normalized_c.x;
 
     // Calcular el vector b como el producto cruz entre c y a
     *b = cross(&normalized_c, a);
 }
+double	ft_limit_cyl_height(double v, const double h)
+{
+	const double	min_height = -0.999 * h / 2.0;
+	const double	max_height = 0.999 * h / 2.0;
+
+	if (v < min_height)
+		return (min_height);
+	if (v > max_height)
+		return (max_height);
+	return (v);
+}
 
 t_uv get_cylinder_map(t_point3 *p_hit, t_vec3 *dir, t_point3 *base, double h)
 {
-    t_uv uv;
-    t_vec3 local_coords;
-	t_vec3	center;
+	double	theta;
+    t_uv    uv;
 
-    // Definir un sistema de coordenadas local para el cilindro
-    t_vec3 c_axis = unit_vector(dir);
-
-    // Encontrar ejes locales a y b usando la dirección del cilindro
-    t_vec3 a_axis, b_axis;
-    coordinate_system(&c_axis, &a_axis, &b_axis);
-
-	t_vec3 tmp = product_vec3_r(dir, h);
-	center = add_vec3(base, dir);
-	tmp = substract_vec3(p_hit, &center);
-    // Transformar las coordenadas del punto de intersección al sistema de coordenadas local
-    local_coords.x = dot(&tmp, &a_axis);
-    local_coords.y = dot(&tmp, &b_axis);
-    local_coords.z = dot(&tmp, &c_axis);
-
-    // Calcular el ángulo theta en el plano XY local
-    uv.u = atan2(local_coords.y, local_coords.x) / (2 * M_PI) + 0.5;
-
-    // Calcular la altura en la dirección del cilindro
-    uv.v = local_coords.z / h;
-
-    return uv;
+    (void)base;
+    (void)h;
+    (void)dir;
+	theta = atan2(p_hit->x, p_hit->z);
+	uv.u = 1 - (theta / (2 * M_PI) + 0.5);
+	uv.v = p_hit->y - floor(p_hit->y);
+    return (uv);
 }
 
 t_uv get_cone_map(t_point3 p_hit)

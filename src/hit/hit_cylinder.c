@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 12:52:37 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/14 12:41:10 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/21 15:07:04 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,13 @@ bool	calc_hit_cilinder(t_evars vars, const t_ray *ray, t_hit *rec,
 		if (vars.root <= rec->ray_tmin || vars.root >= rec->ray_tmax)
 			return (false);
 	}
-	rec->t = vars.root;
-	rec->p = ray_at(ray, vars.root);
-	tmp = substract_vec3(&rec->p, &obj.cy->center);
+	tmp = ray_at(ray, vars.root);
+	tmp = substract_vec3(&tmp, &obj.cy->center);
 	projection = dot(&obj.cy->dir, &tmp);
 	if (projection < 0 || projection > obj.cy->height)
 		return (false);
+	rec->t = vars.root;
+	rec->p = ray_at(ray, vars.root);
 	rec->normal = calculate_normal(obj.cy, rec->p);
 	return (true);
 }
@@ -75,7 +76,6 @@ bool	hit_cylinder(const t_ray *ray, t_objects obj, t_hit *rec)
 	t_disk		disk;
 	t_ray		displace;
 
-	obj.cy->dir = unit_vector(&obj.cy->dir);
 	displace.orig = obj.cy->center;
 	displace.dir = obj.cy->dir;
 	disk.center = obj.cy->center;
@@ -90,7 +90,5 @@ bool	hit_cylinder(const t_ray *ray, t_objects obj, t_hit *rec)
 	if (obj.cy->hit[H_DISK_TA])
 		rec->ray_tmax = rec->t;
 	obj.cy->hit[H_CYLINDER] = hit_body_cylinder(ray, obj, rec);
-	if (obj.cy->hit[H_CYLINDER])
-		rec->ray_tmax = rec->t;
 	return (obj.cy->hit[H_DISK_BA] || obj.cy->hit[H_DISK_TA] || obj.cy->hit[H_CYLINDER]);
 }

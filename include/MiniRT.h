@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/20 14:28:29 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/21 12:27:19 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ typedef struct s_world
 	bool			(*hit)(const t_ray *, t_objects, t_hit *);
 	void			(*free_type)(t_objects type);
 	t_vec3*			(*get_position_pointer)(t_objects *);
-	t_color			(*get_color)(t_vec3, struct s_world *);
+	t_color			(*get_color)(t_vec3 *, t_objects);
 	struct s_world	*next;
 }					t_world;
 
@@ -297,10 +297,10 @@ bool				hit_disk_cone(const t_ray *ray, t_objects obj, t_hit *rec);
 
 /*------------------------------ CHECKBOARD  ------------------------------*/
 
-t_color				get_color_sphere(t_vec3 p_hit, t_world *world);
-t_color				get_color_plane(t_vec3 p_hit, t_world *world);
-t_color				get_color_cone(t_vec3 p_hit, t_world *world);
-t_color				get_color_cylinder(t_vec3 p_hit, t_world *world);
+t_color				get_color_sphere(t_vec3 *p_hit, t_objects type);
+t_color				get_color_plane(t_vec3 *p_hit, t_objects type);
+t_color				get_color_cone(t_vec3 *p_hit, t_objects type);
+t_color				get_color_cylinder(t_vec3 *p_hit, t_objects type);
 t_uv				get_planar_map(t_point3 *p_hit, t_point3 *dir, t_point3 *center);
 t_uv				get_spherical_map(t_point3 *p_hit, t_point3 *center, double radius);
 t_uv				get_cylinder_map(t_point3 *p_hit, t_vec3 *dir, t_point3 *center, double h);

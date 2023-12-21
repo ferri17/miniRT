@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/14 15:46:04 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/21 15:00:59 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int	check_cylinder(t_scene *scene, char **split)
 	}
 	else
 		cy->materia.texture = DEFAULT;
+	cy->type.cy->dir = unit_vector(&cy->type.cy->dir);
 	ray.dir = cy->type.cy->dir;
 	ray.orig = cy->type.cy->center;
 	cy->type.cy->center = ray_at(&ray, -(cy->type.cy->height / 2));
