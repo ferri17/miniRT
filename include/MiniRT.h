@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/20 12:30:46 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/21 17:11:33 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ a valid extension *[.rt]\n"
 # define CYLINDER "cy"
 # define CONE "cn"
 // MLX
-# define WIN_W 900
-# define WIN_H 506
+# define WIN_W 800
+# define WIN_H 500
 # define IMG_W WIN_W
 # define IMG_H WIN_H
 // KEYS
@@ -321,10 +321,11 @@ t_vec3				*get_position_cone(t_objects *obj);
 t_color				render_edit_mode(t_scene *scene, t_world *objs, const t_ray *r, t_hit *hit);
 t_color				render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t_hit *hit_rec);
 t_color				send_ray(const t_ray *r, t_scene *scene);
+void				calc_shadow_ray(t_ray *shadow_ray, t_light *lights, t_hit *hit_rec);
 t_color				calc_ambient_light(t_color *ambient, t_color *obj, double ratio);
-t_color				calc_diffuse_light(t_light *lights, t_ray *r_light, t_hit *tmp_hit, double len_sqrd, t_world *hit_obj);
-t_color				calc_specular_light(t_light *lights, const t_ray *r, t_ray *r_light, t_hit *tmp_hit, double len_sqrd);
-bool				calc_hard_shadows(t_world *objs, t_ray *r_light, double length_lray);
+t_color				calc_diffuse_light(t_light *lights, t_ray *r_light, t_hit *tmp_hit, t_world *hit_obj);
+t_color				calc_specular_light(t_light *lights, const t_ray *r, t_ray *r_light, t_hit *tmp_hit);
+bool				calc_hard_shadows(t_world *objs, t_ray *r_light, t_hit *hit_rec);
 
 /*------------------------------  UTILS  -------------------------------*/
 

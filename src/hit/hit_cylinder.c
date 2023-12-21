@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 12:52:37 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/14 13:52:25 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/21 13:32:18 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,13 @@ bool	calc_hit_cilinder(t_evars vars, const t_ray *ray, t_hit *rec,
 		if (vars.root <= rec->ray_tmin || vars.root >= rec->ray_tmax)
 			return (false);
 	}
-	rec->t = vars.root;
-	rec->p = ray_at(ray, vars.root);
-	tmp = substract_vec3(&rec->p, &obj.cy->center);
+	tmp = ray_at(ray, vars.root);
+	tmp = substract_vec3(&tmp, &obj.cy->center);
 	projection = dot(&obj.cy->dir, &tmp);
 	if (projection < 0 || projection > obj.cy->height)
 		return (false);
+	rec->t = vars.root;
+	rec->p = ray_at(ray, vars.root);
 	rec->normal = calculate_normal(obj.cy, rec->p);
 	return (true);
 }
