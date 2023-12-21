@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/21 17:11:33 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/21 19:08:04 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,6 +226,7 @@ typedef struct s_scene
 	t_amblight			amblight;
 	t_camera			camera;
 	t_world				*selected;
+	bool				is_obj_clicked;
 	t_color				bg_color;
 	t_mlx				data;
 	t_slider			slider;
@@ -305,6 +306,7 @@ int					mouse_move(int x, int y, void *param);
 void				move_object(t_scene *scene, int key);
 int					close_program(t_scene *scene, int exit_code);
 void				update_slider(t_slider *slider, int x);
+void				drag_object(t_scene *scene, int x, int y);
 
 /*------------------------------  CAMERA  ------------------------------*/
 

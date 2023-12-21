@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_structs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 17:18:57 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/19 02:26:18 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/21 19:19:38 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,5 @@ void	init_structs(t_scene *scene)
 	scene->selected = NULL;
 	scene->bg_color = (t_color){0,0,0};
 	scene->slider.is_clicked = false;
+	scene->is_obj_clicked = false;
 }

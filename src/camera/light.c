@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 00:54:17 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/21 18:06:44 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/21 18:11:27 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ bool	calc_hard_shadows(t_world *objs, t_ray *r_light, t_hit *hit_rec)
 	if (dot(&r_light->dir, &hit_rec->normal) < BIAS)
 		return (true);
 	hit.ray_tmin = 0;
-	hit.ray_tmax = sqrt(r_light->len_sqrd);
+	hit.ray_tmax = sqrt(r_light->len_sqrd) + BIAS;
 	while (objs)
 	{
 		if (objs->hit(r_light, objs->type, &hit))
