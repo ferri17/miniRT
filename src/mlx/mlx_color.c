@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 13:08:36 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/22 12:57:03 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/26 20:54:49 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,3 @@ void	set_color(t_image *img, int pixel, int color)
 		img->buffer[pixel + 3] = color >> 24;
 	}
 }
-
-// t_mlx	init_mlx(void)
-// {
-// 	t_mlx	data;
-
-// 	data.mlx = mlx_init();
-// 	data.mlx_win = mlx_new_window(data.mlx, WIN_W, WIN_H, "MINIRT");
-// 	mlx_hook(data.mlx_win, KEYDOWN, 0, key_down, (void *)&data);
-// 	return (data);
-// }
-
-/*
-	- Scene needs to have a camera and ambient light
-	- Many empty lines segfault
-*/

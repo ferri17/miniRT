@@ -6,7 +6,7 @@
 #    By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2023/12/19 02:40:25 by fbosch           ###   ########.fr        #
+#    Updated: 2023/12/22 02:11:43 by fbosch           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ FILES_INIT		=	check_arguments.c init_structs.c fill_structs.c init_objs.c\
 					put_structs.c fill_objs.c free_structs.c free_objs.c
 FILES_HIT		=	hit_sphere.c hit_plane.c hit_cylinder.c hit_cone.c hit_disk.c
 FILES_MLX		=	mlx_color.c mlx_events.c mlx_init.c events.c
-FILES_UTILS		=	vec3_utils.c vec3_utils2.c vec3_utils3.c math_utils.c\
+FILES_UTILS		=	vec3_utils.c vec3_utils2.c vec3_utils3.c math_utils.c slider.c\
 					ray_utils.c menu.c
 DIR_MAIN		=	src/main/
 DIR_CAMERA		=	src/camera/

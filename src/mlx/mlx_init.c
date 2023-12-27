@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 12:48:26 by fbosch            #+#    #+#             */
-/*   Updated: 2023/11/26 17:01:01 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/26 21:10:04 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,3 +24,9 @@ void	init_mlx_image(t_mlx *data, int img_w, int img_h)
 	data->img.buffer = mlx_get_data_addr(data->img.ptr,
 			&data->img.pixel_bits, &data->img.line_bytes, &data->img.endian);
 }
+
+void	my_string_put(t_mlx *data, int x, int y, char *txt)
+{
+	mlx_string_put(data->mlx, data->mlx_win, x, y, WHITE, txt);
+}
+

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_events.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 12:46:29 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/21 19:24:28 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/26 20:54:20 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,6 @@ int	mouse_move(int x, int y, void *param)
 		update_slider(slider, x);
 		render_image(scene, IMG_W, IMG_H);
 	}
-	else if (scene->is_obj_clicked)
-	{
-		drag_object(scene, x, y);
-		//t_vec3 *tmp = scene->selected->get_position_pointer(&scene->selected->type);
-		//printf("%f\n", tmp->x);
-		render_image(scene, IMG_W, IMG_H);
-	}
 	return (0);
 }
 
@@ -46,13 +39,8 @@ int	mouse_down(int button, int x, int y, void *param)
 	{
 		if (x >= slider->pos_x && x <= (slider->pos_x + slider->length * SLIDER_PX)
 			&& y >= slider->pos_y && y <= slider->pos_y + SLIDER_HEIGHT)
-			slider->is_clicked = true;
-		else
 		{
-			scene->selected = select_object(scene, x, y);
-			if (scene->selected != NULL)
-				scene->is_obj_clicked = true;
-			render_image(scene, IMG_W, IMG_H);
+			slider->is_clicked = true;
 		}
 	}
 	return (0);
@@ -63,18 +51,18 @@ int	mouse_up(int button, int x, int y, void *param)
 	t_scene		*scene;
 	t_slider	*slider;
 
-	(void)y;
 	scene = (t_scene *)param;
 	slider = &scene->slider;
 	if (button == LEFT_CLICK)
 	{
-		scene->is_obj_clicked = false;
-		slider->is_clicked = false;
 		if (slider->is_clicked == true)
 		{
+			slider->is_clicked = false;
 			update_slider(slider, x);
-			render_image(scene, IMG_W, IMG_H);
 		}
+		else
+			scene->selected = select_object(scene, x, y);
+		render_image(scene, IMG_W, IMG_H);
 	}
 	return (0);
 }

@@ -3,69 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   menu.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 00:17:03 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/20 16:54:53 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/27 01:12:33 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MiniRT.h"
-#include <stdio.h>
-
-t_slider	init_slider(int min_value, int max_value, int *value, uint16_t length)
-{
-	t_slider	slider;
-
-	slider.min_value = min_value;
-	slider.max_value = max_value;
-	slider.value = value;
-	slider.length = length;
-	return (slider);
-}
-
-int	get_status_relative_increment(t_slider *slider)
-{
-	int		slider_range;
-	float	ratio;
-
-	slider_range = slider->max_value - slider->min_value;
-	if (slider_range < 1)
-		return (-1);
-	ratio = (float)(slider_range) / (float)slider->length;
-	return (*(slider->value) / ratio);
-}
-
-void	draw_slider(void *mlx_ptr, void *mlx_win, t_slider *slider, int x, int y)
-{
-	int	i;
-	int	start;
-	int	status_inc;
-
-	slider->pos_x = x - (slider->length * SLIDER_PX / 2);
-	slider->pos_y = y;
-	start = slider->pos_x;
-	status_inc = get_status_relative_increment(slider);
-	if (status_inc >= 0)
-	{
-		i = 0;
-		while (i < slider->length)
-		{
-			if (i < status_inc)
-				mlx_string_put(mlx_ptr, mlx_win, start + (i * SLIDER_PX), y, WHITE, "|");
-			else
-				mlx_string_put(mlx_ptr, mlx_win, start + (i * SLIDER_PX), y, WHITE, "-");
-			i++;
-		}
-	}
-	else
-		ft_printf("Slider error, invalid range\n");
-}
-
-void	my_string_put(t_mlx *data, int x, int y, char *txt)
-{
-	mlx_string_put(data->mlx, data->mlx_win, x, y, WHITE, txt);
-}
 
 void	world_to_viewport_coord(t_scene *scene, double coord[2], t_point3 *p)
 {
@@ -105,44 +50,39 @@ int	screen_object_center(t_scene *scene, double coord[2])
 	return (1);
 }
 
-void	draw_menu(t_scene *scene) //SPRINTF
+void	draw_selected_object(t_scene *scene)
 {
 	t_mlx	*data;
-	double	coord[2];
+	t_vec3	*center;
 	int		pxl[2];
+	double	coord[2];
 	char	value[100];
+	
+	data = &scene->data;
+	if (screen_object_center(scene, coord) == 0)
+	{
+		center = scene->selected->get_position_pointer(&scene->selected->type);
+		pxl[X] = (int)coord[X];
+		pxl[Y] = (int)coord[Y];
+		mlx_string_put(data->mlx, data->mlx_win, pxl[X], pxl[Y], GREEN, "+");
+		sprintf(value, "P(%.2f,%.2f,%.2f)", center->x, center->y, center->z);
+		my_string_put(data, WIN_W - XL_PAD * 2, WIN_H - MD_PAD, value);
+	}
+}
+
+void	draw_menu(t_scene *scene)
+{
+	t_mlx	*data;
 
 	data = &scene->data;
 	if (scene->selected)
-	{
-		if (screen_object_center(scene, coord) == 0)
-		{
-			pxl[X] = (int)coord[X];
-			pxl[Y] = (int)coord[Y];
-			sprintf(value, "x[%.2f]", scene->selected->type.sp->center.x);
-			my_string_put(data, pxl[X] - MD_PAD, pxl[Y] - SM_PAD, value);
-			sprintf(value, "y[%.2f]", scene->selected->type.sp->center.y);
-			my_string_put(data, pxl[X] - MD_PAD, pxl[Y], value);
-			sprintf(value, "z[%.2f]", scene->selected->type.sp->center.z);
-			my_string_put(data, pxl[X] - MD_PAD, pxl[Y] + SM_PAD, value);
-		}
-	}
+		draw_selected_object(scene);
 	if (scene->render_mode == EDIT_MODE)
 		my_string_put(data, WIN_W - MD_PAD * 3, SM_PAD / 2, "[EDIT MODE]");
 	else
 		my_string_put(data, WIN_W - MD_PAD * 3, SM_PAD / 2, "[RENDER MODE]");
-
-	sprintf(value, "x[%.4f]", scene->light->center.x);
-	my_string_put(data, WIN_W - MD_PAD * 3, WIN_H - MD_PAD * 5, value);
-	sprintf(value, "y[%.4f]", scene->light->center.y);
-	my_string_put(data, WIN_W - MD_PAD * 3, WIN_H - MD_PAD * 4, value);
-	sprintf(value, "z[%.4f]", scene->light->center.z);
-	my_string_put(data, WIN_W - MD_PAD * 3, WIN_H - MD_PAD * 3, value);
-
-
-
-	scene->slider = init_slider(0, 180, &scene->camera.hfov, 100);
 	draw_slider(data->mlx, data->mlx_win, &scene->slider, WIN_W / 2, WIN_H - MD_PAD);
+	
 	char	fov[100];
 	sprintf(fov, "Fov = %d", scene->camera.hfov);
 	my_string_put(data, WIN_W / 2 - SM_PAD, WIN_H - SM_PAD * 3, fov);

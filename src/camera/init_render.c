@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_render.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/21 17:56:30 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/27 02:55:40 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,26 @@
 #define U 0
 #define V 1
 #define W 2
+
+void	draw_outlines(t_scene *scene)
+{
+	t_mlx	*data;
+	int		*img;
+	int		i;
+	const int	pxl_nb = IMG_W * IMG_H;
+
+	data = &scene->data;
+	img = (int *)data->img.buffer;
+	i = 1;
+	while (i < pxl_nb)
+	{
+		if ((i + IMG_W < pxl_nb) && img[i] != img[i + IMG_W])
+			img[i] = GREEN;
+		if ((i + i < pxl_nb) && img[i] != img[i + 1])
+			img[i] = GREEN;
+		i++;
+	}
+}
 
 void	render_image(t_scene *scene, int img_w, int img_h)
 {
@@ -29,11 +49,12 @@ void	render_image(t_scene *scene, int img_w, int img_h)
 	init_mlx_image(data, img_w, img_h);
 	set_camera(&scene->camera, img_w, img_h);
 	start_raytracer(data, scene, img_w, img_h);
+	draw_outlines(scene);
 	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img.ptr, 0, 0);
 	if (tmp_img_ptr != NULL)
 		mlx_destroy_image(data->mlx, tmp_img_ptr);
 	t = clock() - t;
-	ft_printf("\r Render time: %ims", (int)((double)t / CLOCKS_PER_SEC * 1000));
+	//ft_printf("\r Render time: %ims", (int)((double)t / CLOCKS_PER_SEC * 1000));
 	draw_menu(scene);
 }
 

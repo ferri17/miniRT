@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/21 19:08:04 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/26 21:32:04 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,15 @@
 
 /*==============================	LIBRARIES	==============================*/
 
+# include "minilibx_ui.h"
 # include "libft.h"
 # include "mlx.h"
 # include "vec3.h"
 # include "ray.h"
-# include "minilibx_ui.h"
 # include <fcntl.h>
 # include <limits.h>
 # include <math.h>
 # include <stdbool.h>
-
 #include <stdio.h> //BORRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
 
 /*=============================	ERROR MESSAGES	==============================*/
@@ -50,8 +49,8 @@ a valid extension *[.rt]\n"
 # define CYLINDER "cy"
 # define CONE "cn"
 // MLX
-# define WIN_W 800
-# define WIN_H 500
+# define WIN_W 900
+# define WIN_H 600
 # define IMG_W WIN_W
 # define IMG_H WIN_H
 // KEYS
@@ -69,6 +68,7 @@ a valid extension *[.rt]\n"
 # define I_KEY		0x22
 // HEXA COLOURS
 # define WHITE		0xFFFFFF
+# define GREEN		0x02E488
 # define BLACK		0x000000
 // MOUSE EVENTS
 # define LEFT_CLICK 1
@@ -226,7 +226,6 @@ typedef struct s_scene
 	t_amblight			amblight;
 	t_camera			camera;
 	t_world				*selected;
-	bool				is_obj_clicked;
 	t_color				bg_color;
 	t_mlx				data;
 	t_slider			slider;
@@ -306,7 +305,6 @@ int					mouse_move(int x, int y, void *param);
 void				move_object(t_scene *scene, int key);
 int					close_program(t_scene *scene, int exit_code);
 void				update_slider(t_slider *slider, int x);
-void				drag_object(t_scene *scene, int x, int y);
 
 /*------------------------------  CAMERA  ------------------------------*/
 
@@ -339,5 +337,7 @@ void				draw_menu(t_scene *scene);
 int					screen_object_center(t_scene *scene, double coord[2]);
 void				my_string_put(t_mlx *data, int x, int y, char *txt);
 double				ft_max(double nb, double limit);
+t_slider			init_slider(int min_value, int max_value, int *value, uint16_t length);
+void				draw_slider(void *mlx_ptr, void *mlx_win, t_slider *slider, int x, int y);
 
 #endif
