@@ -6,13 +6,28 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:13:17 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/22 01:16:40 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/29 01:14:25 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MiniRT.h"
 
-t_color	send_ray(const t_ray *r, t_scene *scene)
+void	draw_selection_mask(const t_ray *r, t_scene *scene, t_world *objs, int i, int j)
+{
+	t_hit	hit_rec;
+
+	hit_rec.ray_tmin = BIAS;
+	hit_rec.ray_tmax = INT_MAX;
+	if (objs == scene->selected)
+	{
+		if (objs->hit(r, objs->type, &hit_rec))
+			scene->select_mask[i + (j * IMG_W)] = WHITE;
+		else
+			scene->select_mask[i + (j * IMG_W)] = BLACK;
+	}
+}
+
+t_color	send_ray(const t_ray *r, t_scene *scene, int i, int j)
 {
 	t_hit	hit_rec;
 	t_world	*objs;
@@ -24,6 +39,7 @@ t_color	send_ray(const t_ray *r, t_scene *scene)
 	objs = scene->objs;
 	while (objs)
 	{
+		draw_selection_mask(r, scene, objs, i, j);
 		if (objs->hit(r, objs->type, &hit_rec))
 		{
 			hit_rec.ray_tmax = hit_rec.t;

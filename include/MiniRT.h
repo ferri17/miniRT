@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/26 21:32:04 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/29 01:04:14 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ a valid extension *[.rt]\n"
 # define WIN_H 600
 # define IMG_W WIN_W
 # define IMG_H WIN_H
+# define PXL_NB (IMG_W * IMG_H)
 // KEYS
 # define A_KEY		0x00
 # define S_KEY		0x01
@@ -68,7 +69,8 @@ a valid extension *[.rt]\n"
 # define I_KEY		0x22
 // HEXA COLOURS
 # define WHITE		0xFFFFFF
-# define GREEN		0x02E488
+# define GREEN		0x00E844
+# define BLUE		0x10D663
 # define BLACK		0x000000
 // MOUSE EVENTS
 # define LEFT_CLICK 1
@@ -226,6 +228,7 @@ typedef struct s_scene
 	t_amblight			amblight;
 	t_camera			camera;
 	t_world				*selected;
+	int					*select_mask;
 	t_color				bg_color;
 	t_mlx				data;
 	t_slider			slider;
@@ -320,7 +323,7 @@ t_vec3				*get_position_plane(t_objects *obj);
 t_vec3				*get_position_cone(t_objects *obj);
 t_color				render_edit_mode(t_scene *scene, t_world *objs, const t_ray *r, t_hit *hit);
 t_color				render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t_hit *hit_rec);
-t_color				send_ray(const t_ray *r, t_scene *scene);
+t_color				send_ray(const t_ray *r, t_scene *scene, int i, int j);
 void				calc_shadow_ray(t_ray *shadow_ray, t_light *lights, t_hit *hit_rec);
 t_color				calc_ambient_light(t_color *ambient, t_color *obj, double ratio);
 t_color				calc_diffuse_light(t_light *lights, t_ray *r_light, t_hit *tmp_hit, t_world *hit_obj);

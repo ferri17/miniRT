@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/27 02:55:40 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/29 01:17:35 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,51 @@
 #define V 1
 #define W 2
 
+bool	is_within(int nb, int min, int max)
+{
+	return (nb >= min && nb <= max);
+}
+void	outline_neighbour_pixels(int *img, int *mask, int i)
+{
+	//NEED TO CHECK FOR PIXELS ON THE WALLS
+	if (is_within(i - IMG_W, 0, PXL_NB) && mask[i] != mask[i - IMG_W])
+		img[i - IMG_W] = BLUE;
+	else if (is_within(i - IMG_W + 1, 0, PXL_NB) && mask[i] != mask[i - IMG_W + 1])
+		img[i - IMG_W + 1] = BLUE;
+	else if (is_within(i + 1, 0, PXL_NB) && mask[i] != mask[i + 1])
+		img[i + 1] = BLUE;
+	else if (is_within(i + IMG_W + 1, 0, PXL_NB) && mask[i] != mask[i + IMG_W + 1])
+		img[i + IMG_W + 1] = BLUE;
+	else if (is_within(i + IMG_W, 0, PXL_NB) && mask[i] != mask[i + IMG_W])
+		img[i + IMG_W] = BLUE;
+	else if (is_within(i + IMG_W - 1, 0, PXL_NB) && mask[i] != mask[i + IMG_W - 1])
+		img[i + IMG_W - 1] = BLUE;
+	else if (is_within(i - 1, 0, PXL_NB) && mask[i] != mask[i - 1])
+		img[i - 1] = BLUE;
+	else if (is_within(i - IMG_W - 1, 0, PXL_NB) && mask[i] != mask[i - IMG_W - 1])
+		img[i - IMG_W - 1] = BLUE;
+}
+
 void	draw_outlines(t_scene *scene)
 {
 	t_mlx	*data;
 	int		*img;
 	int		i;
-	const int	pxl_nb = IMG_W * IMG_H;
 
 	data = &scene->data;
 	img = (int *)data->img.buffer;
-	i = 1;
-	while (i < pxl_nb)
+	if (scene->selected)
 	{
-		if ((i + IMG_W < pxl_nb) && img[i] != img[i + IMG_W])
-			img[i] = GREEN;
-		if ((i + i < pxl_nb) && img[i] != img[i + 1])
-			img[i] = GREEN;
-		i++;
+		i = 0;
+		while (i < PXL_NB)
+		{
+			if (scene->select_mask[i] == WHITE)
+				outline_neighbour_pixels(img, scene->select_mask, i);
+			i++;
+		}
 	}
+	free (scene->select_mask);
+	scene->select_mask = NULL;
 }
 
 void	render_image(t_scene *scene, int img_w, int img_h)
@@ -49,12 +76,14 @@ void	render_image(t_scene *scene, int img_w, int img_h)
 	init_mlx_image(data, img_w, img_h);
 	set_camera(&scene->camera, img_w, img_h);
 	start_raytracer(data, scene, img_w, img_h);
+	/* if (scene->selected)
+		ft_memcpy(data->img.buffer, scene->select_mask, IMG_H * IMG_W * 4); */
 	draw_outlines(scene);
 	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img.ptr, 0, 0);
 	if (tmp_img_ptr != NULL)
 		mlx_destroy_image(data->mlx, tmp_img_ptr);
 	t = clock() - t;
-	//ft_printf("\r Render time: %ims", (int)((double)t / CLOCKS_PER_SEC * 1000));
+	ft_printf("\r Render time: %ims", (int)((double)t / CLOCKS_PER_SEC * 1000));
 	draw_menu(scene);
 }
 
@@ -81,6 +110,10 @@ void	start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h)
 	int			i;
 	int			j;
 	
+	if (scene->selected)
+		scene->select_mask = (int *)malloc(sizeof(int) * IMG_W * IMG_H); // FREEEEE
+	else
+		scene->select_mask = NULL;
 	camera = &scene->camera;
 	j = 0;
 	while (j < img_h)
@@ -89,7 +122,7 @@ void	start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h)
 		while (i < img_w)
 		{
 			create_ray(camera, &r, i, j);
-			color = send_ray(&r, scene);
+			color = send_ray(&r, scene, i, j);
 			my_put_pixel(data, i, j, create_color(0, color.x, color.y, color.z));
 			i++;
 		}
