@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:03:13 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/08 18:43:00 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/09 15:18:58 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,18 +78,13 @@ t_color	get_color_cone(t_vec3 *p_hit, t_objects type)
 t_color	get_color_cylinder(t_vec3 *p_hit, t_objects type)
 {
 	//t_color color;
-	if (type.cy->hit[H_CYLINDER])
-	{
-		t_uv uv = get_cylinder_map(p_hit, &type.cy->dir, &type.cy->center, type.cy->height);
+	// if (type.cy->hit[H_CYLINDER])
+	// {
+		t_uv uv = get_cylinder_map(p_hit, &type.cy->dir, &type.cy->center, type.cy->radius);
+		uv.u *= 4;
+		uv.v *= 2;
 		return (checker_color(uv, (t_color){255,255,255}));
-	}	
-	else
-	{
-		t_uv uv;
-		uv.u = p_hit->x;
-		uv.v = p_hit->y;
-		return (checker_color(uv, (t_color){255,255,255}));
-	}
+	// }
 	return ((t_color){255,255,255});
 }
 

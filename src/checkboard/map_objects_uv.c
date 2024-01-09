@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:06:24 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/09 14:07:56 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/09 15:16:19 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,36 +62,33 @@ void coordinate_system(t_vec3 *c, t_vec3 *a, t_vec3 *b)
     // Calcular el vector b como el producto cruz entre c y a
     *b = cross(&normalized_c, a);
 }
-double	ft_limit_cyl_height(double v, const double h)
+
+double	ft_limit_cyl_height(double height, const double h)
 {
 	const double	min_height = -0.999 * h / 2.0;
 	const double	max_height = 0.999 * h / 2.0;
 
-	if (v < min_height)
+	if (height < min_height)
 		return (min_height);
-	if (v > max_height)
+	if (height > max_height)
 		return (max_height);
-	return (v);
+	return (height);
 }
 
 t_uv get_cylinder_map(t_point3 *p_hit, t_vec3 *dir, t_point3 *base, double h)
 {
-	t_point3	base_top;
 	t_point3	center;
 	t_uv		uv;
-	t_uv		aux;
 	t_ray	ray;
 
 	ray.dir = *dir;
 	ray.orig = *base;
 	
 	center = ray_at(&ray, h / 2);
-	base_top = ray_at(&ray, h);
-	t_point3 tmp = substract_vec3(p_hit, &center);
-	aux.u = dot(base, &tmp);
-	aux.v = dot(&base_top, &tmp);
-	uv.v = dot(dir, &tmp);
-	uv.u = 1 - ((atan2(aux.u, aux.v) / (M_PI * 2)) + 0.5);
+	double theta = atan2(p_hit->x - center.x, p_hit->z - center.z);
+	double phi = (p_hit->y - center.y) / h;
+	uv.u = theta / (2.0 * M_PI);
+    uv.v = (phi / M_PI);
     return (uv);
 }
 
