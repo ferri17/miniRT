@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:06:24 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/21 15:47:56 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/09 14:07:56 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,22 @@ double	ft_limit_cyl_height(double v, const double h)
 
 t_uv get_cylinder_map(t_point3 *p_hit, t_vec3 *dir, t_point3 *base, double h)
 {
-	double	theta;
-    t_uv    uv;
+	t_point3	base_top;
+	t_point3	center;
+	t_uv		uv;
+	t_uv		aux;
+	t_ray	ray;
 
-    (void)base;
-    (void)h;
-    (void)dir;
-	theta = atan2(p_hit->x, p_hit->z);
-	uv.u = 1 - (theta / (2 * M_PI) + 0.5);
-	uv.v = p_hit->y - floor(p_hit->y);
+	ray.dir = *dir;
+	ray.orig = *base;
+	
+	center = ray_at(&ray, h / 2);
+	base_top = ray_at(&ray, h);
+	t_point3 tmp = substract_vec3(p_hit, &center);
+	aux.u = dot(base, &tmp);
+	aux.v = dot(&base_top, &tmp);
+	uv.v = dot(dir, &tmp);
+	uv.u = 1 - ((atan2(aux.u, aux.v) / (M_PI * 2)) + 0.5);
     return (uv);
 }
 
@@ -96,7 +103,7 @@ t_uv get_cone_map(t_point3 p_hit)
     double height = p_hit.y;
 
     // Mapeo de coordenada u
-    uv.u = fmod(1 - ((theta / (2 * M_PI)) + 0.5), 1.0);
+    uv.u = theta;
 
     // Mapeo de coordenada v usando la altura en lugar del radio
     uv.v = fmod(height, 1.0);
