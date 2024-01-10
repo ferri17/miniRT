@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 00:54:17 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/26 20:25:01 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/10 01:14:33 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ t_color	calc_diffuse_light(t_light *lights, t_ray *r_light, t_hit *tmp_hit, t_wo
 
 	diffuse_color = vproduct_vec3(&hit_obj->color, &lights->color);
 	angle_ratio = ft_max(dot(&tmp_hit->normal, &r_light->dir), 0);
+	//printf("%f, %f, %f\n", tmp_hit->normal.x, tmp_hit->normal.y, tmp_hit->normal.z);
+	//Check this dot product, cone normals might be wrong? Cone normals always have y = 0 -> error
 	product_vec3(&diffuse_color, angle_ratio);
 	product_vec3(&diffuse_color, lights->bright);
 	division_vec3(&diffuse_color, 1 + r_light->len_sqrd);
@@ -67,6 +69,7 @@ bool	calc_hard_shadows(t_world *objs, t_ray *r_light, t_hit *hit_rec)
 
 	if (dot(&r_light->dir, &hit_rec->normal) < BIAS)
 		return (true);
+	(void)hit_rec;
 	hit.ray_tmin = 0;
 	hit.ray_tmax = sqrt(r_light->len_sqrd) + BIAS;
 	while (objs)

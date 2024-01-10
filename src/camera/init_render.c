@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/29 01:17:35 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/29 19:04:36 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,52 @@ void	outline_neighbour_pixels(int *img, int *mask, int i)
 {
 	//NEED TO CHECK FOR PIXELS ON THE WALLS
 	if (is_within(i - IMG_W, 0, PXL_NB) && mask[i] != mask[i - IMG_W])
+	{
 		img[i - IMG_W] = BLUE;
-	else if (is_within(i - IMG_W + 1, 0, PXL_NB) && mask[i] != mask[i - IMG_W + 1])
+		img[i - IMG_W * 2] = BLUE;
+	}
+	else if (is_within(i - IMG_W + 1, 0, PXL_NB) && (i - IMG_W + 1) % IMG_W != 0 && mask[i] != mask[i - IMG_W + 1])
+	{
 		img[i - IMG_W + 1] = BLUE;
-	else if (is_within(i + 1, 0, PXL_NB) && mask[i] != mask[i + 1])
+		img[i - IMG_W * 2 + 1] = BLUE;
+
+	}
+	else if (is_within(i + 1, 0, PXL_NB) && (i + 1) % IMG_W != 0 && mask[i] != mask[i + 1])
+	{
 		img[i + 1] = BLUE;
-	else if (is_within(i + IMG_W + 1, 0, PXL_NB) && mask[i] != mask[i + IMG_W + 1])
+		img[i + 2] = BLUE;
+	}
+	else if (is_within(i + IMG_W + 1, 0, PXL_NB) && (i + IMG_W + 1) % IMG_W != 0 && mask[i] != mask[i + IMG_W + 1])
+	{
 		img[i + IMG_W + 1] = BLUE;
+		img[i + IMG_W * 2 + 1] = BLUE;
+
+	}
 	else if (is_within(i + IMG_W, 0, PXL_NB) && mask[i] != mask[i + IMG_W])
+	{
 		img[i + IMG_W] = BLUE;
-	else if (is_within(i + IMG_W - 1, 0, PXL_NB) && mask[i] != mask[i + IMG_W - 1])
+		img[i + IMG_W * 2] = BLUE;
+
+	}
+	else if (is_within(i + IMG_W - 1, 0, PXL_NB) && (i + IMG_W - 1) % IMG_W != IMG_W - 1 && mask[i] != mask[i + IMG_W - 1])
+	{
 		img[i + IMG_W - 1] = BLUE;
-	else if (is_within(i - 1, 0, PXL_NB) && mask[i] != mask[i - 1])
+		img[i + IMG_W * 2 - 1] = BLUE;
+
+
+	}
+	else if (is_within(i - 1, 0, PXL_NB) && (i - 1) % IMG_W != IMG_W - 1 && mask[i] != mask[i - 1])
+	{
 		img[i - 1] = BLUE;
-	else if (is_within(i - IMG_W - 1, 0, PXL_NB) && mask[i] != mask[i - IMG_W - 1])
+		img[i - 2] = BLUE;
+
+	}
+	else if (is_within(i - IMG_W - 1, 0, PXL_NB) && (i - IMG_W - 1) % IMG_W != IMG_W - 1 && mask[i] != mask[i - IMG_W - 1])
+	{
 		img[i - IMG_W - 1] = BLUE;
+		img[i - IMG_W * 2 - 1] = BLUE;
+
+	}
 }
 
 void	draw_outlines(t_scene *scene)

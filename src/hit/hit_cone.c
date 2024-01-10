@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_cone.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 17:00:29 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/20 12:49:46 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/10 00:55:30 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,6 @@ bool	hit_disk_cone(const t_ray *ray, t_objects obj, t_hit *rec)
 	r[0] = hit_cone(ray, obj, rec);
 	if (r[0])
 		rec->ray_tmax = rec->t;
-	//r[1] = hit_disk(ray, &disk, rec);
-	return (r[0]);
+	r[1] = hit_disk(ray, &disk, rec);
+	return (r[0] || r[1]);
 }

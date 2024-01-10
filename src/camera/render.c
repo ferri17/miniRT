@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:13:17 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/29 01:14:25 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/10 00:48:14 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	calc_shadow_ray(t_ray *shadow_ray, t_light *lights, t_hit *hit_rec)
 {
 	shadow_ray->orig = product_vec3_r(&hit_rec->normal, BIAS);
 	shadow_ray->orig = add_vec3(&hit_rec->p, &shadow_ray->orig);
-	shadow_ray->dir = substract_vec3(&lights->center, &hit_rec->p);
+	shadow_ray->dir = substract_vec3(&lights->center, &shadow_ray->orig);
 	shadow_ray->len_sqrd = length_squared(&shadow_ray->dir);
 	shadow_ray->dir = unit_vector(&shadow_ray->dir);
 }
@@ -95,12 +95,13 @@ t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t
 	while (lights)
 	{
 		calc_shadow_ray(&r_light, lights, hit_rec);
-		if (calc_hard_shadows(scene->objs, &r_light, hit_rec) == false)
+		if (calc_hard_shadows(scene->objs, &r_light, hit_rec) == false || lights)
 		{
 			diffuse_light = calc_diffuse_light(lights, &r_light, hit_rec, hit_obj);
 			specular_light = calc_specular_light(lights, r, &r_light, hit_rec);
 			pxl_color = add_vec3(&pxl_color, &diffuse_light);
-			pxl_color = add_vec3(&pxl_color, &specular_light);
+			//pxl_color = add_vec3(&pxl_color, &specular_light);
+			(void)specular_light;
 		}
 		lights = lights->next;
 	}
