@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_cone.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 17:00:29 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/10 00:55:30 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/11 19:30:20 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,59 @@
 
 t_vec3	calculate_normal_cone(t_cone *cn, const t_vec3 *p)
 {
-	t_vec3	tmp;
-	t_vec3	tmp1;
-	t_vec3	tmp2;
-	t_vec3	outward_normal;
+	t_vec3	apex_to_p;
+	//t_vec3	cn_center = cn->center;
 
-	tmp = substract_vec3(p, &cn->apex);
-	tmp1 = product_vec3_r(&cn->dir, dot(&cn->dir, &tmp));
-	tmp2 = substract_vec3(&tmp, &tmp1);
-	outward_normal = division_vec3_r(&tmp2, (cn->angle / 2.0) * dot(&cn->dir,
-				&tmp));
-	return (unit_vector(&outward_normal));
+	//calculate apex to hit point vector
+	apex_to_p = substract_vec3(p, &cn->apex);
+	apex_to_p = unit_vector(&apex_to_p); //NORMALIZE OR NOT
+	
+	//calculate apex to base 
+	t_vec3 g = unit_vector(&cn->dir);
+
+	//calculate normal -> N = AP - (AP . G) * G
+	t_vec3	tmp = product_vec3_r(&g, dot(&apex_to_p, &g));
+	t_vec3	normal = substract_vec3(&apex_to_p, &tmp);
+	
+
+
+	/* projected = product_vec3_r(&cn->dir, dot(&cn->dir, &apex_to_p));
+	tmp2 = substract_vec3(&apex_to_p, &projected);
+	normal = division_vec3_r(&tmp2, (cn->angle / 2.0) * dot(&cn->dir, &apex_to_p)); */
+	//printf("a-p: %f, %f, %f\n", projected.x, projected.y, projected.z);
+	//printf("normal: %f, %f, %f\n", normal.x, normal.y, normal.z);
+	return (unit_vector(&normal));
 }
+
+
+/* printf("apex: %f, %f, %f\n", cn->apex.x, cn->apex.y, cn->apex.z);
+	printf("center: %f, %f, %f\n", tmp_center.x, tmp_center.y, tmp_center.z);
+	printf("normal: %f, %f, %f\n", normal.x, normal.y, normal.z); */
+	
+/* 
+
+ 
+
+C = np.array([Cx, Cy, Cz])
+A = np.array([Ax, Ay, Az])
+P = np.array([Px, Py, Pz])
+
+# Calculate vectors
+V = A - C
+W = P - C
+
+# Calculate dot products
+V_dot_V = np.dot(V, V)
+W_dot_W = np.dot(W, W)
+W_dot_V = np.dot(W, V)
+
+# Calculate the gradient (normal to the cone)
+normal = 2 * (V_dot_V * W - W_dot_V * V) */
 
 bool	calc_hit_cone(const t_ray *ray, t_objects obj, t_hit *rec, t_evars vars)
 {
 	double	hit_z;
 	t_vec3	tmp;
-	t_vec3	outward_normal;
 
 	vars.root = (-vars.half_b - vars.sqrtd) / (2 * vars.a);
 	if (vars.root <= rec->ray_tmin || vars.root >= rec->ray_tmax)
@@ -48,8 +83,7 @@ bool	calc_hit_cone(const t_ray *ray, t_objects obj, t_hit *rec, t_evars vars)
 		return (false);
 	rec->t = vars.root;
 	rec->p = ray_at(ray, vars.root);
-	outward_normal = calculate_normal_cone(obj.cn, &rec->p);
-	rec->normal = outward_normal;
+	rec->normal = calculate_normal_cone(obj.cn, &rec->p);
 	return (true);
 }
 

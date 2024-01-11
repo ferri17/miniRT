@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:13:17 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/10 00:48:14 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/11 17:24:37 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,12 @@ t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t
 	while (lights)
 	{
 		calc_shadow_ray(&r_light, lights, hit_rec);
-		if (calc_hard_shadows(scene->objs, &r_light, hit_rec) == false || lights)
+		if (calc_hard_shadows(scene->objs, &r_light, hit_rec) == false)
 		{
 			diffuse_light = calc_diffuse_light(lights, &r_light, hit_rec, hit_obj);
 			specular_light = calc_specular_light(lights, r, &r_light, hit_rec);
 			pxl_color = add_vec3(&pxl_color, &diffuse_light);
-			//pxl_color = add_vec3(&pxl_color, &specular_light);
+			pxl_color = add_vec3(&pxl_color, &specular_light);
 			(void)specular_light;
 		}
 		lights = lights->next;

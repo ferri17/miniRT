@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 00:54:17 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/10 01:14:33 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/11 19:06:13 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MiniRT.h"
-
+	
 //specular = lights.color * lights.brightness * dot(vReflected,vView) ^ roughness;
 //Reflected = 2 * dot(Normal, Light) * vNormal - vLight 
 t_color	calc_specular_light(t_light *lights, const t_ray *r, t_ray *r_light, t_hit *hit_rec)

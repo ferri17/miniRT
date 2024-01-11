@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   menu.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 00:17:03 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/27 01:12:33 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/11 17:17:22 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MiniRT.h"
 
-void	world_to_viewport_coord(t_scene *scene, double coord[2], t_point3 *p)
+/* void	world_to_viewport_coord(t_scene *scene, double coord[2], t_point3 *p)
 {
 	t_vec3	inter_pxl00;
 	t_vec3	tmp_u;
@@ -48,26 +48,16 @@ int	screen_object_center(t_scene *scene, double coord[2])
 	if (pl.hit(&ray, pl.type, &hit_rec))
 		return (world_to_viewport_coord(scene, coord, &hit_rec.p), 0);
 	return (1);
-}
+} */
 
 void	draw_selected_object(t_scene *scene)
 {
-	t_mlx	*data;
 	t_vec3	*center;
-	int		pxl[2];
-	double	coord[2];
 	char	value[100];
 	
-	data = &scene->data;
-	if (screen_object_center(scene, coord) == 0)
-	{
-		center = scene->selected->get_position_pointer(&scene->selected->type);
-		pxl[X] = (int)coord[X];
-		pxl[Y] = (int)coord[Y];
-		mlx_string_put(data->mlx, data->mlx_win, pxl[X], pxl[Y], GREEN, "+");
-		sprintf(value, "P(%.2f,%.2f,%.2f)", center->x, center->y, center->z);
-		my_string_put(data, WIN_W - XL_PAD * 2, WIN_H - MD_PAD, value);
-	}
+	center = scene->selected->get_position_pointer(&scene->selected->type);
+	sprintf(value, "P(%.2f,%.2f,%.2f)", center->x, center->y, center->z);
+	my_string_put(&scene->data, WIN_W - XL_PAD * 2, WIN_H - MD_PAD, value);
 }
 
 void	draw_menu(t_scene *scene)
