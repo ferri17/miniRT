@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:06:24 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/09 15:16:19 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/11 12:44:17 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,31 @@ double	ft_limit_cyl_height(double height, const double h)
 	return (height);
 }
 
+t_vec3	rotate_point(t_point3 *p_hit, t_point3 *center, t_vec3 *dir)
+{
+	t_vec3	new_point;
+	t_vec3	new_dir;
+	double	angle;
+
+	new_dir = (t_vec3){0,1,0};
+	angle = acos(dot(&new_dir, dir) / (length(&new_dir) * length(dir)));
+	new_point = *p_hit;
+	
+	new_point.x = new_point.x;
+	new_point.y = new_point.y * cos(angle) + new_point.z * sin(angle);
+	new_point.z = -new_point.y * sin(angle) + new_point.z * cos(angle);
+	
+	new_point.x = new_point.x * cos(angle) -new_point.z * sin(angle);
+	new_point.y = new_point.y;
+	new_point.z = new_point.x * sin(angle) + new_point.z * cos(angle);
+
+	new_point.x = new_point.x * cos(angle) + new_point.y * sin(angle);
+	new_point.y = -new_point.x * sin(angle) + new_point.y * cos(angle);
+	new_point.z = new_point.z;
+	(void)center;
+	return (new_point);
+}
+
 t_uv get_cylinder_map(t_point3 *p_hit, t_vec3 *dir, t_point3 *base, double h)
 {
 	t_point3	center;
@@ -85,8 +110,9 @@ t_uv get_cylinder_map(t_point3 *p_hit, t_vec3 *dir, t_point3 *base, double h)
 	ray.orig = *base;
 	
 	center = ray_at(&ray, h / 2);
-	double theta = atan2(p_hit->x - center.x, p_hit->z - center.z);
-	double phi = (p_hit->y - center.y) / h;
+	t_vec3	new_point = rotate_point(p_hit, &center, dir);
+	double theta = atan2(new_point.x - center.x, new_point.z - center.z);
+	double phi = (new_point.y - center.y) / h;
 	uv.u = theta / (2.0 * M_PI);
     uv.v = (phi / M_PI);
     return (uv);

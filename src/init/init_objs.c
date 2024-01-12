@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/21 15:00:59 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/12 19:40:43 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,18 @@ int	check_plane(t_scene *scene, char **split)
 	return (0);
 }
 
+t_vec3 rotarVector(t_vec3 v, t_vec3 axis, double angle) {
+    t_vec3 result;
+    double cosTheta = cos(angle);
+    double sinTheta = sin(angle);
+
+    result.x = cosTheta * v.x + (1 - cosTheta) * (axis.x * axis.x * v.x + axis.x * axis.y * v.y + axis.x * axis.z * v.z) + sinTheta * (axis.y * v.z - axis.z * v.y);
+    result.y = cosTheta * v.y + (1 - cosTheta) * (axis.x * axis.y * v.x + axis.y * axis.y * v.y + axis.y * axis.z * v.z) + sinTheta * (axis.z * v.x - axis.x * v.z);
+    result.z = cosTheta * v.z + (1 - cosTheta) * (axis.x * axis.z * v.x + axis.y * axis.z * v.y + axis.z * axis.z * v.z) + sinTheta * (axis.x * v.y - axis.y * v.x);
+
+    return result;
+}
+
 int	check_cylinder(t_scene *scene, char **split)
 {
 	t_world	*cy;
@@ -107,6 +119,15 @@ int	check_cylinder(t_scene *scene, char **split)
 	cy->type.cy->dir = unit_vector(&cy->type.cy->dir);
 	ray.dir = cy->type.cy->dir;
 	ray.orig = cy->type.cy->center;
+	printf("old dir(%f, %f, %f)\n", ray.dir.x, ray.dir.y, ray.dir.z);
+	t_vec3	new_dir = {0,1,0};
+	double	angle;
+	angle = acos(dot(&new_dir, &ray.dir) / (length(&new_dir) * length(&ray.dir)));
+	t_vec3	cosa = cross(&ray.dir, &new_dir);
+
+	cy->type.cy->dir = rotarVector(ray.dir, cosa, angle);
+	ray.dir = cy->type.cy->dir;
+	printf("new dir(%f, %f, %f)\n", ray.dir.x, ray.dir.y, ray.dir.z);
 	cy->type.cy->center = ray_at(&ray, -(cy->type.cy->height / 2));
 	cy->hit = hit_cylinder;
 	cy->get_position_pointer = get_position_cylinder;

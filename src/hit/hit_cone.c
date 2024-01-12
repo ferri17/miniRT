@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 17:00:29 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/21 15:07:14 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/11 15:36:47 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,14 @@
 
 t_vec3	calculate_normal_cone(t_cone *cn, const t_vec3 *p)
 {
-	t_vec3	tmp;
-	t_vec3	tmp1;
-	t_vec3	tmp2;
+	t_vec3	apex_to_point;
+	t_vec3	projected;
 	t_vec3	outward_normal;
 
-	tmp = substract_vec3(p, &cn->apex);
-	tmp1 = product_vec3_r(&cn->dir, dot(&cn->dir, &tmp));
-	tmp2 = substract_vec3(&tmp, &tmp1);
-	outward_normal = division_vec3_r(&tmp2, (cn->angle / 2.0) * dot(&cn->dir,
-				&tmp));
+	apex_to_point = substract_vec3(p, &cn->apex);
+	t_vec3 inv_dir = product_vec3_r(&cn->dir, -1);
+	projected = product_vec3_r(&inv_dir, dot(&inv_dir, &apex_to_point));
+	outward_normal = substract_vec3(&apex_to_point, &projected);
 	return (unit_vector(&outward_normal));
 }
 
