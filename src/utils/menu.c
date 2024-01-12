@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 00:17:03 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/11 17:17:22 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/12 13:48:41 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	draw_selected_object(t_scene *scene)
 void	draw_menu(t_scene *scene)
 {
 	t_mlx	*data;
+	char	fov[100];
 
 	data = &scene->data;
 	if (scene->selected)
@@ -72,8 +73,6 @@ void	draw_menu(t_scene *scene)
 	else
 		my_string_put(data, WIN_W - MD_PAD * 3, SM_PAD / 2, "[RENDER MODE]");
 	draw_slider(data->mlx, data->mlx_win, &scene->slider, WIN_W / 2, WIN_H - MD_PAD);
-	
-	char	fov[100];
 	sprintf(fov, "Fov = %d", scene->camera.hfov);
 	my_string_put(data, WIN_W / 2 - SM_PAD, WIN_H - SM_PAD * 3, fov);
 }

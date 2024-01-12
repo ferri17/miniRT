@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/29 01:04:14 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/12 13:20:17 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ a valid extension *[.rt]\n"
 # define EXPOSE 12
 # define DESTROY 17
 // GENERAL DEFINITIONS
-# define MOVE 0.02
+# define MOVE 0.08
 // UI
 # define SM_PAD 25
 # define MD_PAD 50
