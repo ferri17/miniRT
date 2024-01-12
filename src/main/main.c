@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/26 20:23:08 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/12 18:32:05 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 	- ARREGLAR LLUMS CAMERA MOVEMENT (SEGFAULT NO LIGHTS)
 	- FIX PLANE NORMALS
 	- CAMERA NOMES POT APUNTAR A LA DIRECCIO Z
+	- LIMITAR CANVAS SIZE
+	- FIX BIAS FOR CON AUTOHIT
 */
 #include "MiniRT.h"
 

@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:13:17 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/12 13:38:26 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/12 18:50:29 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ t_color	send_ray(const t_ray *r, t_scene *scene, int i, int j)
 	objs = scene->objs;
 	while (objs)
 	{
-		draw_selection_mask(r, scene, objs, i, j);
+		(void)i;
+		(void)j;
+		//draw_selection_mask(r, scene, objs, i, j);
 		if (objs->hit(r, objs->type, &hit_rec))
 		{
 			hit_rec.ray_tmax = hit_rec.t;
@@ -75,7 +77,7 @@ t_color	render_edit_mode(t_scene *scene, t_world *objs, const t_ray *r, t_hit *h
 
 void	calc_shadow_ray(t_ray *shadow_ray, t_light *lights, t_hit *hit_rec)
 {
-	shadow_ray->orig = product_vec3_r(&hit_rec->normal, BIAS);
+	shadow_ray->orig = product_vec3_r(&hit_rec->normal, BIAS); //FIX BIAS FOR CONES
 	shadow_ray->orig = add_vec3(&hit_rec->p, &shadow_ray->orig);
 	shadow_ray->dir = substract_vec3(&lights->center, &shadow_ray->orig);
 	shadow_ray->len_sqrd = length_squared(&shadow_ray->dir);
@@ -95,13 +97,12 @@ t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t
 	while (lights)
 	{
 		calc_shadow_ray(&r_light, lights, hit_rec);
-		if (calc_hard_shadows(scene->objs, &r_light, hit_rec) == false || lights)
+		if (calc_hard_shadows(scene->objs, &r_light, hit_rec) == false)
 		{
 			diffuse_light = calc_diffuse_light(lights, &r_light, hit_rec, hit_obj);
 			specular_light = calc_specular_light(lights, r, &r_light, hit_rec);
 			pxl_color = add_vec3(&pxl_color, &diffuse_light);
 			pxl_color = add_vec3(&pxl_color, &specular_light);
-			(void)specular_light;
 		}
 		lights = lights->next;
 	}

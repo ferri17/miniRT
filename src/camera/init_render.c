@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/11 11:50:10 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/12 21:01:03 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	render_image(t_scene *scene, int img_w, int img_h)
 	start_raytracer(data, scene, img_w, img_h);
 	/* if (scene->selected)
 		ft_memcpy(data->img.buffer, scene->select_mask, IMG_H * IMG_W * 4); */
-	draw_outlines(scene);
+	//draw_outlines(scene);
 	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img.ptr, 0, 0);
 	if (tmp_img_ptr != NULL)
 		mlx_destroy_image(data->mlx, tmp_img_ptr);
@@ -141,9 +141,9 @@ void	start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h)
 	int			i;
 	int			j;
 	
-	if (scene->selected)
-		scene->select_mask = (int *)malloc(sizeof(int) * IMG_W * IMG_H); // FREEEEE
-	else
+	//if (scene->selected)
+	//	scene->select_mask = (int *)malloc(sizeof(int) * IMG_W * IMG_H); // FREEEEE
+	//else
 		scene->select_mask = NULL;
 	camera = &scene->camera;
 	j = 0;
@@ -172,6 +172,11 @@ void	set_camera(t_camera *camera, int img_w, int img_h)
 	camera->viewport_height = camera->viewport_width * ((double)img_h/(double)img_w);
 	cam_axis[W] = unit_vector(&camera->dir);
 	product_vec3(&cam_axis[W], -1);
+	/* CHOOSING DIFFERENT VUP IF VUP AND W ARE PARALLEL */
+	t_vec3	tmp_unit_w = unit_vector(&cam_axis[W]);
+	if (dot(&tmp_unit_w, &camera->vup) == 1 || dot(&tmp_unit_w, &camera->vup) == -1)
+		camera->vup = (t_vec3){1,0,0}; 
+	/**/
 	tmp = cross(&camera->vup, &cam_axis[W]);
 	cam_axis[U] = unit_vector(&tmp);
 	cam_axis[V] = cross(&cam_axis[W], &cam_axis[U]);
@@ -181,6 +186,11 @@ void	set_camera(t_camera *camera, int img_w, int img_h)
 	camera->pixel_delta_u = division_vec3_r(&camera->viewport_u, img_w);
 	camera->pixel_delta_v = division_vec3_r(&camera->viewport_v, img_h);
 	set_pixel00(camera, cam_axis);
+
+	printf("vup: (%.2f, %.2f, %.2f)\n", camera->vup.x, camera->vup.y, camera->vup.z);
+	printf("cam u: (%.2f, %.2f, %.2f)\n", cam_axis[U].x, cam_axis[U].y, cam_axis[U].z);
+	printf("cam v: (%.2f, %.2f, %.2f)\n", cam_axis[V].x, cam_axis[V].y, cam_axis[V].z);
+	printf("cam w: (%.2f, %.2f, %.2f)\n", cam_axis[W].x, cam_axis[W].y, cam_axis[W].z);
 }
 
 void	set_pixel00(t_camera *camera, t_vec3 *cam_axis)
