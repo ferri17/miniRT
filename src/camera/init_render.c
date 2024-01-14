@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_render.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/12 21:01:03 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/14 17:33:50 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,84 +16,6 @@
 #define U 0
 #define V 1
 #define W 2
-
-bool	is_within(int nb, int min, int max)
-{
-	return (nb >= min && nb <= max);
-}
-void	outline_neighbour_pixels(int *img, int *mask, int i)
-{
-	//NEED TO CHECK FOR PIXELS ON THE WALLS
-	if (is_within(i - IMG_W, 0, PXL_NB) && mask[i] != mask[i - IMG_W])
-	{
-		img[i - IMG_W] = BLUE;
-		img[i - IMG_W * 2] = BLUE;
-	}
-	else if (is_within(i - IMG_W + 1, 0, PXL_NB) && (i - IMG_W + 1) % IMG_W != 0 && mask[i] != mask[i - IMG_W + 1])
-	{
-		img[i - IMG_W + 1] = BLUE;
-		img[i - IMG_W * 2 + 1] = BLUE;
-
-	}
-	else if (is_within(i + 1, 0, PXL_NB) && (i + 1) % IMG_W != 0 && mask[i] != mask[i + 1])
-	{
-		img[i + 1] = BLUE;
-		img[i + 2] = BLUE;
-	}
-	else if (is_within(i + IMG_W + 1, 0, PXL_NB) && (i + IMG_W + 1) % IMG_W != 0 && mask[i] != mask[i + IMG_W + 1])
-	{
-		img[i + IMG_W + 1] = BLUE;
-		img[i + IMG_W * 2 + 1] = BLUE;
-
-	}
-	else if (is_within(i + IMG_W, 0, PXL_NB) && mask[i] != mask[i + IMG_W])
-	{
-		img[i + IMG_W] = BLUE;
-		img[i + IMG_W * 2] = BLUE;
-
-	}
-	else if (is_within(i + IMG_W - 1, 0, PXL_NB) && (i + IMG_W - 1) % IMG_W != IMG_W - 1 && mask[i] != mask[i + IMG_W - 1])
-	{
-		img[i + IMG_W - 1] = BLUE;
-		img[i + IMG_W * 2 - 1] = BLUE;
-
-
-	}
-	else if (is_within(i - 1, 0, PXL_NB) && (i - 1) % IMG_W != IMG_W - 1 && mask[i] != mask[i - 1])
-	{
-		img[i - 1] = BLUE;
-		img[i - 2] = BLUE;
-
-	}
-	else if (is_within(i - IMG_W - 1, 0, PXL_NB) && (i - IMG_W - 1) % IMG_W != IMG_W - 1 && mask[i] != mask[i - IMG_W - 1])
-	{
-		img[i - IMG_W - 1] = BLUE;
-		img[i - IMG_W * 2 - 1] = BLUE;
-
-	}
-}
-
-void	draw_outlines(t_scene *scene)
-{
-	t_mlx	*data;
-	int		*img;
-	int		i;
-
-	data = &scene->data;
-	img = (int *)data->img.buffer;
-	if (scene->selected)
-	{
-		i = 0;
-		while (i < PXL_NB)
-		{
-			if (scene->select_mask[i] == WHITE)
-				outline_neighbour_pixels(img, scene->select_mask, i);
-			i++;
-		}
-	}
-	free (scene->select_mask);
-	scene->select_mask = NULL;
-}
 
 void	render_image(t_scene *scene, int img_w, int img_h)
 {
@@ -109,7 +31,7 @@ void	render_image(t_scene *scene, int img_w, int img_h)
 	start_raytracer(data, scene, img_w, img_h);
 	/* if (scene->selected)
 		ft_memcpy(data->img.buffer, scene->select_mask, IMG_H * IMG_W * 4); */
-	//draw_outlines(scene);
+	draw_outlines(scene);
 	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img.ptr, 0, 0);
 	if (tmp_img_ptr != NULL)
 		mlx_destroy_image(data->mlx, tmp_img_ptr);
@@ -141,9 +63,9 @@ void	start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h)
 	int			i;
 	int			j;
 	
-	//if (scene->selected)
-	//	scene->select_mask = (int *)malloc(sizeof(int) * IMG_W * IMG_H); // FREEEEE
-	//else
+	if (scene->selected)
+		scene->select_mask = (int *)malloc(sizeof(int) * IMG_W * IMG_H); // FREEEEE
+	else
 		scene->select_mask = NULL;
 	camera = &scene->camera;
 	j = 0;
@@ -187,10 +109,10 @@ void	set_camera(t_camera *camera, int img_w, int img_h)
 	camera->pixel_delta_v = division_vec3_r(&camera->viewport_v, img_h);
 	set_pixel00(camera, cam_axis);
 
-	printf("vup: (%.2f, %.2f, %.2f)\n", camera->vup.x, camera->vup.y, camera->vup.z);
-	printf("cam u: (%.2f, %.2f, %.2f)\n", cam_axis[U].x, cam_axis[U].y, cam_axis[U].z);
-	printf("cam v: (%.2f, %.2f, %.2f)\n", cam_axis[V].x, cam_axis[V].y, cam_axis[V].z);
-	printf("cam w: (%.2f, %.2f, %.2f)\n", cam_axis[W].x, cam_axis[W].y, cam_axis[W].z);
+	//printf("vup: (%.2f, %.2f, %.2f)\n", camera->vup.x, camera->vup.y, camera->vup.z);
+	//printf("cam u: (%.2f, %.2f, %.2f)\n", cam_axis[U].x, cam_axis[U].y, cam_axis[U].z);
+	//printf("cam v: (%.2f, %.2f, %.2f)\n", cam_axis[V].x, cam_axis[V].y, cam_axis[V].z);
+	//printf("cam w: (%.2f, %.2f, %.2f)\n", cam_axis[W].x, cam_axis[W].y, cam_axis[W].z);
 }
 
 void	set_pixel00(t_camera *camera, t_vec3 *cam_axis)

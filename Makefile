@@ -6,7 +6,7 @@
 #    By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2023/12/22 02:11:43 by fbosch           ###   ########.fr        #
+#    Updated: 2024/01/14 15:12:29 by fbosch           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ FILE_MAKE		=	Makefile
 
 FILES_MAIN		=	main.c
 FILES_CAMERA	=	init_render.c object_selector.c render.c\
-					light.c
+					light.c outlines.c
 FILES_INIT		=	check_arguments.c init_structs.c fill_structs.c init_objs.c\
 					put_structs.c fill_objs.c free_structs.c free_objs.c
 FILES_HIT		=	hit_sphere.c hit_plane.c hit_cylinder.c hit_cone.c hit_disk.c

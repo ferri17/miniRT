@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/12 13:20:17 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/14 18:08:46 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ a valid extension *[.rt]\n"
 # define EXPOSE 12
 # define DESTROY 17
 // GENERAL DEFINITIONS
-# define MOVE 0.08
+# define MOVE 0.01
 // UI
 # define SM_PAD 25
 # define MD_PAD 50
@@ -329,6 +329,7 @@ t_color				calc_ambient_light(t_color *ambient, t_color *obj, double ratio);
 t_color				calc_diffuse_light(t_light *lights, t_ray *r_light, t_hit *tmp_hit, t_world *hit_obj);
 t_color				calc_specular_light(t_light *lights, const t_ray *r, t_ray *r_light, t_hit *tmp_hit);
 bool				calc_hard_shadows(t_world *objs, t_ray *r_light, t_hit *hit_rec);
+void				draw_outlines(t_scene *scene);
 
 /*------------------------------  UTILS  -------------------------------*/
 
@@ -342,5 +343,6 @@ void				my_string_put(t_mlx *data, int x, int y, char *txt);
 double				ft_max(double nb, double limit);
 t_slider			init_slider(int min_value, int max_value, int *value, uint16_t length);
 void				draw_slider(void *mlx_ptr, void *mlx_win, t_slider *slider, int x, int y);
+bool				is_within(int nb, int min, int max);
 
 #endif

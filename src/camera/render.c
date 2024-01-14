@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:13:17 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/12 18:50:29 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/14 17:32:05 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,7 @@ t_color	send_ray(const t_ray *r, t_scene *scene, int i, int j)
 	objs = scene->objs;
 	while (objs)
 	{
-		(void)i;
-		(void)j;
-		//draw_selection_mask(r, scene, objs, i, j);
+		draw_selection_mask(r, scene, objs, i, j);
 		if (objs->hit(r, objs->type, &hit_rec))
 		{
 			hit_rec.ray_tmax = hit_rec.t;
