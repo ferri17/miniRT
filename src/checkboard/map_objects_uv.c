@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:06:24 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/11 12:44:17 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/15 18:58:51 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,76 +45,75 @@ t_uv	get_spherical_map(t_point3 *p_hit, t_point3 *center, double radius)
 	return (uv);
 }
 
-void coordinate_system(t_vec3 *c, t_vec3 *a, t_vec3 *b)
-{
-    // Asegurar que c es un vector unitario
-    t_vec3 normalized_c = unit_vector(c);
+double calcularAnguloDeRotacion(t_vec3 v) {
+    // Vector objetivo [0, 1, 0]
+    t_vec3 objetivo = {0, 1, 0};
 
-    // Encontrar un vector a que sea perpendicular a c
-    if (fabs(normalized_c.x) > 0.9)
-        a->x = 0.0;
-    else
-        a->x = 1.0;
-    a->x = normalized_c.y;
-    a->y = normalized_c.z;
-    a->z = -normalized_c.x;
+    // Normalizar los vectores
+    v = unit_vector(&v);
+    objetivo = unit_vector(&objetivo);
 
-    // Calcular el vector b como el producto cruz entre c y a
-    *b = cross(&normalized_c, a);
+    // Calcular el producto punto para encontrar el coseno del ángulo
+    double cosenoAngulo = v.x * objetivo.x + v.y * objetivo.y + v.z * objetivo.z;
+
+    // Calcular el ángulo en radianes
+    double angulo = acos(cosenoAngulo);
+
+    return angulo;
 }
 
-double	ft_limit_cyl_height(double height, const double h)
-{
-	const double	min_height = -0.999 * h / 2.0;
-	const double	max_height = 0.999 * h / 2.0;
+t_vec3 rotarPuntoEjeX(t_vec3 punto, double angulo) {
+    double cosTheta = cos(angulo);
+    double sinTheta = sin(angulo);
 
-	if (height < min_height)
-		return (min_height);
-	if (height > max_height)
-		return (max_height);
-	return (height);
+    t_vec3 resultado;
+    resultado.x = punto.x;
+    resultado.y = cosTheta * punto.y - sinTheta * punto.z;
+    resultado.z = sinTheta * punto.y + cosTheta * punto.z;
+
+    return resultado;
 }
 
-t_vec3	rotate_point(t_point3 *p_hit, t_point3 *center, t_vec3 *dir)
-{
-	t_vec3	new_point;
-	t_vec3	new_dir;
-	double	angle;
-
-	new_dir = (t_vec3){0,1,0};
-	angle = acos(dot(&new_dir, dir) / (length(&new_dir) * length(dir)));
-	new_point = *p_hit;
-	
-	new_point.x = new_point.x;
-	new_point.y = new_point.y * cos(angle) + new_point.z * sin(angle);
-	new_point.z = -new_point.y * sin(angle) + new_point.z * cos(angle);
-	
-	new_point.x = new_point.x * cos(angle) -new_point.z * sin(angle);
-	new_point.y = new_point.y;
-	new_point.z = new_point.x * sin(angle) + new_point.z * cos(angle);
-
-	new_point.x = new_point.x * cos(angle) + new_point.y * sin(angle);
-	new_point.y = -new_point.x * sin(angle) + new_point.y * cos(angle);
-	new_point.z = new_point.z;
-	(void)center;
-	return (new_point);
+t_point3 normalizar(t_point3 v) {
+    double magnitud = sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+    return (t_point3){v.x / magnitud, v.y / magnitud, v.z / magnitud};
 }
+
+t_vec3 rotarVector(t_vec3 v, t_vec3 axis, double angle) {
+    t_vec3 result;
+    double cosTheta = cos(angle);
+    double sinTheta = sin(angle);
+
+    result.x = cosTheta * v.x + (1 - cosTheta) * (axis.x * axis.x * v.x + axis.x * axis.y * v.y + axis.x * axis.z * v.z) + sinTheta * (axis.y * v.z - axis.z * v.y);
+    result.y = cosTheta * v.y + (1 - cosTheta) * (axis.x * axis.y * v.x + axis.y * axis.y * v.y + axis.y * axis.z * v.z) + sinTheta * (axis.z * v.x - axis.x * v.z);
+    result.z = cosTheta * v.z + (1 - cosTheta) * (axis.x * axis.z * v.x + axis.y * axis.z * v.y + axis.z * axis.z * v.z) + sinTheta * (axis.x * v.y - axis.y * v.x);
+
+    return result;
+}
+
 
 t_uv get_cylinder_map(t_point3 *p_hit, t_vec3 *dir, t_point3 *base, double h)
 {
 	t_point3	center;
 	t_uv		uv;
 	t_ray	ray;
+//	double	angle;
 
 	ray.dir = *dir;
 	ray.orig = *base;
 	
+    //t_point3 ejeRotacion = normalizar((t_point3){dir->y * (t_vec3){0,1.0,0}.z - dir->z * (t_vec3){0,1.0,0}.y,
+    //                                  dir->z * (t_vec3){0,1.0,0}.x - dir->x * (t_vec3){0,1.0,0}.z,
+    //                                  dir->x * (t_vec3){0,1.0,0}.y - dir->y * (t_vec3){0,1.0,0}.x});
+
+    double anguloRotacion = calcularAnguloDeRotacion(ray.dir);
+    //t_point3 new_point = rotarPuntoAlrededorEje(*p_hit, ejeRotacion, anguloRotacion);
 	center = ray_at(&ray, h / 2);
-	t_vec3	new_point = rotate_point(p_hit, &center, dir);
+	t_vec3	new_point = rotarVector(*p_hit, *dir, anguloRotacion);
 	double theta = atan2(new_point.x - center.x, new_point.z - center.z);
-	double phi = (new_point.y - center.y) / h;
 	uv.u = theta / (2.0 * M_PI);
-    uv.v = (phi / M_PI);
+	uv.u = 1 - (uv.u + 0.5);
+    uv.v = fmod((new_point.y - center.y), 1);
     return (uv);
 }
 

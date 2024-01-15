@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/12 19:40:43 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/15 18:56:37 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	check_plane(t_scene *scene, char **split)
 	return (0);
 }
 
-t_vec3 rotarVector(t_vec3 v, t_vec3 axis, double angle) {
+t_vec3 rotarVectortest(t_vec3 v, t_vec3 axis, double angle) {
     t_vec3 result;
     double cosTheta = cos(angle);
     double sinTheta = sin(angle);
@@ -92,6 +92,23 @@ t_vec3 rotarVector(t_vec3 v, t_vec3 axis, double angle) {
     result.z = cosTheta * v.z + (1 - cosTheta) * (axis.x * axis.z * v.x + axis.y * axis.z * v.y + axis.z * axis.z * v.z) + sinTheta * (axis.x * v.y - axis.y * v.x);
 
     return result;
+}
+
+double calcularAnguloDeRotaciontest(t_vec3 v) {
+    // Vector objetivo [0, 1, 0]
+    t_vec3 objetivo = {0, 1, 0};
+
+    // Normalizar los vectores
+    v = unit_vector(&v);
+    objetivo = unit_vector(&objetivo);
+
+    // Calcular el producto punto para encontrar el coseno del ángulo
+    double cosenoAngulo = v.x * objetivo.x + v.y * objetivo.y + v.z * objetivo.z;
+
+    // Calcular el ángulo en radianes
+    double angulo = acos(cosenoAngulo);
+
+    return angulo;
 }
 
 int	check_cylinder(t_scene *scene, char **split)
@@ -119,15 +136,16 @@ int	check_cylinder(t_scene *scene, char **split)
 	cy->type.cy->dir = unit_vector(&cy->type.cy->dir);
 	ray.dir = cy->type.cy->dir;
 	ray.orig = cy->type.cy->center;
-	printf("old dir(%f, %f, %f)\n", ray.dir.x, ray.dir.y, ray.dir.z);
-	t_vec3	new_dir = {0,1,0};
-	double	angle;
-	angle = acos(dot(&new_dir, &ray.dir) / (length(&new_dir) * length(&ray.dir)));
-	t_vec3	cosa = cross(&ray.dir, &new_dir);
-
-	cy->type.cy->dir = rotarVector(ray.dir, cosa, angle);
-	ray.dir = cy->type.cy->dir;
-	printf("new dir(%f, %f, %f)\n", ray.dir.x, ray.dir.y, ray.dir.z);
+	//printf("old dir(%f, %f, %f)\n", ray.dir.x, ray.dir.y, ray.dir.z);
+	//t_vec3	new_dir = {0,1,0};
+	//double	angle;
+	//angle = calcularAnguloDeRotaciontest(ray.dir);
+	////acos(dot(&new_dir, &ray.dir) / (length(&new_dir) * length(&ray.dir)));
+	//t_vec3	cosa = cross(&ray.dir, &new_dir);
+//
+	//cy->type.cy->dir = rotarVectortest(ray.dir, cosa, angle);
+	//ray.dir = cy->type.cy->dir;
+	//printf("new dir(%f, %f, %f)\n", ray.dir.x, ray.dir.y, ray.dir.z);
 	cy->type.cy->center = ray_at(&ray, -(cy->type.cy->height / 2));
 	cy->hit = hit_cylinder;
 	cy->get_position_pointer = get_position_cylinder;
