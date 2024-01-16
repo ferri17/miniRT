@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:03:13 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/09 15:18:58 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/16 15:34:35 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ t_color	get_color_sphere(t_vec3 *p_hit, t_objects type)
 	// 	color = world->materia.color;
 	// return (color);
 	t_uv uv = get_spherical_map(p_hit, &type.sp->center, type.sp->radius);
+	put_texture_sphere(&type, p_hit);
 	uv.u *= 4;
 	uv.v *= 2;
 	return (checker_color(uv, (t_color){255,255,255}));
@@ -75,16 +76,40 @@ t_color	get_color_cone(t_vec3 *p_hit, t_objects type)
 	return (color);
 }
 
+t_color	checker_color_cylinder(t_uv uv, t_color color)
+{
+	int	uInt;
+	int	vInt;
+
+	uInt = uv.u * 8;
+	vInt = uv.v * 8;
+
+	if((((int)floor(uv.u * 8) % 2) == 0) ^ (((int)floor(uv.v * 8) % 2) == 0))
+		return (color);
+	return ((t_color){0,0,0});
+}
+
 t_color	get_color_cylinder(t_vec3 *p_hit, t_objects type)
 {
-	//t_color color;
-	// if (type.cy->hit[H_CYLINDER])
-	// {
-		t_uv uv = get_cylinder_map(p_hit, &type.cy->dir, &type.cy->center, type.cy->radius);
-		uv.u *= 4;
-		uv.v *= 2;
-		return (checker_color(uv, (t_color){255,255,255}));
-	// }
+	t_point3	coords;
+	t_point3	val;
+	t_point3	center;
+
+	t_ray       ray;
+
+	ray.dir = type.cy->dir;
+	ray.orig = type.cy->center;
+
+	center = ray_at(&ray, type.cy->height / 2);
+
+	coords.x = abs((int)floor(p_hit->x - center.x));
+	coords.y = abs((int)floor(p_hit->y - center.y));
+	coords.z = abs((int)floor(p_hit->z - center.z));
+	val.x = (int)coords.x % 2;
+	val.y = (int)coords.y % 2;
+	val.z = (int)coords.z % 2;
+	if (((int)val.x ^ (int)val.y) ^ (int)val.z)
+		return ((t_color){0,0,0});
 	return ((t_color){255,255,255});
 }
 

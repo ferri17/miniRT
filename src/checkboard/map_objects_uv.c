@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:06:24 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/15 18:58:51 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/16 13:12:13 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,28 +92,61 @@ t_vec3 rotarVector(t_vec3 v, t_vec3 axis, double angle) {
 }
 
 
+void	rotation(t_point3 *coord, t_point3 *angles)
+{
+	float	temp;
+
+
+
+	temp = coord->y;
+	coord->y = coord->y * cos(angles->x) - sin (angles->x) * coord->z;
+	coord->z = temp * sin(angles->x) + cos(angles->x) * coord->z;
+	temp = coord->x;
+	coord->x = coord->x * cos(angles->y) + sin(angles->y) * coord->z;
+	coord->z = -temp * sin(angles->y) + coord->z * cos(angles->y);
+	temp = coord->x;
+	coord->x = coord->x * cos(angles->z) - coord->y * sin(angles->z);
+	coord->y = temp * sin(angles->z) + cos(angles->z) * coord->y;
+}
+
+void rotateYInverse(double angle, double input[3], double output[3]) {
+    double cosTheta = cos(-angle); // Rotación inversa
+    double sinTheta = sin(-angle);
+
+    output[0] = cosTheta * input[0] + sinTheta * input[2];
+    output[1] = input[1];
+    output[2] = -sinTheta * input[0] + cosTheta * input[2];
+}
+
 t_uv get_cylinder_map(t_point3 *p_hit, t_vec3 *dir, t_point3 *base, double h)
 {
 	t_point3	center;
 	t_uv		uv;
-	t_ray	ray;
-//	double	angle;
+	t_ray       ray;
 
 	ray.dir = *dir;
 	ray.orig = *base;
-	
-    //t_point3 ejeRotacion = normalizar((t_point3){dir->y * (t_vec3){0,1.0,0}.z - dir->z * (t_vec3){0,1.0,0}.y,
-    //                                  dir->z * (t_vec3){0,1.0,0}.x - dir->x * (t_vec3){0,1.0,0}.z,
-    //                                  dir->x * (t_vec3){0,1.0,0}.y - dir->y * (t_vec3){0,1.0,0}.x});
 
-    double anguloRotacion = calcularAnguloDeRotacion(ray.dir);
-    //t_point3 new_point = rotarPuntoAlrededorEje(*p_hit, ejeRotacion, anguloRotacion);
 	center = ray_at(&ray, h / 2);
-	t_vec3	new_point = rotarVector(*p_hit, *dir, anguloRotacion);
-	double theta = atan2(new_point.x - center.x, new_point.z - center.z);
+	double theta = atan2(p_hit->x - center.x, p_hit->z - center.z);
 	uv.u = theta / (2.0 * M_PI);
-	uv.u = 1 - (uv.u + 0.5);
-    uv.v = fmod((new_point.y - center.y), 1);
+    uv.u = fmod(1 - (uv.u + 0.5) * 2, 1.0);
+    uv.v = fmod((p_hit->y - center.y) * 2, 1);
+    if (uv.v < 0) {
+        uv.v += 1.0;
+    }
+    uv.v = fmod(uv.v * 8.0, 1.0);
+    double direction[3] = {p_hit->x - center.x, p_hit->y - center.y, p_hit->z - center.z};
+    double length = sqrt(direction[0] * direction[0] + direction[1] * direction[1] + direction[2] * direction[2]);
+    double normalizedDirection[3] = {direction[0] / length, direction[1] / length, direction[2] / length};
+
+    double angleY = atan2(normalizedDirection[0], normalizedDirection[2]);
+
+    double rotatedUV[2] = {uv.u, uv.v};
+    rotateYInverse(angleY, rotatedUV, rotatedUV);
+
+    uv.u = rotatedUV[0];
+    uv.v = rotatedUV[1];
     return (uv);
 }
 
