@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:13:17 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/14 17:32:05 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/17 21:32:58 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_color	render_edit_mode(t_scene *scene, t_world *objs, const t_ray *r, t_hit *h
 
 void	calc_shadow_ray(t_ray *shadow_ray, t_light *lights, t_hit *hit_rec)
 {
-	shadow_ray->orig = product_vec3_r(&hit_rec->normal, BIAS); //FIX BIAS FOR CONES
+	shadow_ray->orig = product_vec3_r(&hit_rec->normal, BIAS * 2); //FIX BIAS FOR CONES
 	shadow_ray->orig = add_vec3(&hit_rec->p, &shadow_ray->orig);
 	shadow_ray->dir = substract_vec3(&lights->center, &shadow_ray->orig);
 	shadow_ray->len_sqrd = length_squared(&shadow_ray->dir);

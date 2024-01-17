@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/17 00:05:34 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/17 21:34:29 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,12 @@
 	- CHECK OBJECTS CANT BE MOVED OVER LIMITS INT MAX
 	- CONVERT ALL USER VECTORS TO UNIT VECTORS
 	- AFEGIR LAMBERTIAN I ROUGHNESS ALS MATERIALS
-	- AFEGIR BIAS RAY_TMAX I RAY_TMIN
-	- ANTIALISING
-	- ARREGLAR ERROR INTERSECCIO DISC CILINDRE
 	- ARREGLAR LLUMS CAMERA MOVEMENT (SEGFAULT NO LIGHTS)
-	- FIX PLANE NORMALS
-	- CAMERA NOMES POT APUNTAR A LA DIRECCIO Z
+	x FIX PLANE NORMALS
+	x CAMERA NOMES POT APUNTAR A LA DIRECCIO Z
 	- LIMITAR CANVAS SIZE
 	- FIX BIAS FOR CON AUTOHIT
+	- COMPROVAR OBJECTES DIR = 0,0,0
 */
 #include "MiniRT.h"
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_events.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 12:46:29 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/17 01:33:13 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/17 19:38:22 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,23 +93,6 @@ int	key_down(int key, void *param)
 		scene->light->center.x += MOVE;
 	else if (key == I_KEY)
 		scene->light->center.y += MOVE;
-	else if(key == C_KEY)
-	{
-		double angle = deg_to_rad(10);
-		//double	tmp_x = scene->camera.dir.x;
-		double	tmp_y = scene->camera.dir.y;
-
-
-		//Rotate y axis
-		//scene->camera.dir.x = scene->camera.dir.x * cos(angle) - scene->camera.dir.z * sin(angle);
-		//scene->camera.dir.z = tmp_x * sin(angle) + scene->camera.dir.z * cos(angle);
-
-		//Rotate x axis
-		scene->camera.dir.y = scene->camera.dir.y * cos(angle) + scene->camera.dir.z * sin(angle);
-		scene->camera.dir.z = -tmp_y * sin(angle) + scene->camera.dir.z * cos(angle);
-		
-		printf("camera dir(%f,%f,%f)\n", scene->camera.dir.x, scene->camera.dir.y, scene->camera.dir.z);
-	}
 	render_image(scene, IMG_W, IMG_H);
 	return (0);
 }
