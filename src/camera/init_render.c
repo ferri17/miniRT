@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/14 17:33:50 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/17 01:33:21 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,13 @@ void	set_camera(t_camera *camera, int img_w, int img_h)
 	camera->viewport_height = camera->viewport_width * ((double)img_h/(double)img_w);
 	cam_axis[W] = unit_vector(&camera->dir);
 	product_vec3(&cam_axis[W], -1);
+	
 	/* CHOOSING DIFFERENT VUP IF VUP AND W ARE PARALLEL */
 	t_vec3	tmp_unit_w = unit_vector(&cam_axis[W]);
 	if (dot(&tmp_unit_w, &camera->vup) == 1 || dot(&tmp_unit_w, &camera->vup) == -1)
 		camera->vup = (t_vec3){1,0,0}; 
 	/**/
+	
 	tmp = cross(&camera->vup, &cam_axis[W]);
 	cam_axis[U] = unit_vector(&tmp);
 	cam_axis[V] = cross(&cam_axis[W], &cam_axis[U]);

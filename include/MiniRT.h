@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/14 18:08:46 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/16 23:23:34 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ a valid extension *[.rt]\n"
 # define K_KEY		0x28
 # define L_KEY		0x25
 # define I_KEY		0x22
+# define C_KEY		0x08
 // HEXA COLOURS
 # define WHITE		0xFFFFFF
 # define GREEN		0x00E844
