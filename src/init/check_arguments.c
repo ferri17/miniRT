@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_arguments.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:10:32 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/14 11:55:25 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/18 12:18:21 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,22 +101,15 @@ int	check_args(int argc, char **argv)
 	if (argc == 2)
 	{
 		if (compare_str_end(filename, ".rt") != 0)
-		{
-			ft_printf_fd(STDERR_FILENO, ERR_MISSING_RT_EXTENSION);
-			return (1);
-		}
+			return (ft_printf_fd(STDERR_FILENO, ERR_MISSING_RT_EXTENSION), 1);
 		fd = open(filename, O_RDONLY);
 		close(fd);
 		if (fd == -1)
-		{
-			ft_printf_fd(STDERR_FILENO, ERR_OPENING_MAP);
-			return (1);
-		}
+			return (ft_printf_fd(STDERR_FILENO, ERR_OPENING_MAP), 1);
+		if (IMG_W < 200 || IMG_H < 200 || IMG_W > 1500 || IMG_H > 1500)
+			return (ft_printf_fd(STDERR_FILENO, ERR_CANVAS_SIZE), 1);
 	}
 	else
-	{
-		ft_printf_fd(STDERR_FILENO, ERR_NO_MAP);
-		return (1);
-	}
+		return (ft_printf_fd(STDERR_FILENO, ERR_NO_MAP), 1);
 	return (0);
 }

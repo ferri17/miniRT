@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 02:36:21 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/26 20:30:19 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/18 13:25:42 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,14 @@ int	close_program(t_scene *scene, int exit_code)
 	mlx_destroy(scene->data.mlx);
 	exit(exit_code);
 }
+void	check_limits_move(double *nb, double move)
+{
+	*nb += move;
+	if (*nb > INT_MAX)
+		*nb = INT_MAX;
+	else if (*nb < INT_MIN)
+		*nb = INT_MIN;
+}
 
 void	move_object(t_scene *scene, int key)
 {
@@ -29,15 +37,15 @@ void	move_object(t_scene *scene, int key)
 		return ;
 	vector = scene->selected->get_position_pointer(&scene->selected->type);
 	if (key == A_KEY)
-		vector->x += -MOVE;
+		check_limits_move(&vector->x, -MOVE);
 	else if (key == D_KEY)
-		vector->x += +MOVE;
+		check_limits_move(&vector->x, MOVE);
 	else if (key == W_KEY)
-		vector->y += +MOVE;
+		check_limits_move(&vector->y, MOVE);
 	else if (key == S_KEY)
-		vector->y += -MOVE;
+		check_limits_move(&vector->y, -MOVE);
 	else if (key == ONE_KEY)
-		vector->z += +MOVE;
+		check_limits_move(&vector->z, MOVE);
 	else if (key == TWO_KEY)
-		vector->z += -MOVE;
+		check_limits_move(&vector->z, -MOVE);
 }

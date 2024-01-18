@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/16 23:23:34 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/18 13:42:11 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 a valid extension *[.rt]\n"
 # define ERR_INVALID_MAP "Error: invalid map format.\n"
 # define ERR_OPENING_MAP "Error: Couldn't open map.\n"
+# define ERR_CANVAS_SIZE "Error, canvas size range [200, 1500]\n"
 
 /*=================================	MACROS	==================================*/
 
@@ -88,7 +89,7 @@ a valid extension *[.rt]\n"
 # define EXPOSE 12
 # define DESTROY 17
 // GENERAL DEFINITIONS
-# define MOVE 0.01
+# define MOVE 1
 // UI
 # define SM_PAD 25
 # define MD_PAD 50

@@ -6,42 +6,23 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/17 21:34:29 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/18 13:39:10 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
 	- MALLOCS NO PROTEGITS AL CREAR OBJECTES
-	- CHECK OBJECTS CANT BE MOVED OVER LIMITS INT MAX
+	x CHECK OBJECTS CANT BE MOVED OVER LIMITS INT MAX
 	- CONVERT ALL USER VECTORS TO UNIT VECTORS
 	- AFEGIR LAMBERTIAN I ROUGHNESS ALS MATERIALS
 	- ARREGLAR LLUMS CAMERA MOVEMENT (SEGFAULT NO LIGHTS)
 	x FIX PLANE NORMALS
 	x CAMERA NOMES POT APUNTAR A LA DIRECCIO Z
-	- LIMITAR CANVAS SIZE
+	x LIMITAR CANVAS SIZE
 	- FIX BIAS FOR CON AUTOHIT
 	- COMPROVAR OBJECTES DIR = 0,0,0
 */
 #include "MiniRT.h"
-
-void print_shit(t_scene scene)
-{
-	printf("-----CAMERA-----\n");
-	printf("Coord: x:%f y:%f z:%f\n", scene.camera.center.x, scene.camera.center.y, scene.camera.center.z);
-	printf("Direct: x:%f y:%f z:%f\n", scene.camera.dir.x, scene.camera.dir.y, scene.camera.dir.z);
-	printf("FOV: %d\n", scene.camera.hfov);
-	printf("-----AMBIENT-----\n");
-	printf("COLOR: R:%f G:%f B:%f\n", scene.amblight.color.x, scene.amblight.color.y, scene.amblight.color.z);
-	printf("RATIO: %f\n", scene.amblight.ratio);
-	printf("-----LIGTH-----\n");
-	//printf("BRIGT: %f\n", scene.ligth.brigt);
-	while (scene.objs)
-	{
-		ft_printf("-----OBJS-----\n");
-		//scene.objs->hit(scene.objs->type);
-		scene.objs = scene.objs->next;
-	}
-}
 
 int	main(int argc, char **argv)
 {

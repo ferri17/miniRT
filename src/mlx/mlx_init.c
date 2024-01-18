@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 12:48:26 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/26 21:10:04 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/18 11:55:36 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,3 @@ void	my_string_put(t_mlx *data, int x, int y, char *txt)
 {
 	mlx_string_put(data->mlx, data->mlx_win, x, y, WHITE, txt);
 }
-
