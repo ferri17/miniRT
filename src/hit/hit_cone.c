@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   hit_cone.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 17:00:29 by apriego-          #+#    #+#             */
 /*   Updated: 2024/01/18 11:46:05 by apriego-         ###   ########.fr       */
@@ -14,23 +14,19 @@
 
 t_vec3	calculate_normal_cone(t_cone *cn, const t_vec3 *p)
 {
-	t_vec3	apex_to_point;
-	t_vec3	projected;
-	t_vec3	outward_normal;
-	t_vec3	inv_dir;
+	t_point3	cp;
+	t_point3	normal;
 
-	apex_to_point = substract_vec3(p, &cn->apex);
-	inv_dir = product_vec3_r(&cn->dir, -1);
-	projected = product_vec3_r(&inv_dir, dot(&inv_dir, &apex_to_point));
-	outward_normal = substract_vec3(&apex_to_point, &projected);
-	return (unit_vector(&outward_normal));
+	cp = substract_vec3(p, &cn->apex);
+	normal = product_vec3_r(&cp, dot(&cp, &cn->dir) / dot(&cp, &cp));
+	normal = substract_vec3(&normal, &cn->dir);
+	return (unit_vector(&normal));
 }
 
 bool	calc_hit_cone(const t_ray *ray, t_objects obj, t_hit *rec, t_evars vars)
 {
 	double	hit_z;
 	t_vec3	tmp;
-	t_vec3	outward_normal;
 
 	vars.root = (-vars.half_b - vars.sqrtd) / (2 * vars.a);
 	if (vars.root <= rec->ray_tmin || vars.root >= rec->ray_tmax)
@@ -47,8 +43,7 @@ bool	calc_hit_cone(const t_ray *ray, t_objects obj, t_hit *rec, t_evars vars)
 		return (false);
 	rec->t = vars.root;
 	rec->p = ray_at(ray, vars.root);
-	outward_normal = calculate_normal_cone(obj.cn, &rec->p);
-	rec->normal = outward_normal;
+	rec->normal = calculate_normal_cone(obj.cn, &rec->p);
 	return (true);
 }
 

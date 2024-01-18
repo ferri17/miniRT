@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   fill_objs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:51:31 by apriego-          #+#    #+#             */
 /*   Updated: 2024/01/11 15:32:25 by apriego-         ###   ########.fr       */

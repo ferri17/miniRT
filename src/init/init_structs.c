@@ -47,4 +47,6 @@ void	init_structs(t_scene *scene)
 	scene->render_mode = RAYTRACE_MODE;
 	scene->selected = NULL;
 	scene->bg_color = (t_color){0, 0, 0};
+	scene->slider = init_slider(0, 180, &scene->camera.hfov, 50);
+	scene->select_mask = NULL;
 }

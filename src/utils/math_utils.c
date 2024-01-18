@@ -6,11 +6,16 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 12:11:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/13 00:44:22 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/14 15:45:25 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MiniRT.h"
+
+bool	is_within(int nb, int min, int max)
+{
+	return (nb >= min && nb < max);
+}
 
 int	create_color(double a, double r, double g, double b)
 {

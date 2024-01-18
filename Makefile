@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+         #
+#    By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
 #    Updated: 2024/01/18 13:21:26 by apriego-         ###   ########.fr        #
@@ -26,12 +26,12 @@ FILE_MAKE		=	Makefile
 
 FILES_MAIN		=	main.c
 FILES_CAMERA	=	init_render.c object_selector.c render.c\
-					light.c
+					light.c outlines.c
 FILES_INIT		=	check_arguments.c init_structs.c fill_structs.c init_objs.c init_func_objs.c\
 					put_structs.c fill_objs.c free_structs.c free_objs.c
 FILES_HIT		=	hit_sphere.c hit_plane.c hit_cylinder.c hit_cone.c hit_disk.c
-FILES_MLX		=	mlx_color.c mlx_events.c mlx_init.c
-FILES_UTILS		=	vec3_utils.c vec3_utils2.c vec3_utils3.c math_utils.c\
+FILES_MLX		=	mlx_color.c mlx_events.c mlx_init.c events.c
+FILES_UTILS		=	vec3_utils.c vec3_utils2.c vec3_utils3.c math_utils.c slider.c\
 					ray_utils.c menu.c
 FILES_CHECK		=	checkboard.c map_objects_uv.c utils.c
 FILES_TEXTUR	=	texture.c
