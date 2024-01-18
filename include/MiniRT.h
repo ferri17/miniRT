@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/18 13:42:11 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/18 14:59:00 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ a valid extension *[.rt]\n"
 # define EXPOSE 12
 # define DESTROY 17
 // GENERAL DEFINITIONS
-# define MOVE 1
+# define MOVE 0.01
 // UI
 # define SM_PAD 25
 # define MD_PAD 50
