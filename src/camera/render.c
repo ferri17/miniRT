@@ -84,6 +84,7 @@ void	calc_shadow_ray(t_ray *shadow_ray, t_light *lights, t_hit *hit_rec)
 
 t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t_hit* hit_rec)
 {
+  //CHECK CHECKRBOARD
 	t_color pxl_color;
 	t_color	diffuse_light;
 	t_color	specular_light;

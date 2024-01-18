@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/14 12:17:54 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/18 13:30:03 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ t_world	*push_back(t_world *objs, t_scene *scene)
 	return (objs);
 }
 
-
 int	check_sphere(t_scene *scene, char **split)
 {
 	t_world	*sp;
@@ -40,8 +39,19 @@ int	check_sphere(t_scene *scene, char **split)
 	sp->next = NULL;
 	sp->type.sp = malloc(sizeof(t_sphere));
 	sp->free_type = free_sphere;
-	if (fill_sphere(sp->type.sp, split) || put_colors(&sp->color, split[3]))
+	if (fill_sphere(sp->type.sp, split) || put_colors(&sp->materia.color,
+			split[3]))
 		return (1);
+	if (ft_array_len(split) == 5)
+	{
+		if (ft_strcmp(split[4], "CHECKBOARD") == 0)
+			sp->materia.texture = CHECKBOARD;
+		else
+			return (1);
+	}
+	else
+		sp->materia.texture = DEFAULT;
+	sp->get_color = get_color_sphere;
 	sp->hit = hit_sphere;
 	sp->get_position_pointer = get_position_sphere;
 	return (0);
@@ -57,8 +67,20 @@ int	check_plane(t_scene *scene, char **split)
 	pl->next = NULL;
 	pl->type.pl = malloc(sizeof(t_plane));
 	pl->free_type = free_plane;
-	if (fill_plane(pl->type.pl, split) || put_colors(&pl->color, split[3]))
+	if (fill_plane(pl->type.pl, split) || put_colors(&pl->materia.color,
+			split[3]))
 		return (1);
+	if (check_dir(&pl->type.pl->normal))
+		return (1);
+	if (ft_array_len(split) == 5)
+	{
+		if (ft_strcmp(split[4], "CHECKBOARD") == 0)
+			pl->materia.texture = CHECKBOARD;
+		else
+			return (1);
+	}
+	pl->type.pl->normal = unit_vector(&pl->type.pl->normal);
+	pl->get_color = get_color_plane;
 	pl->hit = hit_plane;
 	pl->get_position_pointer = get_position_plane;
 	return (0);
@@ -67,7 +89,6 @@ int	check_plane(t_scene *scene, char **split)
 int	check_cylinder(t_scene *scene, char **split)
 {
 	t_world	*cy;
-	t_ray	ray;
 
 	cy = push_back(scene->objs, scene);
 	if (!cy)
@@ -75,13 +96,21 @@ int	check_cylinder(t_scene *scene, char **split)
 	cy->next = NULL;
 	cy->type.cy = malloc(sizeof(t_cylinder));
 	cy->free_type = free_cylinder;
-	if (fill_cylinder(cy->type.cy, split) || put_colors(&cy->color, split[5]))
+	if (fill_cylinder(cy->type.cy, split) || put_colors(&cy->materia.color,
+			split[5]))
 		return (1);
-	ray.dir = cy->type.cy->dir;
-	ray.orig = cy->type.cy->center;
-	cy->type.cy->center = ray_at(&ray, -(cy->type.cy->height / 2));
-	cy->hit = hit_cylinder;
-	cy->get_position_pointer = get_position_cylinder;
+	if (check_dir(&cy->type.cy->dir))
+		return (1);
+	if (ft_array_len(split) == 7)
+	{
+		if (ft_strcmp(split[6], "CHECKBOARD") == 0)
+			cy->materia.texture = CHECKBOARD;
+		else
+			return (1);
+	}
+	else
+		cy->materia.texture = DEFAULT;
+	inti_func_cylinder(cy);
 	return (0);
 }
 
@@ -95,11 +124,20 @@ int	check_cone(t_scene *scene, char **split)
 	cn->next = NULL;
 	cn->type.cn = malloc(sizeof(t_cone));
 	cn->free_type = free_cone;
-	if (fill_cone(cn->type.cn, split) || put_colors(&cn->color, split[5]))
+	if (fill_cone(cn->type.cn, split) || put_colors(&cn->materia.color,
+			split[5]))
 		return (1);
-	cn->type.cn->angle = deg_to_rad(cn->type.cn->angle);
-	cn->type.cn->dir = unit_vector(&cn->type.cn->dir);
-	cn->hit = hit_disk_cone;
-	cn->get_position_pointer = get_position_cone;
+	if (check_dir(&cn->type.cn->dir))
+		return (1);
+	if (ft_array_len(split) == 7)
+	{
+		if (ft_strcmp(split[6], "CHECKBOARD") == 0)
+			cn->materia.texture = CHECKBOARD;
+		else
+			return (1);
+	}
+	else
+		cn->materia.texture = DEFAULT;
+	inti_func_cone(cn);
 	return (0);
 }

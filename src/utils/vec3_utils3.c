@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec3_utils3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 16:41:23 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/07 17:42:45 by fbosch           ###   ########.fr       */
+/*   Updated: 2023/12/20 12:22:26 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,3 @@ t_vec3	vproduct_vec3(t_vec3 *v1, t_vec3 *v2)
 	result.z = v1->z * v2->z;
 	return (result);
 }
-

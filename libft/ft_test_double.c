@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 11:48:51 by apriego-          #+#    #+#             */
-/*   Updated: 2023/11/30 15:37:45 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/18 11:44:21 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ static int	testing_double(char *str, double min, double max, double sign)
 	double	divisor;
 
 	res = 0.0;
-	if(!(*str >= '0' && *str <= '9'))
-		return(1);
+	if (!(*str >= '0' && *str <= '9'))
+		return (1);
 	while (*str >= '0' && *str <= '9')
 	{
 		res = res * 10.0 + (*str - '0');
@@ -65,8 +65,7 @@ static int	testing_double(char *str, double min, double max, double sign)
 			str++;
 		}
 	}
-	res *= sign;
-	if (res < min || res > max || *str != '\0')
+	if (res * sign < min || res * sign > max || *str != '\0')
 		return (1);
 	return (0);
 }

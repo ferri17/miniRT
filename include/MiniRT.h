@@ -18,18 +18,20 @@
 # include "minilibx_ui.h"
 # include "libft.h"
 # include "mlx.h"
-# include "vec3.h"
 # include "ray.h"
+# include "vec3.h"
 # include <fcntl.h>
 # include <limits.h>
 # include <math.h>
 # include <stdbool.h>
-#include <stdio.h> //BORRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
+# include <stdint.h>
+# include <stdio.h>
 
 /*=============================	ERROR MESSAGES	==============================*/
 
 # define ERR_NO_MAP "Usage: [./miniRT] [your_map.rt]\n"
-# define ERR_MISSING_RT_EXTENSION "Error: map doesn't have \
+# define ERR_MISSING_RT_EXTENSION \
+	"Error: map doesn't have \
 a valid extension *[.rt]\n"
 # define ERR_INVALID_MAP "Error: invalid map format.\n"
 # define ERR_OPENING_MAP "Error: Couldn't open map.\n"
@@ -99,6 +101,14 @@ a valid extension *[.rt]\n"
 # ifndef M_PI
 #  define M_PI 3.1415926
 # endif
+// CHECKBOARD FACTOR
+# define C_FACTOR 14
+// HIT
+# define H_CONE 0
+# define H_DISK 1
+# define H_CYLINDER 0
+# define H_DISK_BA 1
+# define H_DISK_TA 2
 
 /*===============================	STRUCTURES	==============================*/
 
@@ -106,19 +116,19 @@ a valid extension *[.rt]\n"
 
 typedef struct s_image
 {
-	void		*ptr;
-	int			pixel_bits;
-	int			line_bytes;
-	int			endian;
-	char		*buffer;
-}				t_image;
+	void			*ptr;
+	int				pixel_bits;
+	int				line_bytes;
+	int				endian;
+	char			*buffer;
+}					t_image;
 
 typedef struct s_mlx
 {
 	void			*mlx;
 	void			*mlx_win;
 	t_image			img;
-}	t_mlx;
+}					t_mlx;
 
 /*-------------------------------      MAP      ------------------------------*/
 
@@ -136,10 +146,10 @@ typedef struct s_camera
 	double			focal_length;
 	double			viewport_height;
 	double			viewport_width;
-    t_vec3			viewport_u;
-    t_vec3			viewport_v;
-    t_vec3			pixel_delta_u;
-    t_vec3			pixel_delta_v;
+	t_vec3			viewport_u;
+	t_vec3			viewport_v;
+	t_vec3			pixel_delta_u;
+	t_vec3			pixel_delta_v;
 	t_vec3			vup;
 	t_vec3			dir;
 	int				hfov;
@@ -172,6 +182,7 @@ typedef struct s_cylinder
 	t_vec3			dir;
 	double			radius;
 	double			height;
+	bool			hit[3];
 }					t_cylinder;
 
 typedef struct s_disk
@@ -188,6 +199,7 @@ typedef struct s_cone
 	t_vec3			dir;
 	double			angle;
 	double			height;
+	bool			hit[2];
 }					t_cone;
 
 typedef union u_objects
@@ -200,28 +212,54 @@ typedef union u_objects
 
 typedef struct s_hit_record
 {
-	t_point3	p;
-	t_vec3		normal;
-	double		t;
-	double		ray_tmin;
-	double		ray_tmax;
-}	t_hit;
+	t_point3		p;
+	t_vec3			normal;
+	double			t;
+	double			ray_tmin;
+	double			ray_tmax;
+}					t_hit;
+
+typedef enum e_texture
+{
+	DEFAULT = 0,
+	CHECKBOARD = 1,
+	BITMAP = 2
+}					t_texture;
+
+typedef struct s_img_tex
+{
+	void			*img_ptr;
+	char			*info;
+	int				w;
+	int				h;
+	int				bbp;
+	int				sl;
+	int				endian;
+}					t_img_tex;
+
+typedef struct s_materia
+{
+	t_texture		texture;
+	t_color			color;
+	t_img_tex		img_tex;
+}					t_materia;
 
 typedef struct s_world
 {
 	t_objects		type;
-	t_color			color; // MATERIAAAAAAAAAAAL
+	t_materia		materia;
 	bool			(*hit)(const t_ray *, t_objects, t_hit *);
 	void			(*free_type)(t_objects type);
-	t_vec3*			(*get_position_pointer)(t_objects *);
+	t_vec3			*(*get_position_pointer)(t_objects *);
+	t_color			(*get_color)(t_vec3 *, struct s_world *obj);
 	struct s_world	*next;
 }					t_world;
 
-enum	render_mode
+typedef enum e_render_mode
 {
 	EDIT_MODE = 0,
 	RAYTRACE_MODE = 1
-};
+}					t_render_mode;
 
 typedef struct s_scene
 {
@@ -239,18 +277,29 @@ typedef struct s_scene
 
 typedef struct s_evars
 {
-	double		a;
-	double		half_b;
-	double		c;
-	double		discriminant;
-	double		root;
-	double		sqrtd;
-}	t_evars;
+	double			a;
+	double			half_b;
+	double			c;
+	double			discriminant;
+	double			root;
+	double			sqrtd;
+}					t_evars;
+
+typedef struct s_uv
+{
+	double			u;
+	double			v;
+}					t_uv;
+
+void				print_shit(t_scene scene);
 
 /*==============================  FUNCTIONS  =============================*/
 /*------------------------------  INIT_TOOL  -----------------------------*/
 
 void				init_structs(t_scene *scene);
+int					check_dir(t_vec3 *dir);
+void				inti_func_cylinder(t_world *cy);
+void				inti_func_cone(t_world *cn);
 
 /*------------------------------  FREE_TOOL  -----------------------------*/
 
@@ -269,6 +318,22 @@ bool				hit_disk(const t_ray *ray, t_disk *obj, t_hit *rec);
 bool				hit_cylinder(const t_ray *ray, t_objects obj, t_hit *rec);
 bool				hit_disk_cone(const t_ray *ray, t_objects obj, t_hit *rec);
 
+/*------------------------------ CHECKBOARD  ------------------------------*/
+
+t_color				get_color_sphere(t_vec3 *p_hit, t_world *objs);
+t_color				get_color_plane(t_vec3 *p_hit, t_world *objs);
+t_color				get_color_cone(t_vec3 *p_hit, t_world *objs);
+t_color				get_color_cylinder(t_vec3 *p_hit, t_world *objs);
+t_uv				get_planar_map(t_point3 *p_hit, t_point3 *dir,
+						t_point3 *center);
+t_uv				get_spherical_map(t_point3 *p_hit, t_point3 *center,
+						double radius);
+t_uv				get_cylinder_map(t_point3 *p_hit, t_point3 *center);
+t_uv				get_cone_map(t_point3 p_hit);
+double				quit_decimals(double num);
+t_color				checker_color(t_uv uv, t_color color);
+t_color				put_texture_sphere(t_world *objs, t_point3 *p_hit);
+t_color				put_texture_plane(t_world *objs, t_point3 *p_hit);
 /*------------------------------  INIT_OBJS  ------------------------------*/
 
 int					check_sphere(t_scene *scene, char **split);
@@ -314,7 +379,8 @@ void				update_slider(t_slider *slider, int x);
 /*------------------------------  CAMERA  ------------------------------*/
 
 void				render_image(t_scene *scene, int img_w, int img_h);
-void				start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h);
+void				start_raytracer(t_mlx *data, t_scene *scene, int img_w,
+						int img_h);
 void				set_camera(t_camera *camera, int img_w, int img_h);
 void				set_pixel00(t_camera *camera, t_vec3 *cam_axis);
 t_world				*select_object(t_scene *scene, int x, int y);

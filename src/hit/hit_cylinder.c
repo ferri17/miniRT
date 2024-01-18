@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 12:52:37 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/21 13:32:18 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/18 11:46:32 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,26 +73,23 @@ bool	hit_body_cylinder(const t_ray *ray, t_objects obj, t_hit *rec)
 
 bool	hit_cylinder(const t_ray *ray, t_objects obj, t_hit *rec)
 {
-	bool		r[3];
-	t_disk		disk;
-	t_ray		displace;
+	t_disk	disk;
+	t_ray	displace;
 
-	obj.cy->dir = unit_vector(&obj.cy->dir);
 	displace.orig = obj.cy->center;
 	displace.dir = obj.cy->dir;
 	disk.center = obj.cy->center;
 	disk.dir = obj.cy->dir;
 	disk.radius = obj.cy->radius;
-	r[0] = hit_disk(ray, &disk, rec);
-	if (r[0])
+	obj.cy->hit[H_DISK_BA] = hit_disk(ray, &disk, rec);
+	if (obj.cy->hit[H_DISK_BA])
 		rec->ray_tmax = rec->t;
 	disk.center = ray_at(&displace, obj.cy->height);
 	disk.dir = product_vec3_r(&obj.cy->dir, -1);
-	r[1] = hit_disk(ray, &disk, rec);
-	if (r[1])
+	obj.cy->hit[H_DISK_TA] = hit_disk(ray, &disk, rec);
+	if (obj.cy->hit[H_DISK_TA])
 		rec->ray_tmax = rec->t;
-	r[2] = hit_body_cylinder(ray, obj, rec);
-	if (r[2])
-		rec->ray_tmax = rec->t;
-	return (r[0] || r[1] || r[2]);
+	obj.cy->hit[H_CYLINDER] = hit_body_cylinder(ray, obj, rec);
+	return (obj.cy->hit[H_DISK_BA] || obj.cy->hit[H_DISK_TA]
+		|| obj.cy->hit[H_CYLINDER]);
 }

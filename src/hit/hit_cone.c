@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 17:00:29 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/12 13:36:31 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/18 11:46:05 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ bool	hit_cone(const t_ray *ray, t_objects obj, t_hit *rec)
 	half_a = tan(obj.cn->angle / 2.0);
 	vars.a = length_squared(&ray->dir) - (1 + half_a * half_a)
 		* pow(dot(&ray->dir, &obj.cn->dir), 2);
-	vars.half_b = 2 * (dot(&oc, &ray->dir) - (1 + half_a * half_a)
-			* dot(&oc, &obj.cn->dir) * dot(&ray->dir, &obj.cn->dir));
-	vars.c = length_squared(&oc) - (1 + half_a * half_a)
-		* pow(dot(&oc, &obj.cn->dir), 2);
+	vars.half_b = 2 * (dot(&oc, &ray->dir) - (1 + half_a * half_a) * dot(&oc,
+				&obj.cn->dir) * dot(&ray->dir, &obj.cn->dir));
+	vars.c = length_squared(&oc) - (1 + half_a * half_a) * pow(dot(&oc,
+				&obj.cn->dir), 2);
 	vars.discriminant = vars.half_b * vars.half_b - 4 * vars.a * vars.c;
 	if (vars.discriminant < 0)
 		return (false);
@@ -70,19 +70,18 @@ bool	hit_cone(const t_ray *ray, t_objects obj, t_hit *rec)
 
 bool	hit_disk_cone(const t_ray *ray, t_objects obj, t_hit *rec)
 {
-	bool		r[2];
-	t_ray		displace;
-	t_disk		disk;
+	t_ray	displace;
+	t_disk	disk;
 
 	displace.dir = obj.cn->dir;
 	displace.orig = obj.cn->center;
 	obj.cn->apex = ray_at(&displace, -(obj.cn->height / 2));
 	disk.radius = tan(obj.cn->angle / 2) * obj.cn->height;
 	disk.center = ray_at(&displace, obj.cn->height / 2);
-	disk.dir = product_vec3_r(&obj.cn->dir, -1);
-	r[0] = hit_cone(ray, obj, rec);
-	if (r[0])
+	disk.dir = obj.cn->dir;
+	obj.cn->hit[H_CONE] = hit_cone(ray, obj, rec);
+	if (obj.cn->hit[H_CONE])
 		rec->ray_tmax = rec->t;
-	r[1] = hit_disk(ray, &disk, rec);
-	return (r[0] || r[1]);
+	obj.cn->hit[H_DISK] = hit_disk(ray, &disk, rec);
+	return (obj.cn->hit[H_CONE] || obj.cn->hit[H_DISK]);
 }
