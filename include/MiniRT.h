@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/14 12:32:18 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/18 14:59:00 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 /*==============================	LIBRARIES	==============================*/
 
+# include "minilibx_ui.h"
 # include "libft.h"
 # include "mlx.h"
 # include "vec3.h"
@@ -23,7 +24,6 @@
 # include <limits.h>
 # include <math.h>
 # include <stdbool.h>
-
 #include <stdio.h> //BORRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
 
 /*=============================	ERROR MESSAGES	==============================*/
@@ -33,6 +33,7 @@
 a valid extension *[.rt]\n"
 # define ERR_INVALID_MAP "Error: invalid map format.\n"
 # define ERR_OPENING_MAP "Error: Couldn't open map.\n"
+# define ERR_CANVAS_SIZE "Error, canvas size range [200, 1500]\n"
 
 /*=================================	MACROS	==================================*/
 
@@ -50,9 +51,10 @@ a valid extension *[.rt]\n"
 # define CONE "cn"
 // MLX
 # define WIN_W 900
-# define WIN_H 506
+# define WIN_H 600
 # define IMG_W WIN_W
 # define IMG_H WIN_H
+# define PXL_NB (IMG_W * IMG_H)
 // KEYS
 # define A_KEY		0x00
 # define S_KEY		0x01
@@ -66,8 +68,11 @@ a valid extension *[.rt]\n"
 # define K_KEY		0x28
 # define L_KEY		0x25
 # define I_KEY		0x22
+# define C_KEY		0x08
 // HEXA COLOURS
 # define WHITE		0xFFFFFF
+# define GREEN		0x00E844
+# define BLUE		0x10D663
 # define BLACK		0x000000
 // MOUSE EVENTS
 # define LEFT_CLICK 1
@@ -84,12 +89,13 @@ a valid extension *[.rt]\n"
 # define EXPOSE 12
 # define DESTROY 17
 // GENERAL DEFINITIONS
-# define MOVE 0.05
+# define MOVE 0.01
 // UI
 # define SM_PAD 25
 # define MD_PAD 50
 # define XL_PAD 100
 // OTHERS
+# define BIAS 0.00000000000001
 # ifndef M_PI
 #  define M_PI 3.1415926
 # endif
@@ -136,7 +142,7 @@ typedef struct s_camera
     t_vec3			pixel_delta_v;
 	t_vec3			vup;
 	t_vec3			dir;
-	uint8_t			hfov;
+	int				hfov;
 	bool			init;
 }					t_camera;
 
@@ -224,8 +230,10 @@ typedef struct s_scene
 	t_amblight			amblight;
 	t_camera			camera;
 	t_world				*selected;
+	int					*select_mask;
 	t_color				bg_color;
 	t_mlx				data;
+	t_slider			slider;
 	enum render_mode	render_mode;
 }					t_scene;
 
@@ -275,7 +283,7 @@ int					put_colors(t_color *colors, char *split);
 int					put_coord(t_point3 *coord, char **coords);
 int					put_dir(t_vec3 *dir, char **norm);
 int					fill_cone(t_cone *cn, char **split);
-int					put_fov(uint8_t *hfov, char *num);
+int					put_fov(int *hfov, char *num);
 
 /*------------------------------  CHECK_ARG  -----------------------------*/
 
@@ -295,11 +303,13 @@ void				init_mlx_windows(t_mlx *data, int win_w, int win_h);
 void				init_mlx_image(t_mlx *data, int img_w, int img_h);
 int					my_put_pixel(t_mlx *data, int x, int y, int color);
 void				set_color(t_image *img, int pixel, int color);
-int					close_program(t_scene *scene, int exit_code);
 int					key_down(int key, void *param);
 int					mouse_up(int button, int x, int y, void *param);
+int					mouse_down(int button, int x, int y, void *param);
+int					mouse_move(int x, int y, void *param);
 void				move_object(t_scene *scene, int key);
-void				change_render_mode(t_scene *scene);
+int					close_program(t_scene *scene, int exit_code);
+void				update_slider(t_slider *slider, int x);
 
 /*------------------------------  CAMERA  ------------------------------*/
 
@@ -315,11 +325,13 @@ t_vec3				*get_position_plane(t_objects *obj);
 t_vec3				*get_position_cone(t_objects *obj);
 t_color				render_edit_mode(t_scene *scene, t_world *objs, const t_ray *r, t_hit *hit);
 t_color				render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t_hit *hit_rec);
-t_color				send_ray(const t_ray *r, t_scene *scene);
+t_color				send_ray(const t_ray *r, t_scene *scene, int i, int j);
+void				calc_shadow_ray(t_ray *shadow_ray, t_light *lights, t_hit *hit_rec);
 t_color				calc_ambient_light(t_color *ambient, t_color *obj, double ratio);
-t_color				calc_diffuse_light(t_light *lights, t_ray *r_light, t_hit *tmp_hit, double len_sqrd, t_world *hit_obj);
-t_color				calc_specular_light(t_light *lights, const t_ray *r, t_ray *r_light, t_hit *tmp_hit, double len_sqrd);
-bool				calc_hard_shadows(t_world *objs, t_ray *r_light, double length_lray);
+t_color				calc_diffuse_light(t_light *lights, t_ray *r_light, t_hit *tmp_hit, t_world *hit_obj);
+t_color				calc_specular_light(t_light *lights, const t_ray *r, t_ray *r_light, t_hit *tmp_hit);
+bool				calc_hard_shadows(t_world *objs, t_ray *r_light, t_hit *hit_rec);
+void				draw_outlines(t_scene *scene);
 
 /*------------------------------  UTILS  -------------------------------*/
 
@@ -331,5 +343,8 @@ void				draw_menu(t_scene *scene);
 int					screen_object_center(t_scene *scene, double coord[2]);
 void				my_string_put(t_mlx *data, int x, int y, char *txt);
 double				ft_max(double nb, double limit);
+t_slider			init_slider(int min_value, int max_value, int *value, uint16_t length);
+void				draw_slider(void *mlx_ptr, void *mlx_win, t_slider *slider, int x, int y);
+bool				is_within(int nb, int min, int max);
 
 #endif

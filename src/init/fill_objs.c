@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_objs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:51:31 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/14 12:32:37 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/12 13:30:31 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	fill_cone(t_cone *cn, char **split)
 	if (ft_array_len(norm) != 3 || put_dir(&cn->dir, norm))
 		return (ft_free_malloc_array(norm), 1);
 	ft_free_malloc_array(norm);
-	if (ft_test_double(split[3], 0, 1000) || ft_test_double(split[4], 0, 90))
+	if (ft_test_double(split[3], 0, 1000) || ft_test_double(split[4], 0, 178))
 		return (1);
 	cn->height = ft_atod(split[3]);
 	cn->angle = ft_atod(split[4]);

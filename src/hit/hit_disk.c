@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_disk.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 12:40:56 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/14 12:41:24 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/16 02:11:10 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ bool	hit_disk(const t_ray *ray, t_disk *disk, t_hit *rec)
 	t_vec3	to_center;
 
 	denom = dot(&disk->dir, &ray->dir);
-	if (fabs(denom) < 1e-8)
+	if (fabs(denom) < BIAS)
 		return (false);
 	oc = substract_vec3(&disk->center, &ray->orig);
 	t = dot(&oc, &disk->dir) / denom;

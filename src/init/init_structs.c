@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 17:18:57 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/12 13:16:02 by apriego-         ###   ########.fr       */
+/*   Updated: 2023/12/29 00:05:23 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,6 @@ void	init_structs(t_scene *scene)
 	scene->render_mode = RAYTRACE_MODE;
 	scene->selected = NULL;
 	scene->bg_color = (t_color){0,0,0};
+	scene->slider = init_slider(0, 180, &scene->camera.hfov, 50);
+	scene->select_mask = NULL;
 }
