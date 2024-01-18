@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkboard.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:03:13 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/18 12:38:09 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/18 15:37:31 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ t_color	get_color_sphere(t_vec3 *p_hit, t_world *objs)
 {
 	t_uv	uv;
 
+	if (objs->materia.texture == DEFAULT)
+		return (objs->materia.color);
 	uv = get_spherical_map(p_hit, &objs->type.sp->center,
 			objs->type.sp->radius);
 	uv.u *= 4;
@@ -27,6 +29,8 @@ t_color	get_color_plane(t_vec3 *p_hit, t_world *objs)
 {
 	t_uv	uv;
 
+	if (objs->materia.texture == DEFAULT)
+		return (objs->materia.color);
 	uv = get_planar_map(p_hit, &objs->type.pl->normal, &objs->type.pl->center);
 	return (checker_color(uv, objs->materia.color));
 }
@@ -36,6 +40,8 @@ t_color	get_color_cone(t_vec3 *p_hit, t_world *objs)
 	t_color	color;
 	t_uv	uv;
 
+	if (objs->materia.texture == DEFAULT)
+		return (objs->materia.color);
 	if (objs->type.cn->hit[H_CONE])
 	{
 		uv = get_cylinder_map(p_hit, &objs->type.cn->center);
@@ -71,6 +77,8 @@ t_color	get_color_cylinder(t_vec3 *p_hit, t_world *objs)
 	t_point3	center;
 	t_ray		ray;
 
+	if (objs->materia.texture == DEFAULT)
+		return (objs->materia.color);
 	ray.dir = objs->type.cy->dir;
 	ray.orig = objs->type.cy->center;
 	center = ray_at(&ray, objs->type.cy->height / 2);

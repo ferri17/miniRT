@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/18 14:59:00 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/18 15:25:29 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,7 +272,7 @@ typedef struct s_scene
 	t_color				bg_color;
 	t_mlx				data;
 	t_slider			slider;
-	enum render_mode	render_mode;
+	t_render_mode	render_mode;
 }					t_scene;
 
 typedef struct s_evars

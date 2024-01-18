@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 00:54:17 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/18 14:57:25 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/18 15:43:41 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,12 @@ t_color	calc_ambient_light(t_color *ambient, t_color *obj, double ratio)
 // diffuse = (color(obj) * color(light) * ratio(angle) * brightness) / (1 + distance ^ 2)
 t_color	calc_diffuse_light(t_light *lights, t_ray *r_light, t_hit *tmp_hit, t_world *hit_obj)
 {
+	t_color	obj_color;
 	t_color	diffuse_color;
 	double	angle_ratio;
 
-	diffuse_color = vproduct_vec3(&hit_obj->color, &lights->color);
+	obj_color = hit_obj->get_color(&tmp_hit->p, hit_obj);
+	diffuse_color = vproduct_vec3(&obj_color, &lights->color);
 	angle_ratio = ft_max(dot(&tmp_hit->normal, &r_light->dir), 0);
 	product_vec3(&diffuse_color, angle_ratio);
 	product_vec3(&diffuse_color, lights->bright);

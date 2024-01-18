@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:13:17 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/17 21:32:58 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/18 15:43:23 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_color	render_edit_mode(t_scene *scene, t_world *objs, const t_ray *r, t_hit *h
 	view_dir = product_vec3_r(&r->dir, -1);
 	view_dir = unit_vector(&view_dir);
 	a = dot(&view_dir, &hit_rec->normal) * 0.5;
-	color = product_vec3_r(&objs->color, 0.5);
+	color = product_vec3_r(&objs->materia.color, 0.5);
 	color = (t_color){color.x + a, color.y + a, color.z + a};
 	if (objs == scene->selected)
 		color = (t_color){hit_rec->normal.x, hit_rec->normal.y, hit_rec->normal.z};
@@ -91,7 +91,8 @@ t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t
 	t_ray	r_light;
 	t_light	*lights;
 
-	pxl_color = calc_ambient_light(&scene->amblight.color, &hit_obj->color, scene->amblight.ratio);
+	pxl_color = hit_obj->get_color(&hit_rec->p, hit_obj);
+	pxl_color = calc_ambient_light(&scene->amblight.color, &pxl_color, scene->amblight.ratio);
 	lights = scene->light;
 	while (lights)
 	{

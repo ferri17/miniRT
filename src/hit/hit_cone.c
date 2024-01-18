@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 17:00:29 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/18 11:46:05 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/18 15:29:01 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ bool	hit_disk_cone(const t_ray *ray, t_objects obj, t_hit *rec)
 	obj.cn->apex = ray_at(&displace, -(obj.cn->height / 2));
 	disk.radius = tan(obj.cn->angle / 2) * obj.cn->height;
 	disk.center = ray_at(&displace, obj.cn->height / 2);
-	disk.dir = obj.cn->dir;
+	disk.dir = product_vec3_r(&obj.cn->dir, -1);
 	obj.cn->hit[H_CONE] = hit_cone(ray, obj, rec);
 	if (obj.cn->hit[H_CONE])
 		rec->ray_tmax = rec->t;
