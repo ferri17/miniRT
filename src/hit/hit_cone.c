@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 17:00:29 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/11 15:36:47 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/18 11:46:05 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ t_vec3	calculate_normal_cone(t_cone *cn, const t_vec3 *p)
 	t_vec3	apex_to_point;
 	t_vec3	projected;
 	t_vec3	outward_normal;
+	t_vec3	inv_dir;
 
 	apex_to_point = substract_vec3(p, &cn->apex);
-	t_vec3 inv_dir = product_vec3_r(&cn->dir, -1);
+	inv_dir = product_vec3_r(&cn->dir, -1);
 	projected = product_vec3_r(&inv_dir, dot(&inv_dir, &apex_to_point));
 	outward_normal = substract_vec3(&apex_to_point, &projected);
 	return (unit_vector(&outward_normal));
@@ -61,10 +62,10 @@ bool	hit_cone(const t_ray *ray, t_objects obj, t_hit *rec)
 	half_a = tan(obj.cn->angle / 2.0);
 	vars.a = length_squared(&ray->dir) - (1 + half_a * half_a)
 		* pow(dot(&ray->dir, &obj.cn->dir), 2);
-	vars.half_b = 2 * (dot(&oc, &ray->dir) - (1 + half_a * half_a)
-			* dot(&oc, &obj.cn->dir) * dot(&ray->dir, &obj.cn->dir));
-	vars.c = length_squared(&oc) - (1 + half_a * half_a)
-		* pow(dot(&oc, &obj.cn->dir), 2);
+	vars.half_b = 2 * (dot(&oc, &ray->dir) - (1 + half_a * half_a) * dot(&oc,
+				&obj.cn->dir) * dot(&ray->dir, &obj.cn->dir));
+	vars.c = length_squared(&oc) - (1 + half_a * half_a) * pow(dot(&oc,
+				&obj.cn->dir), 2);
 	vars.discriminant = vars.half_b * vars.half_b - 4 * vars.a * vars.c;
 	if (vars.discriminant < 0)
 		return (false);
@@ -74,8 +75,8 @@ bool	hit_cone(const t_ray *ray, t_objects obj, t_hit *rec)
 
 bool	hit_disk_cone(const t_ray *ray, t_objects obj, t_hit *rec)
 {
-	t_ray		displace;
-	t_disk		disk;
+	t_ray	displace;
+	t_disk	disk;
 
 	displace.dir = obj.cn->dir;
 	displace.orig = obj.cn->center;

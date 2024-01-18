@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/16 15:32:29 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/18 13:20:01 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,20 @@
 
 # include "libft.h"
 # include "mlx.h"
-# include "vec3.h"
 # include "ray.h"
+# include "vec3.h"
 # include <fcntl.h>
 # include <limits.h>
 # include <math.h>
 # include <stdbool.h>
 # include <stdint.h>
-
-#include <stdio.h> //BORRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
+# include <stdio.h>
 
 /*=============================	ERROR MESSAGES	==============================*/
 
 # define ERR_NO_MAP "Usage: [./miniRT] [your_map.rt]\n"
-# define ERR_MISSING_RT_EXTENSION "Error: map doesn't have \
+# define ERR_MISSING_RT_EXTENSION \
+	"Error: map doesn't have \
 a valid extension *[.rt]\n"
 # define ERR_INVALID_MAP "Error: invalid map format.\n"
 # define ERR_OPENING_MAP "Error: Couldn't open map.\n"
@@ -55,21 +55,21 @@ a valid extension *[.rt]\n"
 # define IMG_W WIN_W
 # define IMG_H WIN_H
 // KEYS
-# define A_KEY		0x00
-# define S_KEY		0x01
-# define D_KEY		0x02
-# define W_KEY		0x0D
-# define M_KEY		0x2E
-# define ONE_KEY	0x12
-# define TWO_KEY	0x13
-# define ESC_KEY	0x35
-# define J_KEY		0x26
-# define K_KEY		0x28
-# define L_KEY		0x25
-# define I_KEY		0x22
+# define A_KEY 0x00
+# define S_KEY 0x01
+# define D_KEY 0x02
+# define W_KEY 0x0D
+# define M_KEY 0x2E
+# define ONE_KEY 0x12
+# define TWO_KEY 0x13
+# define ESC_KEY 0x35
+# define J_KEY 0x26
+# define K_KEY 0x28
+# define L_KEY 0x25
+# define I_KEY 0x22
 // HEXA COLOURS
-# define WHITE		0xFFFFFF
-# define BLACK		0x000000
+# define WHITE 0xFFFFFF
+# define BLACK 0x000000
 // MOUSE EVENTS
 # define LEFT_CLICK 1
 # define RIGHT_CLICK 2
@@ -109,19 +109,19 @@ a valid extension *[.rt]\n"
 
 typedef struct s_image
 {
-	void		*ptr;
-	int			pixel_bits;
-	int			line_bytes;
-	int			endian;
-	char		*buffer;
-}				t_image;
+	void			*ptr;
+	int				pixel_bits;
+	int				line_bytes;
+	int				endian;
+	char			*buffer;
+}					t_image;
 
 typedef struct s_mlx
 {
 	void			*mlx;
 	void			*mlx_win;
 	t_image			img;
-}	t_mlx;
+}					t_mlx;
 
 /*-------------------------------      MAP      ------------------------------*/
 
@@ -139,10 +139,10 @@ typedef struct s_camera
 	double			focal_length;
 	double			viewport_height;
 	double			viewport_width;
-    t_vec3			viewport_u;
-    t_vec3			viewport_v;
-    t_vec3			pixel_delta_u;
-    t_vec3			pixel_delta_v;
+	t_vec3			viewport_u;
+	t_vec3			viewport_v;
+	t_vec3			pixel_delta_u;
+	t_vec3			pixel_delta_v;
 	t_vec3			vup;
 	t_vec3			dir;
 	uint8_t			hfov;
@@ -205,78 +205,92 @@ typedef union u_objects
 
 typedef struct s_hit_record
 {
-	t_point3	p;
-	t_vec3		normal;
-	double		t;
-	double		ray_tmin;
-	double		ray_tmax;
-}	t_hit;
+	t_point3		p;
+	t_vec3			normal;
+	double			t;
+	double			ray_tmin;
+	double			ray_tmax;
+}					t_hit;
 
-typedef	enum	e_texture
+typedef enum e_texture
 {
 	DEFAULT = 0,
 	CHECKBOARD = 1,
-	BITMAP = 2 ////////////////////// MMMMMMMMMMMMMMMMMM
-}	t_texture;
+	BITMAP = 2
+}					t_texture;
 
-typedef	struct s_materia
+typedef struct s_img_tex
 {
-	t_texture	texture;
-	t_color		color;
-}	t_materia;
+	void			*img_ptr;
+	char			*info;
+	int				w;
+	int				h;
+	int				bbp;
+	int				sl;
+	int				endian;
+}					t_img_tex;
+
+typedef struct s_materia
+{
+	t_texture		texture;
+	t_color			color;
+	t_img_tex		img_tex;
+}					t_materia;
 
 typedef struct s_world
 {
 	t_objects		type;
-	t_materia		materia; // MATERIAAAAAAAAAAAL
+	t_materia		materia;
 	bool			(*hit)(const t_ray *, t_objects, t_hit *);
 	void			(*free_type)(t_objects type);
-	t_vec3*			(*get_position_pointer)(t_objects *);
-	t_color			(*get_color)(t_vec3 *, t_objects);
+	t_vec3			*(*get_position_pointer)(t_objects *);
+	t_color			(*get_color)(t_vec3 *, struct s_world *obj);
 	struct s_world	*next;
 }					t_world;
 
-typedef	enum	e_render_mode
+typedef enum e_render_mode
 {
 	EDIT_MODE = 0,
 	RAYTRACE_MODE = 1
-}	t_render_mode;
+}					t_render_mode;
 
 typedef struct s_scene
 {
-	t_world				*objs;
-	t_light				*light;
-	t_amblight			amblight;
-	t_camera			camera;
-	t_world				*selected;
-	t_color				bg_color;
-	t_mlx				data;
-	t_render_mode		render_mode;
+	t_world			*objs;
+	t_light			*light;
+	t_amblight		amblight;
+	t_camera		camera;
+	t_world			*selected;
+	t_color			bg_color;
+	t_mlx			data;
+	t_render_mode	render_mode;
 }					t_scene;
 
 typedef struct s_evars
 {
-	double		a;
-	double		half_b;
-	double		c;
-	double		discriminant;
-	double		root;
-	double		sqrtd;
-}	t_evars;
+	double			a;
+	double			half_b;
+	double			c;
+	double			discriminant;
+	double			root;
+	double			sqrtd;
+}					t_evars;
 
 typedef struct s_uv
 {
-	double	u;
-	double	v;
-}	t_uv;
+	double			u;
+	double			v;
+}					t_uv;
 
-
-void print_shit(t_scene scene);
+void				print_shit(t_scene scene);
 
 /*==============================  FUNCTIONS  =============================*/
 /*------------------------------  INIT_TOOL  -----------------------------*/
 
 void				init_structs(t_scene *scene);
+int					check_dir(t_vec3 *dir);
+void				inti_func_cylinder(t_world *cy);
+void				inti_func_cone(t_world *cn);
 
 /*------------------------------  FREE_TOOL  -----------------------------*/
 
@@ -297,15 +311,20 @@ bool				hit_disk_cone(const t_ray *ray, t_objects obj, t_hit *rec);
 
 /*------------------------------ CHECKBOARD  ------------------------------*/
 
-t_color				get_color_sphere(t_vec3 *p_hit, t_objects type);
-t_color				get_color_plane(t_vec3 *p_hit, t_objects type);
-t_color				get_color_cone(t_vec3 *p_hit, t_objects type);
-t_color				get_color_cylinder(t_vec3 *p_hit, t_objects type);
-t_uv				get_planar_map(t_point3 *p_hit, t_point3 *dir, t_point3 *center);
-t_uv				get_spherical_map(t_point3 *p_hit, t_point3 *center, double radius);
-t_uv				get_cylinder_map(t_point3 *p_hit, t_vec3 *dir, t_point3 *center, double h);
+t_color				get_color_sphere(t_vec3 *p_hit, t_world *objs);
+t_color				get_color_plane(t_vec3 *p_hit, t_world *objs);
+t_color				get_color_cone(t_vec3 *p_hit, t_world *objs);
+t_color				get_color_cylinder(t_vec3 *p_hit, t_world *objs);
+t_uv				get_planar_map(t_point3 *p_hit, t_point3 *dir,
+						t_point3 *center);
+t_uv				get_spherical_map(t_point3 *p_hit, t_point3 *center,
+						double radius);
+t_uv				get_cylinder_map(t_point3 *p_hit, t_point3 *center);
 t_uv				get_cone_map(t_point3 p_hit);
-void				put_texture_sphere(t_objects *type, t_point3 *p_hit);
+double				quit_decimals(double num);
+t_color				checker_color(t_uv uv, t_color color);
+t_color				put_texture_sphere(t_world *objs, t_point3 *p_hit);
+t_color				put_texture_plane(t_world *objs, t_point3 *p_hit);
 /*------------------------------  INIT_OBJS  ------------------------------*/
 
 int					check_sphere(t_scene *scene, char **split);
@@ -349,7 +368,8 @@ void				change_render_mode(t_scene *scene);
 /*------------------------------  CAMERA  ------------------------------*/
 
 void				render_image(t_scene *scene, int img_w, int img_h);
-void				start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h);
+void				start_raytracer(t_mlx *data, t_scene *scene, int img_w,
+						int img_h);
 void				set_camera(t_camera *camera, int img_w, int img_h);
 void				set_pixel00(t_camera *camera, t_vec3 *cam_axis);
 t_world				*select_object(t_scene *scene, int x, int y);
@@ -358,13 +378,19 @@ t_vec3				*get_position_sphere(t_objects *obj);
 t_vec3				*get_position_cylinder(t_objects *obj);
 t_vec3				*get_position_plane(t_objects *obj);
 t_vec3				*get_position_cone(t_objects *obj);
-t_color				render_edit_mode(t_scene *scene, t_world *objs, const t_ray *r, t_hit *hit);
-t_color				render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t_hit *hit_rec);
+t_color				render_edit_mode(t_scene *scene, t_world *objs,
+						const t_ray *r, t_hit *hit);
+t_color				render_raytrace_mode(t_scene *scene, const t_ray *r,
+						t_world *hit_obj, t_hit *hit_rec);
 t_color				send_ray(const t_ray *r, t_scene *scene);
-t_color				calc_ambient_light(t_color *ambient, t_color *obj, double ratio);
-t_color				calc_diffuse_light(t_light *lights, t_ray *r_light, t_hit *tmp_hit, double len_sqrd, t_world *hit_obj);
-t_color				calc_specular_light(t_light *lights, const t_ray *r, t_ray *r_light, t_hit *tmp_hit, double len_sqrd);
-bool				calc_hard_shadows(t_world *objs, t_ray *r_light, double length_lray);
+t_color				calc_ambient_light(t_color *ambient, t_color *obj,
+						double ratio);
+t_color				calc_diffuse_light(t_light *lights, t_ray *r_light,
+						t_hit *tmp_hit, double len_sqrd, t_world *hit_obj);
+t_color				calc_specular_light(t_light *lights, const t_ray *r,
+						t_ray *r_light, t_hit *tmp_hit, double len_sqrd);
+bool				calc_hard_shadows(t_world *objs, t_ray *r_light,
+						double length_lray);
 
 /*------------------------------  UTILS  -------------------------------*/
 

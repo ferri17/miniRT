@@ -6,110 +6,75 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:03:13 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/16 15:34:35 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/18 12:38:09 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MiniRT.h"
 
-double	quit_decimals(double num)
+t_color	get_color_sphere(t_vec3 *p_hit, t_world *objs)
 {
-	const double	ratio = (num * 5) / 2.0;
+	t_uv	uv;
 
-	return (ratio - floor(ratio));
-}
-
-t_color	checker_color(t_uv uv, t_color color)
-{
-    double tmp1 = quit_decimals(uv.u);
-    double tmp2 = quit_decimals(uv.v);
-
-    if ((tmp1 < 0.5) ^ (tmp2 < 0.5)) {
-        return (color); // t_color blanco
-    } else {
-        return (t_color){0.0f, 0.0f, 0.0f}; // t_color negro
-    }
-}
-
-t_color	get_color_sphere(t_vec3 *p_hit, t_objects type)
-{
-	// t_point3 p = substract_vec3(p_hit, &type.sp->center);
-	// p = unit_vector(&p);
-	// t_color color;
-	// double theta = acos(-p.y);
-	// double phi = atan2(-p.z, p.x) + M_PI;
-	// if (sin(phi * C_FACTOR) * sin(theta * C_FACTOR) > 0)
-	// 	color = (t_color){0.0, 0.0, 0.0};
-	// else
-	// 	color = world->materia.color;
-	// return (color);
-	t_uv uv = get_spherical_map(p_hit, &type.sp->center, type.sp->radius);
-	put_texture_sphere(&type, p_hit);
+	uv = get_spherical_map(p_hit, &objs->type.sp->center,
+			objs->type.sp->radius);
 	uv.u *= 4;
 	uv.v *= 2;
-	return (checker_color(uv, (t_color){255,255,255}));
+	return (checker_color(uv, objs->materia.color));
 }
 
-t_color	get_color_plane(t_vec3 *p_hit, t_objects type)
+t_color	get_color_plane(t_vec3 *p_hit, t_world *objs)
 {
-	t_uv uv = get_planar_map(p_hit, &type.pl->normal, &type.pl->center);
-	return (checker_color(uv, (t_color){255,255,255}));
+	t_uv	uv;
+
+	uv = get_planar_map(p_hit, &objs->type.pl->normal, &objs->type.pl->center);
+	return (checker_color(uv, objs->materia.color));
 }
 
-t_color	get_color_cone(t_vec3 *p_hit, t_objects type)
+t_color	get_color_cone(t_vec3 *p_hit, t_world *objs)
 {
-	t_color color;
-	if (type.cn->hit[H_CONE])
+	t_color	color;
+	t_uv	uv;
+
+	if (objs->type.cn->hit[H_CONE])
 	{
-		t_uv uv = get_cylinder_map(p_hit, &type.cn->dir, &type.cn->center, type.cn->height);
+		uv = get_cylinder_map(p_hit, &objs->type.cn->center);
 		uv.u *= 6;
 		uv.v *= 2;
-		return (checker_color(uv, (t_color){255,255,255}));
+		return (checker_color(uv, objs->materia.color));
 	}
 	else
 	{
-		t_uv uv = get_planar_map(p_hit, &type.cn->dir, &type.pl->center);
+		uv = get_planar_map(p_hit, &objs->type.cn->dir, &objs->type.pl->center);
 		uv.u *= 6;
 		uv.v *= 2;
-		return (checker_color(uv, (t_color){255,255,255}));
+		return (checker_color(uv, objs->materia.color));
 	}
 	return (color);
 }
 
 t_color	checker_color_cylinder(t_uv uv, t_color color)
 {
-	int	uInt;
-	int	vInt;
+	int	u_int;
+	int	v_int;
 
-	uInt = uv.u * 8;
-	vInt = uv.v * 8;
-
-	if((((int)floor(uv.u * 8) % 2) == 0) ^ (((int)floor(uv.v * 8) % 2) == 0))
+	u_int = uv.u * 8;
+	v_int = uv.v * 8;
+	if (((u_int % 2) == 0) ^ ((v_int % 2) == 0))
 		return (color);
-	return ((t_color){0,0,0});
+	return ((t_color){0, 0, 0});
 }
 
-t_color	get_color_cylinder(t_vec3 *p_hit, t_objects type)
+t_color	get_color_cylinder(t_vec3 *p_hit, t_world *objs)
 {
-	t_point3	coords;
-	t_point3	val;
+	t_uv		uv;
 	t_point3	center;
+	t_ray		ray;
 
-	t_ray       ray;
-
-	ray.dir = type.cy->dir;
-	ray.orig = type.cy->center;
-
-	center = ray_at(&ray, type.cy->height / 2);
-
-	coords.x = abs((int)floor(p_hit->x - center.x));
-	coords.y = abs((int)floor(p_hit->y - center.y));
-	coords.z = abs((int)floor(p_hit->z - center.z));
-	val.x = (int)coords.x % 2;
-	val.y = (int)coords.y % 2;
-	val.z = (int)coords.z % 2;
-	if (((int)val.x ^ (int)val.y) ^ (int)val.z)
-		return ((t_color){0,0,0});
-	return ((t_color){255,255,255});
+	ray.dir = objs->type.cy->dir;
+	ray.orig = objs->type.cy->center;
+	center = ray_at(&ray, objs->type.cy->height / 2);
+	uv = get_cylinder_map(p_hit, &center);
+	uv.u *= 2;
+	return (checker_color_cylinder(uv, objs->materia.color));
 }
-

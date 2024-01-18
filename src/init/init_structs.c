@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_structs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 17:18:57 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/12 13:16:02 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/18 13:05:05 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,5 @@ void	init_structs(t_scene *scene)
 	scene->light = NULL;
 	scene->render_mode = RAYTRACE_MODE;
 	scene->selected = NULL;
-	scene->bg_color = (t_color){0,0,0};
+	scene->bg_color = (t_color){0, 0, 0};
 }

@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:42:57 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/12 13:16:35 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/18 12:08:51 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	put_colors(t_color *colors, char *split)
 		colors->z = gradient;
 	else
 		return (ft_free_malloc_array(s_colors), 1);
-  *colors = normal_vector(colors, 255, 1);
+	*colors = normal_vector(colors, 255, 1);
 	return (ft_free_malloc_array(s_colors), 0);
 }
 

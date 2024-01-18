@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 12:52:37 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/21 15:07:04 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/18 11:46:32 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ bool	hit_body_cylinder(const t_ray *ray, t_objects obj, t_hit *rec)
 
 bool	hit_cylinder(const t_ray *ray, t_objects obj, t_hit *rec)
 {
-	t_disk		disk;
-	t_ray		displace;
+	t_disk	disk;
+	t_ray	displace;
 
 	displace.orig = obj.cy->center;
 	displace.dir = obj.cy->dir;
@@ -90,5 +90,6 @@ bool	hit_cylinder(const t_ray *ray, t_objects obj, t_hit *rec)
 	if (obj.cy->hit[H_DISK_TA])
 		rec->ray_tmax = rec->t;
 	obj.cy->hit[H_CYLINDER] = hit_body_cylinder(ray, obj, rec);
-	return (obj.cy->hit[H_DISK_BA] || obj.cy->hit[H_DISK_TA] || obj.cy->hit[H_CYLINDER]);
+	return (obj.cy->hit[H_DISK_BA] || obj.cy->hit[H_DISK_TA]
+		|| obj.cy->hit[H_CYLINDER]);
 }

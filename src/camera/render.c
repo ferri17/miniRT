@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:13:17 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/21 13:01:57 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/17 14:51:28 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_world *hit_obj, t
 	{
 		t_vec3	norm = unit_vector(&hit_rec->p);
 		tmp_color = (t_color){norm.x, norm.y, norm.z};
-		tmp_color = hit_obj->get_color(&hit_rec->p, hit_obj->type);
+		tmp_color = hit_obj->get_color(&hit_rec->p, hit_obj);
 		return (tmp_color);
 		ambient_light = calc_ambient_light(&scene->amblight.color, &tmp_color, scene->amblight.ratio);
 	}
