@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/19 16:58:25 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/19 19:55:08 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ a valid extension *[.rt]\n"
 # define EXPOSE 12
 # define DESTROY 17
 // GENERAL DEFINITIONS
-# define MOVE 0.01
+# define MOVE 0.1
 // UI
 # define SM_PAD 25
 # define MD_PAD 50
@@ -329,7 +329,7 @@ t_uv				get_planar_map(t_point3 *p_hit, t_point3 *dir,
 						t_point3 *center);
 t_uv				get_spherical_map(t_point3 *p_hit, t_point3 *center,
 						double radius);
-t_uv				get_cylinder_map(t_point3 *p_hit, t_point3 *center);
+t_uv				get_cylinder_map(t_point3 *p_hit, t_point3 *center, double h);
 t_uv				get_cone_map(t_point3 p_hit);
 double				quit_decimals(double num);
 t_color				checker_color(t_uv uv, t_color color);

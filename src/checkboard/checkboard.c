@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkboard.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:03:13 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/18 15:37:31 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/19 20:02:24 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_color	get_color_cone(t_vec3 *p_hit, t_world *objs)
 		return (objs->materia.color);
 	if (objs->type.cn->hit[H_CONE])
 	{
-		uv = get_cylinder_map(p_hit, &objs->type.cn->center);
+		uv = get_cylinder_map(p_hit, &objs->type.cn->center, objs->type.cn->height);
 		uv.u *= 6;
 		uv.v *= 2;
 		return (checker_color(uv, objs->materia.color));
@@ -82,7 +82,6 @@ t_color	get_color_cylinder(t_vec3 *p_hit, t_world *objs)
 	ray.dir = objs->type.cy->dir;
 	ray.orig = objs->type.cy->center;
 	center = ray_at(&ray, objs->type.cy->height / 2);
-	uv = get_cylinder_map(p_hit, &center);
-	uv.u *= 2;
-	return (checker_color_cylinder(uv, objs->materia.color));
+	uv = get_cylinder_map(p_hit, &objs->type.cy->center, objs->type.cy->height);
+	return (checker_color(uv, objs->materia.color));
 }
