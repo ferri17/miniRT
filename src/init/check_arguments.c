@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:10:32 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/18 12:18:21 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/19 13:08:08 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,15 @@ static char	*ft_purge_line(char *line)
 	return (line);
 }
 
+void	print_error_line(char **split, int fd, char *line)
+{
+	ft_free_malloc_array(split);
+	close(fd);
+	ft_printf_fd(STDERR_FILENO, line);
+	ft_printf_fd(STDERR_FILENO, "\n");
+	free(line);
+}
+
 int	init_map(char *file, t_scene *scene)
 {
 	int		fd;
@@ -68,11 +77,11 @@ int	init_map(char *file, t_scene *scene)
 	{
 		line = ft_purge_line(line);
 		split = ft_split(line, ' ');
-		free(line);
 		if (!split)
-			return (close(fd), 1);
+			return (free(line), close(fd), 1);
 		if (check_ident(scene, split))
-			return (ft_free_malloc_array(split), close(fd), 1);
+			return (print_error_line(split, fd, line), 1);
+		free(line);
 		ft_free_malloc_array(split);
 		line = get_next_line(fd);
 	}

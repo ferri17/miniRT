@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   object_selector.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 20:41:32 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/16 02:19:28 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/19 12:13:28 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_world	*send_selector_ray(t_ray *r, t_scene *scene)
 	t_hit	tmp_hit;
 	t_world	*objs;
 	t_world	*hit_obj;
-	
+
 	hit_obj = NULL;
 	tmp_hit.ray_tmin = 0;
 	tmp_hit.ray_tmax = INT_MAX;
@@ -50,24 +50,4 @@ t_world	*send_selector_ray(t_ray *r, t_scene *scene)
 		objs = objs->next;
 	}
 	return (hit_obj);
-}
-
-t_vec3	*get_position_sphere(t_objects *obj)
-{
-	return (&obj->sp->center);
-}
-
-t_vec3	*get_position_cylinder(t_objects *obj)
-{
-	return (&obj->cy->center);
-}
-
-t_vec3	*get_position_plane(t_objects *obj)
-{
-	return (&obj->pl->center);
-}
-
-t_vec3	*get_position_cone(t_objects *obj)
-{
-	return (&obj->cn->center);
 }

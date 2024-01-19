@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_structs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 17:18:57 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/18 13:05:05 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/19 12:52:58 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,6 @@ void	init_structs(t_scene *scene)
 	scene->render_mode = RAYTRACE_MODE;
 	scene->selected = NULL;
 	scene->bg_color = (t_color){0, 0, 0};
-	scene->slider = init_slider(0, 180, &scene->camera.hfov, 50);
+	scene->slider = init_slider(1, 179, &scene->camera.hfov, 50);
 	scene->select_mask = NULL;
 }

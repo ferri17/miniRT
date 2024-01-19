@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+         #
+#    By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2024/01/18 13:21:26 by apriego-         ###   ########.fr        #
+#    Updated: 2024/01/19 12:13:07 by fbosch           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ FILE_MAKE		=	Makefile
 
 FILES_MAIN		=	main.c
 FILES_CAMERA	=	init_render.c object_selector.c render.c\
-					light.c outlines.c
+					light.c outlines.c get_position_obj.c
 FILES_INIT		=	check_arguments.c init_structs.c fill_structs.c init_objs.c init_func_objs.c\
 					put_structs.c fill_objs.c free_structs.c free_objs.c
 FILES_HIT		=	hit_sphere.c hit_plane.c hit_cylinder.c hit_cone.c hit_disk.c

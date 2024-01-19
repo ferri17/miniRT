@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/17 21:01:15 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/19 12:08:37 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	render_image(t_scene *scene, int img_w, int img_h)
 	t_mlx	*data;
 	void	*tmp_img_ptr;
 	clock_t	t;
-	
+
 	t = clock();
 	data = &scene->data;
 	tmp_img_ptr = data->img.ptr;
@@ -52,7 +52,6 @@ void	create_ray(t_camera *camera, t_ray *r, int i, int j)
 	r->dir = substract_vec3(&pixel_center, &camera->center);
 }
 
-
 void	start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h)
 {
 	t_camera	*camera;
@@ -60,9 +59,9 @@ void	start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h)
 	t_color		color;
 	int			i;
 	int			j;
-	
+
 	if (scene->selected)
-		scene->select_mask = (int *)malloc(sizeof(int) * IMG_W * IMG_H); // FREEEEE
+		scene->select_mask = (int *)malloc(sizeof(int) * IMG_W * IMG_H);
 	else
 		scene->select_mask = NULL;
 	camera = &scene->camera;
@@ -74,7 +73,8 @@ void	start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h)
 		{
 			create_ray(camera, &r, i, j);
 			color = send_ray(&r, scene, i, j);
-			my_put_pixel(data, i, j, create_color(0, color.x, color.y, color.z));
+			my_put_pixel(data, i, j, create_color(0, color.x, color.y,
+					color.z));
 			i++;
 		}
 		j++;
@@ -87,19 +87,22 @@ void	set_camera(t_camera *camera, int img_w, int img_h)
 	t_vec3	tmp;
 
 	camera->focal_length = 1.0;
-	camera->viewport_width = 2 * tan(deg_to_rad(camera->hfov) / 2) * camera->focal_length;
-	camera->viewport_height = camera->viewport_width * ((double)img_h/(double)img_w);
+	camera->viewport_width = 2 * tan(deg_to_rad(camera->hfov) / 2)
+		* camera->focal_length;
+	camera->viewport_height = camera->viewport_width * ((double)img_h
+			/ (double)img_w);
 	cam_axis[W] = unit_vector(&camera->dir);
 	product_vec3(&cam_axis[W], -1);
-	camera->vup = (t_vec3){0,1,0}; 
-	if (dot(&cam_axis[W], &camera->vup) == 1 || dot(&cam_axis[W], &camera->vup) == -1)
-		camera->vup = (t_vec3){0,0,-1};
+	camera->vup = (t_vec3){0, 1, 0};
+	if (dot(&cam_axis[W], &camera->vup) == 1 || dot(&cam_axis[W],
+			&camera->vup) == -1)
+		camera->vup = (t_vec3){0, 0, -1};
 	tmp = cross(&camera->vup, &cam_axis[W]);
 	cam_axis[U] = unit_vector(&tmp);
 	cam_axis[V] = cross(&cam_axis[W], &cam_axis[U]);
 	camera->viewport_u = product_vec3_r(&cam_axis[U], camera->viewport_width);
 	tmp = product_vec3_r(&cam_axis[V], -1);
-	camera->viewport_v = product_vec3_r(&tmp, camera->viewport_height);  
+	camera->viewport_v = product_vec3_r(&tmp, camera->viewport_height);
 	camera->pixel_delta_u = division_vec3_r(&camera->viewport_u, img_w);
 	camera->pixel_delta_v = division_vec3_r(&camera->viewport_v, img_h);
 	set_pixel00(camera, cam_axis);

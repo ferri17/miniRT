@@ -6,15 +6,16 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 00:54:17 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/18 15:43:41 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/19 12:11:32 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MiniRT.h"
-	
-//specular = lights.color * lights.brightness * dot(vReflected,vView) ^ roughness;
-//Reflected = 2 * dot(Normal, Light) * vNormal - vLight 
-t_color	calc_specular_light(t_light *lights, const t_ray *r, t_ray *r_light, t_hit *hit_rec)
+
+// specular = lights.color * lights.brightness * dot(vReflec,vView) ^ roughnss;
+// Reflected = 2 * dot(Normal, Light) * vNormal - vLight
+t_color	calc_specular_light(t_light *lights, const t_ray *r, t_ray *r_light,
+		t_hit *hit_rec)
 {
 	t_color	specular;
 	t_vec3	reflected;
@@ -26,19 +27,17 @@ t_color	calc_specular_light(t_light *lights, const t_ray *r, t_ray *r_light, t_h
 	reflected = product_vec3_r(&hit_rec->normal, tmp);
 	reflected = substract_vec3(&reflected, &r_light->dir);
 	reflected = unit_vector(&reflected);
-
 	view_dir = unit_vector(&r->dir);
 	view_dir = product_vec3_r(&view_dir, -1);
-
-
 	specular_strength = ft_max(dot(&reflected, &view_dir), 0);
 	specular_strength = pow(specular_strength, 32);
-	specular = product_vec3_r(&lights->color, specular_strength * lights->bright);
+	specular = product_vec3_r(&lights->color, specular_strength
+			* lights->bright);
 	specular = division_vec3_r(&specular, 1 + r_light->len_sqrd);
 	return (specular);
 }
 
-//ambient = ambient.color * obj.color * ambient.brightness
+// ambient = ambient.color * obj.color * ambient.brightness
 t_color	calc_ambient_light(t_color *ambient, t_color *obj, double ratio)
 {
 	t_color	ambient_light;
@@ -47,8 +46,10 @@ t_color	calc_ambient_light(t_color *ambient, t_color *obj, double ratio)
 	ambient_light = product_vec3_r(&ambient_light, ratio);
 	return (ambient_light);
 }
-// diffuse = (color(obj) * color(light) * ratio(angle) * brightness) / (1 + distance ^ 2)
-t_color	calc_diffuse_light(t_light *lights, t_ray *r_light, t_hit *tmp_hit, t_world *hit_obj)
+
+// diffuse = (clr(obj) * clr(light) * ratio(angle) * brghtnss) / (1 + dst ^ 2)
+t_color	calc_diffuse_light(t_light *lights, t_ray *r_light, t_hit *tmp_hit,
+		t_world *hit_obj)
 {
 	t_color	obj_color;
 	t_color	diffuse_color;

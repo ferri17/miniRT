@@ -3,19 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   outlines.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:54:06 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/14 15:45:29 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/19 12:27:53 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MiniRT.h"
 
-bool	neighbour_diff(int pixel, int neighbour, int edge, int *mask)
+bool	neighbour_diff(int pixel, int next, int edge, int *mask)
 {
-	if (edge < 0 || neighbour % IMG_W != edge)
-		return (is_within(neighbour, 0, PXL_NB) && mask[pixel] != mask[neighbour]);
+	int	pxl_nb;
+
+	pxl_nb = IMG_H * IMG_W;
+	if (edge < 0 || next % IMG_W != edge)
+		return (is_within(next, 0, pxl_nb) && mask[pixel] != mask[next]);
 	return (false);
 }
 
@@ -44,13 +47,15 @@ void	draw_outlines(t_scene *scene)
 	t_mlx	*data;
 	int		*img;
 	int		i;
+	int		pxl_nb;
 
+	pxl_nb = IMG_H * IMG_W;
 	data = &scene->data;
 	img = (int *)data->img.buffer;
 	if (scene->selected)
 	{
 		i = 0;
-		while (i < PXL_NB)
+		while (i < pxl_nb)
 		{
 			if (scene->select_mask[i] == WHITE)
 				outline_neighbour_pixels(img, scene->select_mask, i);

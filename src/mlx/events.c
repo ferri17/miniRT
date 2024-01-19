@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 02:36:21 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/18 13:25:42 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/19 12:17:03 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	close_program(t_scene *scene, int exit_code)
 	mlx_destroy(scene->data.mlx);
 	exit(exit_code);
 }
+
 void	check_limits_move(double *nb, double move)
 {
 	*nb += move;

@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:51:31 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/11 15:32:25 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/19 12:56:34 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	fill_sphere(t_sphere *sp, char **split)
 	if (put_coord(&sp->center, coord))
 		return (1);
 	ft_free_malloc_array(coord);
-	if (ft_test_double(split[2], 0.0, 10000.0))
+	if (ft_test_double(split[2], MIN_SIZE, MAX_SIZE))
 		return (1);
 	sp->radius = ft_atod(split[2]) / 2;
 	return (0);
@@ -73,7 +73,7 @@ int	fill_cylinder(t_cylinder *cy, char **split)
 	if (ft_array_len(norm) != 3 || put_dir(&cy->dir, norm))
 		return (ft_free_malloc_array(norm), 1);
 	ft_free_malloc_array(norm);
-	if (ft_test_double(split[3], 0, 1000) || ft_test_double(split[4], 0, 1000))
+	if (ft_test_double(split[3], MIN_SIZE, MAX_SIZE) || ft_test_double(split[4], MIN_SIZE, MAX_SIZE))
 		return (1);
 	cy->radius = ft_atod(split[3]) / 2;
 	cy->height = ft_atod(split[4]);
@@ -99,7 +99,7 @@ int	fill_cone(t_cone *cn, char **split)
 	if (ft_array_len(norm) != 3 || put_dir(&cn->dir, norm))
 		return (ft_free_malloc_array(norm), 1);
 	ft_free_malloc_array(norm);
-	if (ft_test_double(split[3], 0, 1000) || ft_test_double(split[4], 0, 178))
+	if (ft_test_double(split[3], MIN_SIZE, MAX_SIZE) || ft_test_double(split[4], 1, 178))
 		return (1);
 	cn->height = ft_atod(split[3]);
 	cn->angle = ft_atod(split[4]);

@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 12:46:29 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/18 12:25:08 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/19 12:18:41 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ int	mouse_down(int button, int x, int y, void *param)
 	slider = &scene->slider;
 	if (button == LEFT_CLICK)
 	{
-		if (x >= slider->pos_x && x <= (slider->pos_x + slider->length * SLIDER_PX)
-			&& y >= slider->pos_y && y <= slider->pos_y + SLIDER_HEIGHT)
+		if (x >= slider->pos_x && x <= (slider->pos_x + slider->length
+				* SLIDER_PX) && y >= slider->pos_y && y <= slider->pos_y
+			+ SLIDER_HEIGHT)
 		{
 			slider->is_clicked = true;
 		}
@@ -69,22 +70,22 @@ int	mouse_up(int button, int x, int y, void *param)
 
 void	change_render_mode(t_scene *scene)
 {
-	scene->render_mode = (scene->render_mode + 1) % 2; 
+	scene->render_mode = (scene->render_mode + 1) % 2;
 	render_image(scene, IMG_W, IMG_H);
 }
 
 int	key_down(int key, void *param)
 {
-
 	t_scene	*scene;
+
 	scene = (t_scene *)param;
 	if (key == ESC_KEY)
 		close_program(scene, EXIT_SUCCESS);
 	else if (key == A_KEY || key == D_KEY || key == W_KEY || key == S_KEY
-			|| key == ONE_KEY || key == TWO_KEY)
+		|| key == ONE_KEY || key == TWO_KEY)
 		move_object(scene, key);
 	else if (key == M_KEY)
-		scene->render_mode = (scene->render_mode + 1) % 2; 
+		scene->render_mode = (scene->render_mode + 1) % 2;
 	else if (key == J_KEY)
 		scene->light->center.x -= MOVE;
 	else if (key == K_KEY)

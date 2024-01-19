@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   slider.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 01:37:15 by fbosch            #+#    #+#             */
-/*   Updated: 2023/12/27 01:00:44 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/19 12:23:24 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MiniRT.h"
 
-t_slider	init_slider(int min_value, int max_value, int *value, uint16_t length)
+t_slider	init_slider(int min_value, int max_value, int *value, uint16_t len)
 {
 	t_slider	slider;
 
 	slider.min_value = min_value;
 	slider.max_value = max_value;
 	slider.value = value;
-	slider.length = length;
+	slider.length = len;
 	slider.is_clicked = false;
 	return (slider);
 }
@@ -32,7 +32,7 @@ void	update_slider(t_slider *slider, int x)
 	*(slider->value) = (slider->max_value - slider->min_value) * ratio;
 	if (*(slider->value) > slider->max_value)
 		*(slider->value) = slider->max_value;
-	else if(*(slider->value) < slider->min_value)
+	else if (*(slider->value) < slider->min_value)
 		*(slider->value) = slider->min_value;
 }
 
