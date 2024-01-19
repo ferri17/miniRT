@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/19 13:43:35 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/19 16:58:25 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ a valid extension *[.rt]\n"
 # define MD_PAD 50
 # define XL_PAD 100
 // OTHERS
-# define MIN_SIZE 0
+# define MIN_SIZE 0.000001
 # define MAX_SIZE 1000000.0 
 # define BIAS 0.00000000000001
 # ifndef M_PI

@@ -6,80 +6,86 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 11:48:51 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/19 13:57:47 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/19 17:14:34 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <limits.h>
 
-static double	is_negative(char *str)
+int	add_decimals_number(char *str, double *res)
 {
-	if (*str == '-')
-		return (-1);
-	return (1);
-}
+	double	decimal;
+	int		i;
+	double	div;
 
-int	is_valid_double(const char *str)
-{
-	int	point;
-
-	point = 0;
-	if (*str == '-' || *str == '+')
-		str++;
-	while (*str != '\0')
+	decimal = 0;
+	div = 10;
+	i = 0;
+	if (str[i] == '.')
+		i++;
+	while (ft_isdigit(str[i]) && i < 10)
 	{
-		if (*str == '.')
-		{
-			if (point)
-				return (0);
-			point = 1;
-		}
-		else if (*str < '0' || *str > '9')
-			return (1);
-		str++;
+		decimal = decimal + ((str[i] - '0') / div);
+		div *= 10;
+		i++;
 	}
+	while (ft_isdigit(str[i]))
+		i++;
+	if (str[i] != '\0')
+		return (1);
+	*res += decimal;
 	return (0);
 }
 
-static int	testing_double(char *str, double min, double max, double sign)
+int	test_limits_number(char *str, double sign, double min, double max)
 {
+	int		i;
 	double	res;
-	double	divisor;
+	double	tmp;
 
-	res = 0.0;
-	if (!(*str >= '0' && *str <= '9'))
+	res = 0;
+	i = 0;
+	while (ft_isdigit(str[i]))
+	{
+		res = (res * 10) + (str[i] - '0');
+		tmp = res * sign;
+		if (tmp > INT_MAX || tmp < INT_MIN)
+			return (1);
+		i++;
+	}
+	if (str[i] != '.' && str[i] != '\0')
 		return (1);
-	while (*str >= '0' && *str <= '9')
-	{
-		res = res * 10.0 + (*str - '0');
-		str++;
-	}
-	if (*str == '.' && (res * sign >= min && res * sign <= max))
-	{
-		str++;
-		divisor = 10.0;
-		while (*str >= '0' && *str <= '9')
-		{
-			res += (*str - '0') / divisor;
-			divisor *= 10.0;
-			str++;
-		}
-	}
-	if (res * sign < min || res * sign > max || *str != '\0')
+	if (add_decimals_number(&str[i], &res) == 1)
+		return (1);
+	tmp = res * sign;
+	if (tmp < min || tmp > max)
 		return (1);
 	return (0);
 }
 
 int	ft_test_double(char *str, double min, double max)
 {
+	int		i;
 	double	sign;
 
-	sign = is_negative(str);
-	if (is_valid_double(str))
+	i = 0;
+	if (!str)
 		return (1);
-	if (*str == '-' || *str == '+')
-		str++;
-	if (testing_double(str, min, max, sign))
+	if (ft_isdigit(str[i]) || str[i] == '-' || str[i] == '+')
+	{
+		sign = 1;
+		if (str[i] == '-')
+		{
+			sign = -1;
+			i++;
+		}
+		else if (str[i] == '+')
+			i++;
+		if (test_limits_number(&str[i], sign, min, max))
+			return (1);
+	}
+	else
 		return (1);
 	return (0);
 }
