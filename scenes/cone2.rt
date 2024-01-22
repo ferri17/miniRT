@@ -8,7 +8,7 @@ L              0.0,1.0,-4            1.0              255,255,255
 A              1                    255,255,255
 
 #Object        #Coord                #Orientation     #Others                #Color
-cy             0.0,0.0,-4            0.0,1.0,0.0        1.0      1.5                 255,10,12 CHECKBOARD
+cy             0.0,0.0,-4            0.0,1.0,0.4        1.0      1.5                 255,10,12 CHECKBOARD
 cn             1.0,0.0,-4            1.0,1.0,0.0        1.0        5          255,10,12 CHECKBOARD
 sp             -2.0,-0.0,-4                              1.0                    255,10,12 CHECKBOARD
 

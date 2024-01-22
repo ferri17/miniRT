@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:06:24 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/19 20:01:58 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/22 17:49:30 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,15 @@ t_uv	get_cylinder_map(t_point3 *p_hit, t_point3 *center, double h)
 {
 	t_uv		uv;
 	t_point3	tmp;
+	double		theta;
 
 	(void)h;
 	tmp = substract_vec3(p_hit, center);
-
-	uv.u = sqrt(tmp.x * tmp.x + tmp.y * tmp.y);;
-	uv.v = atan(tmp.x / tmp.y);
+	theta = sqrt(tmp.x * tmp.x + tmp.y * tmp.y);
+	// theta = acos(tmp.x / theta);
+	
+	uv.u = theta;
+	uv.v = tmp.z;
 	return (uv);
 }
 
