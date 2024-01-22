@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 00:54:17 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/22 01:22:23 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/23 00:50:57 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,11 @@ t_color	calc_specular_light(t_light *lights, const t_ray *r, t_ray *r_light,
 	view_dir = unit_vector(&r->dir);
 	view_dir = product_vec3_r(&view_dir, -1);
 	specular_strngth = ft_max(dot(&reflected, &view_dir), 0);
-	specular_strngth = pow(specular_strngth, hit_rec->obj->materia.specular_n);
+	specular_strngth = pow(specular_strngth, hit_rec->obj->materia.roughness);
 	specular = product_vec3_r(&lights->color, specular_strngth
 			* lights->bright);
-	specular = division_vec3_r(&specular, 1 + r_light->len_sqrd);
+	division_vec3(&specular, 1 + r_light->len_sqrd);
+	product_vec3(&specular, hit_rec->obj->materia.specular);
 	return (specular);
 }
 

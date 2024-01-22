@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/22 01:12:28 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/22 23:15:20 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,8 +246,9 @@ typedef struct s_materia
 {
 	t_texture		texture;
 	t_color			color;
-	double			specular_n; //specular reflectance, value from 2.0 to 256.0
-	double			diffuse_ratio; //1.0 diffuse, 0.0 mirror
+	double			specular; //specular intensity, value from 0.0 to 1.0
+	double			roughness; //specular reflectance, value from 2.0 to 256.0
+	double			metallic; //0.0 diffuse, 1.0 mirror
 	t_img_tex		img_tex;
 }					t_materia;
 
@@ -399,16 +400,16 @@ t_vec3				*get_position_cone(t_objects *obj);
 t_color				render_edit_mode(t_scene *scene,
 						const t_ray *r, t_hit *hit);
 t_color				render_raytrace_mode(t_scene *scene, const t_ray *r,
-						t_hit *hit_rec);
+						t_hit *hit_rec, int ray_depth);
 t_color				send_ray(const t_ray *r, t_scene *scene, int i, int j);
 void				calc_shadow_ray(t_ray *shadow_ray, t_light *lights,
 						t_hit *hit_rec);
 t_color				calc_ambient_light(t_color *ambient, t_color *obj,
 						double ratio);
 t_color				calc_diffuse_light(t_light *lights, t_ray *r_light,
-						t_hit *tmp_hit);
+						t_hit *hit_rec);
 t_color				calc_specular_light(t_light *lights, const t_ray *r,
-						t_ray *r_light, t_hit *tmp_hit);
+						t_ray *r_light, t_hit *hit_rec);
 bool				calc_hard_shadows(t_world *objs, t_ray *r_light,
 						t_hit *hit_rec);
 void				draw_outlines(t_scene *scene);

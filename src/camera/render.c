@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:13:17 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/22 01:13:50 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/23 00:55:05 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,10 @@ t_color	send_ray(const t_ray *r, t_scene *scene, int i, int j)
 	}
 	if (hit_rec.obj)
 	{
-		/*
-		if (hit_obj == scene->objs)
-			return (render_raytrace_mode_reflect(scene, r, hit_obj, &hit_rec, RAY_DEPTH));
-		*/
-		/*
-		*/
 		if (scene->render_mode == EDIT_MODE)
 			return (render_edit_mode(scene, r, &hit_rec));
 		else
-			return (render_raytrace_mode(scene, r, &hit_rec));
+			return (render_raytrace_mode(scene, r, &hit_rec, RAY_DEPTH));
 	}
 	return (scene->bg_color);
 }
@@ -93,7 +87,21 @@ void	calc_shadow_ray(t_ray *shadow_ray, t_light *lights, t_hit *hit_rec)
 	shadow_ray->dir = unit_vector(&shadow_ray->dir);
 }
 
-t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_hit *hit_rec)
+// reflected_ray.dir = v - 2*dot(v,n)*n;
+t_ray	calc_reflected_ray(t_hit *hit_rec, const t_ray *r)
+{
+	t_ray	reflected;
+	t_vec3	dir;
+
+	reflected.orig = product_vec3_r(&hit_rec->normal, BIAS);
+	reflected.orig = add_vec3(&hit_rec->p, &reflected.orig);
+	dir = unit_vector(&r->dir);
+	reflected.dir = product_vec3_r(&hit_rec->normal, 2 * dot(&dir, &hit_rec->normal)); //unit vectors or not
+	reflected.dir = substract_vec3(&dir, &reflected.dir); //unit vectors or not
+	return (reflected);
+}
+
+t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_hit *hit_rec, int ray_depth)
 {
 	t_color	pxl_color;
 	t_color	diffuse_light;
@@ -101,6 +109,8 @@ t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_hit *hit_rec)
 	t_ray	r_light;
 	t_light	*lights;
 
+	if (ray_depth <= 0)
+		return ((t_color){0, 0, 0});
 	pxl_color = hit_rec->obj->get_color(&hit_rec->p, hit_rec->obj);
 	pxl_color = calc_ambient_light(&scene->amblight.color, &pxl_color,
 			scene->amblight.ratio);
@@ -117,6 +127,39 @@ t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_hit *hit_rec)
 		}
 		lights = lights->next;
 	}
+	t_color	reflect;
+	t_ray	r_reflected;
+	reflect = (t_color){0, 0, 0};
+	{
+		if (hit_rec->obj->materia.metallic > 0.0)
+		{
+			r_reflected = calc_reflected_ray(hit_rec, r);
+			
+			t_world	*obj;
+			t_hit	r_hit_rec;
+
+			obj = scene->objs;
+			r_hit_rec.obj = NULL;
+			r_hit_rec.ray_tmin = BIAS;
+			r_hit_rec.ray_tmax = INT_MAX;
+			while (obj)
+			{
+				if (obj->hit(&r_reflected, obj->type, &r_hit_rec))
+				{
+					r_hit_rec.ray_tmax = r_hit_rec.t;
+					r_hit_rec.obj = obj;
+				}
+				obj = obj->next;
+			}
+			if (r_hit_rec.obj)
+				reflect = render_raytrace_mode(scene, &r_reflected, &r_hit_rec, ray_depth - 1);
+			else
+				reflect = (t_color){0, 0, 0};
+		}
+		product_vec3(&reflect, hit_rec->obj->materia.metallic);
+	}
+	product_vec3(&pxl_color, 1 - hit_rec->obj->materia.metallic);
+	pxl_color = add_vec3(&pxl_color, &reflect);
 	return (pxl_color);
 }
 
@@ -188,10 +231,6 @@ t_color	render_raytrace_mode_reflect(t_scene *scene, const t_ray *r, t_world *hi
 	t_color tmp = add_vec3(&albedo, &reflection);
 	return (tmp);
 }
-
-/* vec3 reflect(const vec3& v, const vec3& n) {
-    return v - 2*dot(v,n)*n;
-} */
 
 
 /* if (obj->hit)
