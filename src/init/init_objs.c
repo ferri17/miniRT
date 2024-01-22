@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_objs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/18 13:30:03 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/22 01:22:52 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ int	check_sphere(t_scene *scene, char **split)
 	sp->get_color = get_color_sphere;
 	sp->hit = hit_sphere;
 	sp->get_position_pointer = get_position_sphere;
+	sp->materia.diffuse_ratio = 1.0; //BORRAR
+	sp->materia.specular_n = 256.0; //BORRAR
 	return (0);
 }
 
@@ -83,6 +85,8 @@ int	check_plane(t_scene *scene, char **split)
 	pl->get_color = get_color_plane;
 	pl->hit = hit_plane;
 	pl->get_position_pointer = get_position_plane;
+	pl->materia.diffuse_ratio = 1.0; //BORRAR
+	pl->materia.specular_n = 4.0; //BORRAR
 	return (0);
 }
 
@@ -111,6 +115,8 @@ int	check_cylinder(t_scene *scene, char **split)
 	else
 		cy->materia.texture = DEFAULT;
 	inti_func_cylinder(cy);
+	cy->materia.diffuse_ratio = 1.0; //BORRAR
+	cy->materia.specular_n = 4.0; //BORRAR
 	return (0);
 }
 
@@ -139,5 +145,7 @@ int	check_cone(t_scene *scene, char **split)
 	else
 		cn->materia.texture = DEFAULT;
 	inti_func_cone(cn);
+	cn->materia.diffuse_ratio = 1.0; //BORRAR
+	cn->materia.specular_n = 4.0; //BORRAR
 	return (0);
 }

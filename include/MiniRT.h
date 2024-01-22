@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/19 16:58:25 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/22 01:12:28 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ a valid extension *[.rt]\n"
 # define MD_PAD 50
 # define XL_PAD 100
 // OTHERS
+# define RAY_DEPTH 10
 # define MIN_SIZE 0.000001
 # define MAX_SIZE 1000000.0 
 # define BIAS 0.00000000000001
@@ -132,6 +133,8 @@ typedef struct s_mlx
 }					t_mlx;
 
 /*-------------------------------      MAP      ------------------------------*/
+
+typedef struct s_world	t_world;
 
 typedef struct s_amblight
 {
@@ -213,6 +216,7 @@ typedef union u_objects
 
 typedef struct s_hit_record
 {
+	t_world			*obj;
 	t_point3		p;
 	t_vec3			normal;
 	double			t;
@@ -242,6 +246,8 @@ typedef struct s_materia
 {
 	t_texture		texture;
 	t_color			color;
+	double			specular_n; //specular reflectance, value from 2.0 to 256.0
+	double			diffuse_ratio; //1.0 diffuse, 0.0 mirror
 	t_img_tex		img_tex;
 }					t_materia;
 
@@ -390,17 +396,17 @@ t_vec3				*get_position_sphere(t_objects *obj);
 t_vec3				*get_position_cylinder(t_objects *obj);
 t_vec3				*get_position_plane(t_objects *obj);
 t_vec3				*get_position_cone(t_objects *obj);
-t_color				render_edit_mode(t_scene *scene, t_world *objs,
+t_color				render_edit_mode(t_scene *scene,
 						const t_ray *r, t_hit *hit);
 t_color				render_raytrace_mode(t_scene *scene, const t_ray *r,
-						t_world *hit_obj, t_hit *hit_rec);
+						t_hit *hit_rec);
 t_color				send_ray(const t_ray *r, t_scene *scene, int i, int j);
 void				calc_shadow_ray(t_ray *shadow_ray, t_light *lights,
 						t_hit *hit_rec);
 t_color				calc_ambient_light(t_color *ambient, t_color *obj,
 						double ratio);
 t_color				calc_diffuse_light(t_light *lights, t_ray *r_light,
-						t_hit *tmp_hit, t_world *hit_obj);
+						t_hit *tmp_hit);
 t_color				calc_specular_light(t_light *lights, const t_ray *r,
 						t_ray *r_light, t_hit *tmp_hit);
 bool				calc_hard_shadows(t_world *objs, t_ray *r_light,
