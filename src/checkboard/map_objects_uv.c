@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:06:24 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/22 17:49:30 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/23 13:46:09 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,16 @@ t_uv	get_spherical_map(t_point3 *p_hit, t_point3 *center, double radius)
 	return (uv);
 }
 
-t_uv	get_cylinder_map(t_point3 *p_hit, t_point3 *center, double h)
+t_uv	get_cylinder_map(t_point3 *p_hit, t_point3 *center, double radius)
 {
 	t_uv		uv;
-	t_point3	tmp;
+	double		phi;
 	double		theta;
 
-	(void)h;
-	tmp = substract_vec3(p_hit, center);
-	theta = sqrt(tmp.x * tmp.x + tmp.y * tmp.y);
-	// theta = acos(tmp.x / theta);
-	
-	uv.u = theta;
-	uv.v = tmp.z;
+	theta = atan2(p_hit->x - center->x, p_hit->z - center->z);
+	phi = (p_hit->y - center->y) / radius;
+	uv.u = theta / (2.0 * M_PI);
+	uv.v = (phi / M_PI);
 	return (uv);
 }
 
