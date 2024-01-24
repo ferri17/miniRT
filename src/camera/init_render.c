@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_render.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/19 12:08:37 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/24 01:29:58 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	create_ray(t_camera *camera, t_ray *r, int i, int j)
 	pixel_center = add_vec3(&pixel_center, &tmp_j);
 	r->orig = camera->center;
 	r->dir = substract_vec3(&pixel_center, &camera->center);
+	r->dir = unit_vector(&r->dir);
 }
 
 void	start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h)

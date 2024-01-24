@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   init_objs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
 /*   Updated: 2024/01/24 12:18:23 by apriego-         ###   ########.fr       */

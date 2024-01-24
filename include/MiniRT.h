@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/24 12:18:53 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:05:48 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,11 @@ a valid extension *[.rt]\n"
 # define MD_PAD 50
 # define XL_PAD 100
 // OTHERS
+# define RAY_DEPTH 10
 # define MIN_SIZE 0.000001
 # define MAX_SIZE 1000000.0 
-# define BIAS 0.00000000000001
+# define BIAS 0.00000001
+//# define BIAS 0.00000000000001
 # ifndef M_PI
 #  define M_PI 3.1415926
 # endif
@@ -132,6 +134,8 @@ typedef struct s_mlx
 }					t_mlx;
 
 /*-------------------------------      MAP      ------------------------------*/
+
+typedef struct s_world	t_world;
 
 typedef struct s_amblight
 {
@@ -213,6 +217,7 @@ typedef union u_objects
 
 typedef struct s_hit_record
 {
+	t_world			*obj;
 	t_point3		p;
 	t_vec3			normal;
 	double			t;
@@ -406,21 +411,22 @@ t_vec3				*get_position_sphere(t_objects *obj);
 t_vec3				*get_position_cylinder(t_objects *obj);
 t_vec3				*get_position_plane(t_objects *obj);
 t_vec3				*get_position_cone(t_objects *obj);
-t_color				render_edit_mode(t_scene *scene, t_world *objs,
+t_color				render_edit_mode(t_scene *scene,
 						const t_ray *r, t_hit *hit);
 t_color				render_raytrace_mode(t_scene *scene, const t_ray *r,
-						t_world *hit_obj, t_hit *hit_rec);
+						t_hit *hit_rec, int ray_depth);
 t_color				send_ray(const t_ray *r, t_scene *scene, int i, int j);
 void				calc_shadow_ray(t_ray *shadow_ray, t_light *lights,
 						t_hit *hit_rec);
 t_color				calc_ambient_light(t_color *ambient, t_color *obj,
 						double ratio);
 t_color				calc_diffuse_light(t_light *lights, t_ray *r_light,
-						t_hit *tmp_hit, t_world *hit_obj);
+						t_hit *hit_rec);
 t_color				calc_specular_light(t_light *lights, const t_ray *r,
-						t_ray *r_light, t_hit *tmp_hit);
+						t_ray *r_light, t_hit *hit_rec);
 bool				calc_hard_shadows(t_world *objs, t_ray *r_light,
 						t_hit *hit_rec);
+t_color				calc_reflected_color(t_scene *scene, t_hit *hit_rec, const t_ray *r, int ray_depth);
 void				draw_outlines(t_scene *scene);
 
 /*------------------------------  UTILS  -------------------------------*/
