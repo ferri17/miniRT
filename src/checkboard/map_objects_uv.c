@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/18 23:06:24 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/18 12:52:23 by apriego-         ###   ########.fr       */
+/*   Created: 2024/01/24 15:16:48 by apriego-          #+#    #+#             */
+/*   Updated: 2024/01/24 15:18:20 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,16 @@ t_uv	get_spherical_map(t_point3 *p_hit, t_point3 *center, double radius)
 	return (uv);
 }
 
-t_uv	get_cylinder_map(t_point3 *p_hit, t_point3 *center)
+t_uv	get_cylinder_map(t_point3 *p_hit, t_point3 *center, double radius)
 {
-	t_uv		uv;
-	double		theta;
+	t_uv	uv;
+	double	phi;
+	double	theta;
 
 	theta = atan2(p_hit->x - center->x, p_hit->z - center->z);
+	phi = (p_hit->y - center->y) / radius;
 	uv.u = theta / (2.0 * M_PI);
-	uv.u = fmod(1 - (uv.u + 0.5) * 2, 1.0);
-	uv.v = fmod((p_hit->y - center->y) * 2, 1);
-	if (uv.v < 0)
-		uv.v += 1.0;
+	uv.v = (phi / M_PI);
 	return (uv);
 }
 
