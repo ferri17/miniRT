@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 11:31:58 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/23 14:33:57 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/24 17:10:31 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,9 @@ t_color	checker_color(t_uv uv, t_color color)
 	tmp1 = quit_decimals(uv.u);
 	tmp2 = quit_decimals(uv.v);
 	if ((tmp1 < 0.5) ^ (tmp2 < 0.5))
-	{
 		return (color);
-	}
 	else
-	{
 		return ((t_color){0.0f, 0.0f, 0.0f});
-	}
 }
 
 t_matrix3x3	calculate_rotation_matrix(double angle, t_vec3 *axis)

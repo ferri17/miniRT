@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_objects_uv.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:16:48 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/24 15:18:20 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/24 20:45:25 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@ t_uv	get_planar_map(t_point3 *p_hit, t_point3 *dir, t_point3 *center)
 	tmp1 = cross(dir, &axis);
 	tmp1 = unit_vector(&tmp1);
 	tmp2 = cross(dir, &tmp1);
+
+	//tmp2 = unit_vector(&tmp2);
+	//tmp = unit_vector(&tmp);
+	
 	uv.u = dot(&tmp1, &tmp);
 	uv.v = dot(&tmp2, &tmp);
 	return (uv);

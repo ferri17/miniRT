@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/24 16:05:48 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/24 16:53:25 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,7 +238,7 @@ typedef struct s_img_tex
 	char			*info;
 	int				w;
 	int				h;
-	int				bbp;
+	int				bpp;
 	int				sl;
 	int				endian;
 }					t_img_tex;
@@ -247,9 +247,9 @@ typedef struct s_materia
 {
 	t_texture		texture;
 	t_color			color;
-	double			specular; //specular intensity, value from 0.0 to 1.0
-	double			roughness; //specular reflectance, value from 2.0 to 256.0
-	double			metallic; //0.0 diffuse, 1.0 mirror
+	double			specular;
+	double			roughness;
+	double			metallic;
 	t_img_tex		img_tex;
 }					t_materia;
 

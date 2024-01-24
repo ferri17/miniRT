@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkboard.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:03:13 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/24 15:00:29 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/24 20:38:29 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,32 @@ t_color	get_color_sphere(t_vec3 *p_hit, t_world *objs)
 	t_uv	uv;
 
 	if (objs->materia.texture == DEFAULT)
+	{
+		uv = get_spherical_map(p_hit, &objs->type.sp->center,
+			objs->type.sp->radius);
+		
+		printf("%f, %f\n", uv.u, uv.v);
+		uv.u = floor((uv.u + 1) * (objs->materia.img_tex.w / 2));
+		uv.v = floor((uv.v + 1) * (objs->materia.img_tex.h / 2));
+		int pixel = (objs->materia.img_tex.sl * 49) + (objs->materia.img_tex.bpp * 49 / 8);
+		int b = objs->materia.img_tex.info[pixel + 0];
+		int g = objs->materia.img_tex.info[pixel + 1];
+		int r = objs->materia.img_tex.info[pixel + 2];
+		
+		double bb = (double)b / 255;
+		double gg = (double)g / 255; 
+		double rr = (double)r / 255; 
+
+
+		return ((t_color){rr, gg, bb});
+		return ((t_color){objs->materia.img_tex.info[pixel + 2], objs->materia.img_tex.info[pixel + 1], objs->materia.img_tex.info[pixel + 0]});
+		//pixel = (data->img.line_bytes * y) + (x * data->img.pixel_bits / 8);
+
 		return (objs->materia.color);
+	}
 	uv = get_spherical_map(p_hit, &objs->type.sp->center,
 			objs->type.sp->radius);
+	//printf("%f, %f\n", uv.u, uv.v);
 	uv.u *= 4;
 	uv.v *= 2;
 	return (checker_color(uv, objs->materia.color));
@@ -32,6 +55,7 @@ t_color	get_color_plane(t_vec3 *p_hit, t_world *objs)
 	if (objs->materia.texture == DEFAULT)
 		return (objs->materia.color);
 	uv = get_planar_map(p_hit, &objs->type.pl->normal, &objs->type.pl->center);
+	//printf("%f, %f\n", uv.u, uv.v);
 	return (checker_color(uv, objs->materia.color));
 }
 

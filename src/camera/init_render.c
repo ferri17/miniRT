@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_render.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/24 01:29:58 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/24 20:45:30 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,22 @@ void	start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h)
 		{
 			create_ray(camera, &r, i, j);
 			color = send_ray(&r, scene, i, j);
-			my_put_pixel(data, i, j, create_color(0, color.x, color.y,
+			if (i < 49 && j < 49)
+			{
+				int pixel = i * 4 + j * 200;
+				int b = scene->objs->materia.img_tex.info[pixel];
+				int g = scene->objs->materia.img_tex.info[pixel + 1];
+				int r = scene->objs->materia.img_tex.info[pixel + 2];
+
+				int color = 0;
+
+				color = r;
+				color = (color << 8) + g;
+				color = (color << 8) + b;
+				my_put_pixel(data, i, j, color);
+			}
+			else
+				my_put_pixel(data, i, j, create_color(0, color.x, color.y,
 					color.z));
 			i++;
 		}

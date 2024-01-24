@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/18 13:39:10 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/24 16:54:49 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	init_mlx_windows(&scene.data, WIN_W, WIN_H);
+	
+	scene.objs->materia.img_tex.img_ptr = mlx_xpm_file_to_image(scene.data.mlx, "texture_src/playerB.xpm", &scene.objs->materia.img_tex.w, &scene.objs->materia.img_tex.h);
+	scene.objs->materia.img_tex.info = mlx_get_data_addr(scene.objs->materia.img_tex.img_ptr, &scene.objs->materia.img_tex.bpp, &scene.objs->materia.img_tex.sl, &scene.objs->materia.img_tex.endian);
+
 	render_image(&scene, IMG_W, IMG_H);
 	mlx_hook(scene.data.mlx_win, KEYDOWN, 0, key_down, (void *)&scene);
 	mlx_hook(scene.data.mlx_win, MOUSEMOVE, 0, mouse_move, (void *)&scene);
