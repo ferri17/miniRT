@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/23 14:38:19 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/24 12:18:53 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,7 +237,7 @@ typedef struct s_img_tex
 	int				sl;
 	int				endian;
 }					t_img_tex;
-/*
+
 typedef struct s_materia
 {
 	t_texture		texture;
@@ -246,18 +246,18 @@ typedef struct s_materia
 	double			roughness; //specular reflectance, value from 2.0 to 256.0
 	double			metallic; //0.0 diffuse, 1.0 mirror
 	t_img_tex		img_tex;
-}					t_materia;*/
+}					t_materia;
 
 typedef struct s_matrix3x3{
 	double			m[3][3];
 }					t_matrix3x3;
 
-typedef struct s_materia
+/* typedef struct s_materia
 {
 	t_texture		texture;
 	t_color			color;
 	t_img_tex		img_tex;
-}					t_materia;
+}					t_materia; */
 
 typedef struct s_world
 {
@@ -315,6 +315,7 @@ void				init_structs(t_scene *scene);
 int					check_dir(t_vec3 *dir);
 void				inti_func_cylinder(t_world *cy);
 void				inti_func_cone(t_world *cn);
+int					check_materia(t_world *obj, char **split, int pos);
 
 /*------------------------------  FREE_TOOL  -----------------------------*/
 

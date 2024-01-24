@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:03:13 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/23 15:12:30 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/24 15:00:29 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,13 @@ t_color	get_color_cone(t_vec3 *p_hit, t_world *objs)
 	t_ray		ray;
 	t_point3	rot_p_hit;
 
+	ray.dir = objs->type.cn->dir;
+	ray.orig = objs->type.cn->center;
+	cent = ray_at(&ray, objs->type.cn->height / 2);
 	if (objs->materia.texture == DEFAULT)
 		return (objs->materia.color);
 	if (objs->type.cn->hit[H_CONE])
 	{
-		ray.dir = objs->type.cn->dir;
-		ray.orig = objs->type.cn->center;
-		cent = ray_at(&ray, objs->type.cn->height / 2);
 		if (fabs(dot(&objs->type.cn->dir, &(t_point3){0, 1, 0})) < 0.95)
 		{
 			rot_p_hit = point_rot(&ray.dir, &(t_point3){0, 1, 0}, p_hit, &cent);
@@ -74,8 +74,8 @@ t_color	get_color_cone(t_vec3 *p_hit, t_world *objs)
 		}
 		else
 			uv = get_cylinder_map(p_hit, &cent, objs->type.cn->height);
-		uv.u *= 4;
-		uv.v *= 2;
+		uv.u *= 2;
+		uv.v *= 4;
 	}
 	else
 		uv = get_planar_map(p_hit, &objs->type.cn->dir, &cent);
@@ -89,13 +89,13 @@ t_color	get_color_cylinder(t_vec3 *p_hit, t_world *objs)
 	t_ray		ray;
 	t_point3	rot_p_hit;
 
+	ray.dir = objs->type.cy->dir;
+	ray.orig = objs->type.cy->center;
+	cent = ray_at(&ray, objs->type.cy->height / 2);
 	if (objs->materia.texture == DEFAULT)
 		return (objs->materia.color);
 	if (objs->type.cy->hit[H_CYLINDER])
 	{
-		ray.dir = objs->type.cy->dir;
-		ray.orig = objs->type.cy->center;
-		cent = ray_at(&ray, objs->type.cy->height / 2);
 		if (fabs(dot(&objs->type.cy->dir, &(t_point3){0, 1, 0})) < 0.95)
 		{
 			rot_p_hit = point_rot(&ray.dir, &(t_point3){0, 1, 0}, p_hit, &cent);

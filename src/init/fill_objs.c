@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_objs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:51:31 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/19 17:17:18 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/24 11:59:22 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	fill_sphere(t_sphere *sp, char **split)
 {
 	char	**coord;
 
-	if (ft_array_len(split) < 4 && ft_array_len(split) > 5)
+	if (ft_array_len(split) < 7 && ft_array_len(split) > 8)
 		return (1);
 	coord = ft_split(split[1], ',');
 	if (!coord)
@@ -37,7 +37,7 @@ int	fill_plane(t_plane *pl, char **split)
 	char	**coord;
 	char	**norm;
 
-	if (ft_array_len(split) < 4 && ft_array_len(split) > 5)
+	if (ft_array_len(split) < 7 && ft_array_len(split) > 8)
 		return (1);
 	coord = ft_split(split[1], ',');
 	if (!coord)
@@ -59,7 +59,7 @@ int	fill_cylinder(t_cylinder *cy, char **split)
 	char	**coord;
 	char	**norm;
 
-	if (ft_array_len(split) < 6 && ft_array_len(split) > 7)
+	if (ft_array_len(split) < 9 && ft_array_len(split) > 10)
 		return (1);
 	coord = ft_split(split[1], ',');
 	if (!coord)
@@ -86,7 +86,7 @@ int	fill_cone(t_cone *cn, char **split)
 	char	**coord;
 	char	**norm;
 
-	if (ft_array_len(split) < 6 && ft_array_len(split) > 7)
+	if (ft_array_len(split) < 9 && ft_array_len(split) > 10)
 		return (1);
 	coord = ft_split(split[1], ',');
 	if (!coord)

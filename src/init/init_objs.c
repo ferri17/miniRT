@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/18 13:30:03 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/24 12:18:23 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ int	check_sphere(t_scene *scene, char **split)
 	sp->next = NULL;
 	sp->type.sp = malloc(sizeof(t_sphere));
 	sp->free_type = free_sphere;
-	if (fill_sphere(sp->type.sp, split) || put_colors(&sp->materia.color,
-			split[3]))
+	if (fill_sphere(sp->type.sp, split) || check_materia(sp, split, 3)
+		|| put_colors(&sp->materia.color, split[6]))
 		return (1);
-	if (ft_array_len(split) == 5)
+	if (ft_array_len(split) == 8)
 	{
-		if (ft_strcmp(split[4], "CHECKBOARD") == 0)
+		if (ft_strcmp(split[7], "CHECKBOARD") == 0)
 			sp->materia.texture = CHECKBOARD;
 		else
 			return (1);
@@ -67,14 +67,14 @@ int	check_plane(t_scene *scene, char **split)
 	pl->next = NULL;
 	pl->type.pl = malloc(sizeof(t_plane));
 	pl->free_type = free_plane;
-	if (fill_plane(pl->type.pl, split) || put_colors(&pl->materia.color,
-			split[3]))
+	if (fill_plane(pl->type.pl, split) || check_materia(pl, split, 3)
+		|| put_colors(&pl->materia.color, split[6]))
 		return (1);
 	if (check_dir(&pl->type.pl->normal))
 		return (1);
-	if (ft_array_len(split) == 5)
+	if (ft_array_len(split) == 8)
 	{
-		if (ft_strcmp(split[4], "CHECKBOARD") == 0)
+		if (ft_strcmp(split[7], "CHECKBOARD") == 0)
 			pl->materia.texture = CHECKBOARD;
 		else
 			return (1);
@@ -96,14 +96,14 @@ int	check_cylinder(t_scene *scene, char **split)
 	cy->next = NULL;
 	cy->type.cy = malloc(sizeof(t_cylinder));
 	cy->free_type = free_cylinder;
-	if (fill_cylinder(cy->type.cy, split) || put_colors(&cy->materia.color,
-			split[5]))
+	if (fill_cylinder(cy->type.cy, split) || check_materia(cy, split, 5)
+		|| put_colors(&cy->materia.color, split[8]))
 		return (1);
 	if (check_dir(&cy->type.cy->dir))
 		return (1);
-	if (ft_array_len(split) == 7)
+	if (ft_array_len(split) == 10)
 	{
-		if (ft_strcmp(split[6], "CHECKBOARD") == 0)
+		if (ft_strcmp(split[9], "CHECKBOARD") == 0)
 			cy->materia.texture = CHECKBOARD;
 		else
 			return (1);
@@ -124,14 +124,14 @@ int	check_cone(t_scene *scene, char **split)
 	cn->next = NULL;
 	cn->type.cn = malloc(sizeof(t_cone));
 	cn->free_type = free_cone;
-	if (fill_cone(cn->type.cn, split) || put_colors(&cn->materia.color,
-			split[5]))
+	if (fill_cone(cn->type.cn, split) || check_materia(cn, split, 5)
+		|| put_colors(&cn->materia.color, split[8]))
 		return (1);
 	if (check_dir(&cn->type.cn->dir))
 		return (1);
-	if (ft_array_len(split) == 7)
+	if (ft_array_len(split) == 10)
 	{
-		if (ft_strcmp(split[6], "CHECKBOARD") == 0)
+		if (ft_strcmp(split[9], "CHECKBOARD") == 0)
 			cn->materia.texture = CHECKBOARD;
 		else
 			return (1);
