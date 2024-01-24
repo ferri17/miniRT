@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/19 16:58:25 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/24 12:18:53 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ a valid extension *[.rt]\n"
 # define EXPOSE 12
 # define DESTROY 17
 // GENERAL DEFINITIONS
-# define MOVE 0.01
+# define MOVE 0.1
 // UI
 # define SM_PAD 25
 # define MD_PAD 50
@@ -242,8 +242,22 @@ typedef struct s_materia
 {
 	t_texture		texture;
 	t_color			color;
+	double			specular; //specular intensity, value from 0.0 to 1.0
+	double			roughness; //specular reflectance, value from 2.0 to 256.0
+	double			metallic; //0.0 diffuse, 1.0 mirror
 	t_img_tex		img_tex;
 }					t_materia;
+
+typedef struct s_matrix3x3{
+	double			m[3][3];
+}					t_matrix3x3;
+
+/* typedef struct s_materia
+{
+	t_texture		texture;
+	t_color			color;
+	t_img_tex		img_tex;
+}					t_materia; */
 
 typedef struct s_world
 {
@@ -301,6 +315,7 @@ void				init_structs(t_scene *scene);
 int					check_dir(t_vec3 *dir);
 void				inti_func_cylinder(t_world *cy);
 void				inti_func_cone(t_world *cn);
+int					check_materia(t_world *obj, char **split, int pos);
 
 /*------------------------------  FREE_TOOL  -----------------------------*/
 
@@ -329,12 +344,13 @@ t_uv				get_planar_map(t_point3 *p_hit, t_point3 *dir,
 						t_point3 *center);
 t_uv				get_spherical_map(t_point3 *p_hit, t_point3 *center,
 						double radius);
-t_uv				get_cylinder_map(t_point3 *p_hit, t_point3 *center);
+t_uv				get_cylinder_map(t_point3 *p_hit, t_point3 *center, double radius);
 t_uv				get_cone_map(t_point3 p_hit);
 double				quit_decimals(double num);
 t_color				checker_color(t_uv uv, t_color color);
-t_color				put_texture_sphere(t_world *objs, t_point3 *p_hit);
-t_color				put_texture_plane(t_world *objs, t_point3 *p_hit);
+t_matrix3x3			calculate_rotation_matrix(double angle, t_vec3 *axis);
+t_vec3				rotate_point(t_vec3 *p, t_vec3 *center, t_matrix3x3 *r);
+
 /*------------------------------  INIT_OBJS  ------------------------------*/
 
 int					check_sphere(t_scene *scene, char **split);
