@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/23 00:35:00 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/24 12:53:20 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ int	check_sphere(t_scene *scene, char **split)
 	sp->hit = hit_sphere;
 	sp->get_position_pointer = get_position_sphere;
 	sp->materia.specular = 1.0; //BORRAR
-	sp->materia.metallic = 0.3; //BORRAR
-	sp->materia.roughness = 256.0; //BORRAR
+	sp->materia.metallic = 0.0; //BORRAR
+	sp->materia.roughness = 4.0; //BORRAR
 	return (0);
 }
 

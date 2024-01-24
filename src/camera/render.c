@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:13:17 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/24 01:28:15 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/24 13:14:19 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_hit *hit_rec, int
 			diffuse_light = calc_diffuse_light(lights, &r_light, hit_rec);
 			specular_light = calc_specular_light(lights, r, &r_light, hit_rec);
 			pxl_color = add_vec3(&pxl_color, &diffuse_light);
+			//(void)diffuse_light;
 			pxl_color = add_vec3(&pxl_color, &specular_light);
 		}
 		lights = lights->next;
