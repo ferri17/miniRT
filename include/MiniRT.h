@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/24 00:21:00 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/24 16:05:48 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ a valid extension *[.rt]\n"
 # define RAY_DEPTH 10
 # define MIN_SIZE 0.000001
 # define MAX_SIZE 1000000.0 
-# define BIAS 0.00000000000001
+# define BIAS 0.00000001
+//# define BIAS 0.00000000000001
 # ifndef M_PI
 #  define M_PI 3.1415926
 # endif

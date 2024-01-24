@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_objs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/24 12:53:20 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/24 16:18:04 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,6 @@ int	check_sphere(t_scene *scene, char **split)
 	sp->get_color = get_color_sphere;
 	sp->hit = hit_sphere;
 	sp->get_position_pointer = get_position_sphere;
-	sp->materia.specular = 1.0; //BORRAR
-	sp->materia.metallic = 0.0; //BORRAR
-	sp->materia.roughness = 4.0; //BORRAR
 	return (0);
 }
 
@@ -86,9 +83,6 @@ int	check_plane(t_scene *scene, char **split)
 	pl->get_color = get_color_plane;
 	pl->hit = hit_plane;
 	pl->get_position_pointer = get_position_plane;
-	pl->materia.specular = 1.0; //BORRAR
-	pl->materia.metallic = 0.5; //BORRAR
-	pl->materia.roughness = 4.0; //BORRAR
 	return (0);
 }
 
@@ -117,9 +111,6 @@ int	check_cylinder(t_scene *scene, char **split)
 	else
 		cy->materia.texture = DEFAULT;
 	inti_func_cylinder(cy);
-	cy->materia.specular = 1.0; //BORRAR
-	cy->materia.metallic = 0.0; //BORRAR
-	cy->materia.roughness = 4.0; //BORRAR
 	return (0);
 }
 
@@ -148,8 +139,5 @@ int	check_cone(t_scene *scene, char **split)
 	else
 		cn->materia.texture = DEFAULT;
 	inti_func_cone(cn);
-	cn->materia.specular = 1.0; //BORRAR
-	cn->materia.metallic = 0.0; //BORRAR
-	cn->materia.roughness = 4.0; //BORRAR
 	return (0);
 }

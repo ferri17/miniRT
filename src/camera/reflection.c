@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reflection.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 23:16:21 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/24 01:30:27 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/24 16:13:35 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,11 @@
 static t_ray	calc_reflected_ray(t_hit *hit_rec, const t_ray *r)
 {
 	t_ray	reflected;
-	t_vec3	dir;
 
 	reflected.orig = product_vec3_r(&hit_rec->normal, BIAS);
 	reflected.orig = add_vec3(&hit_rec->p, &reflected.orig);
-	dir = r->dir;
-	reflected.dir = product_vec3_r(&hit_rec->normal, 2 * dot(&dir, &hit_rec->normal)); //unit vectors or not
-	reflected.dir = substract_vec3(&dir, &reflected.dir); //unit vectors or not
+	reflected.dir = product_vec3_r(&hit_rec->normal, 2 * dot(&r->dir, &hit_rec->normal)); //unit vectors or not
+	reflected.dir = substract_vec3(&r->dir, &reflected.dir); //unit vectors or not
 	return (reflected);
 }
 
