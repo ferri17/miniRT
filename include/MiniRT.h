@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/22 23:15:20 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/24 00:21:00 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -412,6 +412,7 @@ t_color				calc_specular_light(t_light *lights, const t_ray *r,
 						t_ray *r_light, t_hit *hit_rec);
 bool				calc_hard_shadows(t_world *objs, t_ray *r_light,
 						t_hit *hit_rec);
+t_color				calc_reflected_color(t_scene *scene, t_hit *hit_rec, const t_ray *r, int ray_depth);
 void				draw_outlines(t_scene *scene);
 
 /*------------------------------  UTILS  -------------------------------*/
