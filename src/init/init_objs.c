@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/24 12:18:23 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/25 13:04:08 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ int	check_plane(t_scene *scene, char **split)
 		else
 			return (1);
 	}
+	else
+		pl->materia.texture = DEFAULT;
 	pl->type.pl->normal = unit_vector(&pl->type.pl->normal);
 	pl->get_color = get_color_plane;
 	pl->hit = hit_plane;

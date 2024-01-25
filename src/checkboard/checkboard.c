@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:03:13 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/24 20:38:29 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/25 13:17:39 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,25 @@ t_color	get_color_sphere(t_vec3 *p_hit, t_world *objs)
 
 	if (objs->materia.texture == DEFAULT)
 	{
+	
 		uv = get_spherical_map(p_hit, &objs->type.sp->center,
 			objs->type.sp->radius);
 		
-		printf("%f, %f\n", uv.u, uv.v);
-		uv.u = floor((uv.u + 1) * (objs->materia.img_tex.w / 2));
-		uv.v = floor((uv.v + 1) * (objs->materia.img_tex.h / 2));
-		int pixel = (objs->materia.img_tex.sl * 49) + (objs->materia.img_tex.bpp * 49 / 8);
-		int b = objs->materia.img_tex.info[pixel + 0];
-		int g = objs->materia.img_tex.info[pixel + 1];
-		int r = objs->materia.img_tex.info[pixel + 2];
+		//printf("%f, %f\n", uv.u, uv.v);
 		
-		double bb = (double)b / 255;
-		double gg = (double)g / 255; 
-		double rr = (double)r / 255; 
-
+		uv.u = floor(uv.u * objs->materia.img_tex.w);
+		uv.v = floor(uv.v * objs->materia.img_tex.h);
+		int pixel = (objs->materia.img_tex.sl * uv.v) + (objs->materia.img_tex.bpp * uv.u / 8);
+		int b = (unsigned char)objs->materia.img_tex.info[pixel + 0];
+		int g = (unsigned char)objs->materia.img_tex.info[pixel + 1];
+		int r = (unsigned char)objs->materia.img_tex.info[pixel + 2];
+		
+		double bb = (double)b / 255.0;
+		double gg = (double)g / 255.0; 
+		double rr = (double)r / 255.0; 
+		//printf("bb:%d, gg:%d, rr:%d\n", b, g, r);
 
 		return ((t_color){rr, gg, bb});
-		return ((t_color){objs->materia.img_tex.info[pixel + 2], objs->materia.img_tex.info[pixel + 1], objs->materia.img_tex.info[pixel + 0]});
 		//pixel = (data->img.line_bytes * y) + (x * data->img.pixel_bits / 8);
 
 		return (objs->materia.color);
@@ -53,7 +54,25 @@ t_color	get_color_plane(t_vec3 *p_hit, t_world *objs)
 	t_uv	uv;
 
 	if (objs->materia.texture == DEFAULT)
+	{
+		uv = get_planar_map(p_hit, &objs->type.pl->normal, &objs->type.pl->center);
+		uv.u = uv.u - floor(uv.u);
+		uv.v = uv.v - floor(uv.v);
+		uv.u = floor(uv.u * objs->materia.img_tex.w);
+		uv.v = floor(uv.v * objs->materia.img_tex.h);
+		int pixel = (objs->materia.img_tex.sl * uv.v) + (objs->materia.img_tex.bpp * uv.u / 8);
+		int b = (unsigned char)objs->materia.img_tex.info[pixel + 0];
+		int g = (unsigned char)objs->materia.img_tex.info[pixel + 1];
+		int r = (unsigned char)objs->materia.img_tex.info[pixel + 2];
+		
+		double bb = (double)b / 255.0;
+		double gg = (double)g / 255.0; 
+		double rr = (double)r / 255.0; 
+		//printf("bb:%d, gg:%d, rr:%d\n", b, g, r);
+
+		return ((t_color){rr, gg, bb});
 		return (objs->materia.color);
+	}
 	uv = get_planar_map(p_hit, &objs->type.pl->normal, &objs->type.pl->center);
 	//printf("%f, %f\n", uv.u, uv.v);
 	return (checker_color(uv, objs->materia.color));
@@ -117,7 +136,29 @@ t_color	get_color_cylinder(t_vec3 *p_hit, t_world *objs)
 	ray.orig = objs->type.cy->center;
 	cent = ray_at(&ray, objs->type.cy->height / 2);
 	if (objs->materia.texture == DEFAULT)
+	{
+		//rot_p_hit = point_rot(&ray.dir, &(t_point3){0, 1, 0}, p_hit, &cent);
+		uv = get_cylinder_map(p_hit, &cent, objs->type.cy->radius);
+
+		
+		//printf("%f, %f\n", uv.u, uv.v);
+		uv.u = floor(uv.u * objs->materia.img_tex.w);
+		uv.v = floor(uv.v * objs->materia.img_tex.h);
+		int pixel = (objs->materia.img_tex.sl * uv.v) + (objs->materia.img_tex.bpp * uv.u / 8);
+		int b = (unsigned char)objs->materia.img_tex.info[pixel + 0];
+		int g = (unsigned char)objs->materia.img_tex.info[pixel + 1];
+		int r = (unsigned char)objs->materia.img_tex.info[pixel + 2];
+		
+		double bb = (double)b / 255.0;
+		double gg = (double)g / 255.0; 
+		double rr = (double)r / 255.0; 
+		//printf("bb:%d, gg:%d, rr:%d\n", b, g, r);
+
+		return ((t_color){rr, gg, bb});
+		//pixel = (data->img.line_bytes * y) + (x * data->img.pixel_bits / 8);
+
 		return (objs->materia.color);
+	}
 	if (objs->type.cy->hit[H_CYLINDER])
 	{
 		if (fabs(dot(&objs->type.cy->dir, &(t_point3){0, 1, 0})) < 0.95)

@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/24 20:45:30 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/25 12:30:16 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h)
 		{
 			create_ray(camera, &r, i, j);
 			color = send_ray(&r, scene, i, j);
-			if (i < 49 && j < 49)
+			if (i < 50 && j < 50)
 			{
 				int pixel = i * 4 + j * 200;
 				int b = scene->objs->materia.img_tex.info[pixel];

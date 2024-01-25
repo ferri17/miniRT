@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:16:48 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/24 20:45:25 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/25 13:16:09 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ t_uv	get_planar_map(t_point3 *p_hit, t_point3 *dir, t_point3 *center)
 	
 	uv.u = dot(&tmp1, &tmp);
 	uv.v = dot(&tmp2, &tmp);
+	uv.u = 1 + (uv.u * -1.0);
+	uv.v = 1 + (uv.v * -1.0);
 	return (uv);
 }
 
@@ -42,10 +44,13 @@ t_uv	get_spherical_map(t_point3 *p_hit, t_point3 *center, double radius)
 	double	theta;
 	double	phi;
 
-	theta = atan2(p_hit->x - center->x, p_hit->z - center->z);
-	phi = acos((p_hit->y - center->y) / radius);
-	uv.u = theta / (2.0 * M_PI);
-	uv.v = (phi / M_PI);
+	
+	theta = atan2(p_hit->z - center->z, p_hit->x - center->x);
+	phi = asin((p_hit->y - center->y) / radius);
+	uv.u = 0.5 + (theta / (2.0 * M_PI));
+	uv.v = 0.5 + (phi / M_PI);
+	uv.u = 1 + (uv.u * -1.0);
+	uv.v = 1 + (uv.v * -1.0);
 	return (uv);
 }
 
@@ -55,10 +60,12 @@ t_uv	get_cylinder_map(t_point3 *p_hit, t_point3 *center, double radius)
 	double	phi;
 	double	theta;
 
-	theta = atan2(p_hit->x - center->x, p_hit->z - center->z);
+	theta = atan2(p_hit->z - center->z, p_hit->x - center->x);
 	phi = (p_hit->y - center->y) / radius;
-	uv.u = theta / (2.0 * M_PI);
-	uv.v = (phi / M_PI);
+	uv.u = 0.5 + (theta / (2.0 * M_PI));
+	uv.v = 0.5 + (phi / M_PI);
+	uv.u = 1 + (uv.u * -1.0);
+	uv.v = 1 + (uv.v * -1.0);
 	return (uv);
 }
 
