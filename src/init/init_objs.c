@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_objs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/25 13:04:08 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/25 15:31:30 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,69 @@ t_world	*push_back(t_world *objs, t_scene *scene)
 	return (objs);
 }
 
+int	check_img(t_img_tex *img, void *mlx_ptr, char *name)
+{
+	img->img_ptr = mlx_xpm_file_to_image(mlx_ptr, name, &img->w, &img->h);
+	if (img->img_ptr == NULL)
+		return (1);
+	img->info = mlx_get_data_addr(img->img_ptr, &img->bpp, &img->sl, &img->endian);
+	if (img->info == NULL)
+		return (1);
+	return (0);
+}
+
+int	bitmap_bumpmap_case(t_scene *scene, char **split, int pos)
+{
+	t_materia	*m;
+
+	m = &scene->objs->materia;
+	if (ft_strcmp(split[pos], "BITMAP_BUMPMAP") == 0)
+		scene->objs->materia.texture = BITMAP_BUMPMAP;
+	else
+		return (1);
+	if (check_img(&m->bump, scene->data.mlx, split[pos + 1]))
+		return (1);
+	if (check_img(&m->bit, scene->data.mlx, split[pos + 2]))
+		return (1);
+	return (0);
+}
+
+int	bitmap_or_bumpmap_case(t_scene *sc, char **s, int pos)
+{
+	t_materia	*m;
+
+	m = &sc->objs->materia;
+	if (ft_strcmp(s[pos], "BITMAP") == 0)
+		m->texture = BITMAP;
+	else if (ft_strcmp(s[pos], "BUMPMAP") == 0)
+		m->texture = BUMPMAP;
+	else
+		return (1);
+	if (m->texture == BUMPMAP)
+		return (check_img(&m->bump, sc->data.mlx, s[pos + 1]));
+	else
+		return (check_img(&m->bit, sc->data.mlx, s[pos + 1]));
+	return (0);
+}
+
+int	check_texture_sphere(t_scene *scene, char **split)
+{
+	if (ft_array_len(split) == 7)
+		scene->objs->materia.texture = DEFAULT;
+	else if (ft_array_len(split) == 8)
+	{
+		if (ft_strcmp(split[7], "CHECKBOARD") == 0)
+			scene->objs->materia.texture = CHECKBOARD;
+		else
+			return (1);
+	}
+	else if (ft_array_len(split) == 9)
+		return (bitmap_or_bumpmap_case(scene, split, 7));
+	else if (ft_array_len(split) == 10)
+		return (bitmap_bumpmap_case(scene, split, 7));
+	return (0);
+}
+
 int	check_sphere(t_scene *scene, char **split)
 {
 	t_world	*sp;
@@ -42,15 +105,8 @@ int	check_sphere(t_scene *scene, char **split)
 	if (fill_sphere(sp->type.sp, split) || check_materia(sp, split, 3)
 		|| put_colors(&sp->materia.color, split[6]))
 		return (1);
-	if (ft_array_len(split) == 8)
-	{
-		if (ft_strcmp(split[7], "CHECKBOARD") == 0)
-			sp->materia.texture = CHECKBOARD;
-		else
-			return (1);
-	}
-	else
-		sp->materia.texture = DEFAULT;
+	if (check_texture_sphere(scene, split))
+		return (1);
 	sp->get_color = get_color_sphere;
 	sp->hit = hit_sphere;
 	sp->get_position_pointer = get_position_sphere;

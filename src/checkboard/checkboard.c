@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkboard.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:03:13 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/25 13:17:39 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/25 15:31:45 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_color	get_color_sphere(t_vec3 *p_hit, t_world *objs)
 {
 	t_uv	uv;
 
-	if (objs->materia.texture == DEFAULT)
+	if (objs->materia.texture == BITMAP)
 	{
 	
 		uv = get_spherical_map(p_hit, &objs->type.sp->center,
@@ -24,12 +24,12 @@ t_color	get_color_sphere(t_vec3 *p_hit, t_world *objs)
 		
 		//printf("%f, %f\n", uv.u, uv.v);
 		
-		uv.u = floor(uv.u * objs->materia.img_tex.w);
-		uv.v = floor(uv.v * objs->materia.img_tex.h);
-		int pixel = (objs->materia.img_tex.sl * uv.v) + (objs->materia.img_tex.bpp * uv.u / 8);
-		int b = (unsigned char)objs->materia.img_tex.info[pixel + 0];
-		int g = (unsigned char)objs->materia.img_tex.info[pixel + 1];
-		int r = (unsigned char)objs->materia.img_tex.info[pixel + 2];
+		uv.u = floor(uv.u * objs->materia.bit.w);
+		uv.v = floor(uv.v * objs->materia.bit.h);
+		int pixel = (objs->materia.bit.sl * uv.v) + (objs->materia.bit.bpp * uv.u / 8);
+		int b = (unsigned char)objs->materia.bit.info[pixel + 0];
+		int g = (unsigned char)objs->materia.bit.info[pixel + 1];
+		int r = (unsigned char)objs->materia.bit.info[pixel + 2];
 		
 		double bb = (double)b / 255.0;
 		double gg = (double)g / 255.0; 
@@ -58,12 +58,12 @@ t_color	get_color_plane(t_vec3 *p_hit, t_world *objs)
 		uv = get_planar_map(p_hit, &objs->type.pl->normal, &objs->type.pl->center);
 		uv.u = uv.u - floor(uv.u);
 		uv.v = uv.v - floor(uv.v);
-		uv.u = floor(uv.u * objs->materia.img_tex.w);
-		uv.v = floor(uv.v * objs->materia.img_tex.h);
-		int pixel = (objs->materia.img_tex.sl * uv.v) + (objs->materia.img_tex.bpp * uv.u / 8);
-		int b = (unsigned char)objs->materia.img_tex.info[pixel + 0];
-		int g = (unsigned char)objs->materia.img_tex.info[pixel + 1];
-		int r = (unsigned char)objs->materia.img_tex.info[pixel + 2];
+		uv.u = floor(uv.u * objs->materia.bit.w);
+		uv.v = floor(uv.v * objs->materia.bit.h);
+		int pixel = (objs->materia.bit.sl * uv.v) + (objs->materia.bit.bpp * uv.u / 8);
+		int b = (unsigned char)objs->materia.bit.info[pixel + 0];
+		int g = (unsigned char)objs->materia.bit.info[pixel + 1];
+		int r = (unsigned char)objs->materia.bit.info[pixel + 2];
 		
 		double bb = (double)b / 255.0;
 		double gg = (double)g / 255.0; 
@@ -142,12 +142,12 @@ t_color	get_color_cylinder(t_vec3 *p_hit, t_world *objs)
 
 		
 		//printf("%f, %f\n", uv.u, uv.v);
-		uv.u = floor(uv.u * objs->materia.img_tex.w);
-		uv.v = floor(uv.v * objs->materia.img_tex.h);
-		int pixel = (objs->materia.img_tex.sl * uv.v) + (objs->materia.img_tex.bpp * uv.u / 8);
-		int b = (unsigned char)objs->materia.img_tex.info[pixel + 0];
-		int g = (unsigned char)objs->materia.img_tex.info[pixel + 1];
-		int r = (unsigned char)objs->materia.img_tex.info[pixel + 2];
+		uv.u = floor(uv.u * objs->materia.bit.w);
+		uv.v = floor(uv.v * objs->materia.bit.h);
+		int pixel = (objs->materia.bit.sl * uv.v) + (objs->materia.bit.bpp * uv.u / 8);
+		int b = (unsigned char)objs->materia.bit.info[pixel + 0];
+		int g = (unsigned char)objs->materia.bit.info[pixel + 1];
+		int r = (unsigned char)objs->materia.bit.info[pixel + 2];
 		
 		double bb = (double)b / 255.0;
 		double gg = (double)g / 255.0; 

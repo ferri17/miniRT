@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/24 16:53:25 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/25 15:20:35 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,7 +229,9 @@ typedef enum e_texture
 {
 	DEFAULT = 0,
 	CHECKBOARD = 1,
-	BITMAP = 2
+	BITMAP = 2,
+	BUMPMAP = 3,
+	BITMAP_BUMPMAP = 4
 }					t_texture;
 
 typedef struct s_img_tex
@@ -250,19 +252,13 @@ typedef struct s_materia
 	double			specular;
 	double			roughness;
 	double			metallic;
-	t_img_tex		img_tex;
+	t_img_tex		bit;
+	t_img_tex		bump;
 }					t_materia;
 
 typedef struct s_matrix3x3{
 	double			m[3][3];
 }					t_matrix3x3;
-
-/* typedef struct s_materia
-{
-	t_texture		texture;
-	t_color			color;
-	t_img_tex		img_tex;
-}					t_materia; */
 
 typedef struct s_world
 {
@@ -310,8 +306,6 @@ typedef struct s_uv
 	double			u;
 	double			v;
 }					t_uv;
-
-void				print_shit(t_scene scene);
 
 /*==============================  FUNCTIONS  =============================*/
 /*------------------------------  INIT_TOOL  -----------------------------*/
