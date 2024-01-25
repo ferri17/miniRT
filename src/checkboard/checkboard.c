@@ -3,50 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   checkboard.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:03:13 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/25 15:31:45 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/25 19:27:12 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MiniRT.h"
 
+t_color	map_uv_to_color(t_uv *uv, t_img_tex *img_tex)
+{
+	int	i;
+	int	r;
+	int	g;
+	int	b;
+	t_color	color;
+
+	uv->u = floor(uv->u * img_tex->w);
+	uv->v = floor(uv->v * img_tex->h);
+	i = (img_tex->sl * uv->v) + (img_tex->bpp * uv->u / 8);
+	if (i >= img_tex->sl * img_tex->h)
+		return ((t_color){0,0,0});
+	b = (unsigned char)img_tex->info[i + 0];
+	g = (unsigned char)img_tex->info[i + 1];
+	r = (unsigned char)img_tex->info[i + 2];
+	color.z = (double)b / 255.999;
+	color.y = (double)g / 255.999; 
+	color.x = (double)r / 255.999;
+	return (color);
+}
+
 t_color	get_color_sphere(t_vec3 *p_hit, t_world *objs)
 {
 	t_uv	uv;
+	t_color	color;
 
-	if (objs->materia.texture == BITMAP)
-	{
-	
-		uv = get_spherical_map(p_hit, &objs->type.sp->center,
-			objs->type.sp->radius);
-		
-		//printf("%f, %f\n", uv.u, uv.v);
-		
-		uv.u = floor(uv.u * objs->materia.bit.w);
-		uv.v = floor(uv.v * objs->materia.bit.h);
-		int pixel = (objs->materia.bit.sl * uv.v) + (objs->materia.bit.bpp * uv.u / 8);
-		int b = (unsigned char)objs->materia.bit.info[pixel + 0];
-		int g = (unsigned char)objs->materia.bit.info[pixel + 1];
-		int r = (unsigned char)objs->materia.bit.info[pixel + 2];
-		
-		double bb = (double)b / 255.0;
-		double gg = (double)g / 255.0; 
-		double rr = (double)r / 255.0; 
-		//printf("bb:%d, gg:%d, rr:%d\n", b, g, r);
-
-		return ((t_color){rr, gg, bb});
-		//pixel = (data->img.line_bytes * y) + (x * data->img.pixel_bits / 8);
-
+	if (objs->materia.texture == DEFAULT || objs->materia.texture == BUMPMAP)
 		return (objs->materia.color);
-	}
+	color = (t_color){0,0,0};
 	uv = get_spherical_map(p_hit, &objs->type.sp->center,
-			objs->type.sp->radius);
-	//printf("%f, %f\n", uv.u, uv.v);
-	uv.u *= 4;
-	uv.v *= 2;
-	return (checker_color(uv, objs->materia.color));
+		objs->type.sp->radius);
+	if (objs->materia.texture == BITMAP || objs->materia.texture == BITMAP_BUMPMAP)
+		color = map_uv_to_color(&uv, &objs->materia.bit);
+	else if (objs->materia.texture == CHECKBOARD)
+	{
+		uv.u *= 4;
+		uv.v *= 2;
+		color = checker_color(uv, objs->materia.color);
+	}
+	return (color);
 }
 
 t_color	get_color_plane(t_vec3 *p_hit, t_world *objs)

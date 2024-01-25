@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_objs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/25 15:31:30 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/25 19:23:19 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int	check_sphere(t_scene *scene, char **split)
 	sp->get_color = get_color_sphere;
 	sp->hit = hit_sphere;
 	sp->get_position_pointer = get_position_sphere;
+	sp->get_normal_map = get_normal_map_sphere;
 	return (0);
 }
 

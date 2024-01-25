@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:13:17 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/24 16:12:55 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/25 19:29:33 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,16 +65,17 @@ t_color	render_edit_mode(t_scene *scene, const t_ray *r, t_hit *hit_rec)
 
 	view_dir = product_vec3_r(&r->dir, -1);
 	view_dir = unit_vector(&view_dir);
-	a = dot(&view_dir, &hit_rec->normal) * 0.5;
-	color = product_vec3_r(&hit_rec->obj->materia.color, 0.5);
+	a = dot(&view_dir, &hit_rec->normal) - 0.5;
+	color = hit_rec->obj->get_color(&hit_rec->p, hit_rec->obj);
+	color = product_vec3_r(&color, 0.5);
 	color = (t_color){color.x + a, color.y + a, color.z + a};
-	if (hit_rec->obj == scene->selected)
+	/* if (hit_rec->obj == scene->selected)
 		color = (t_color){hit_rec->normal.x, hit_rec->normal.y,
-			hit_rec->normal.z};
+			hit_rec->normal.z}; */
+	(void)scene;
 	return (color);
 }
 
-// FIX BIAS FOR CONES
 void	calc_shadow_ray(t_ray *shadow_ray, t_light *lights, t_hit *hit_rec)
 {
 	shadow_ray->orig = product_vec3_r(&hit_rec->normal, BIAS);
@@ -95,6 +96,11 @@ t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_hit *hit_rec, int
 
 	if (ray_depth <= 0)
 		return ((t_color){0, 0, 0});
+	if (hit_rec->obj->materia.texture == BUMPMAP || hit_rec->obj->materia.texture == BITMAP_BUMPMAP)
+	{
+		t_color	normal_d = hit_rec->obj->get_normal_map(&hit_rec->p, hit_rec->obj);
+		hit_rec->normal = normal_d;
+	}
 	pxl_color = hit_rec->obj->get_color(&hit_rec->p, hit_rec->obj);
 	pxl_color = calc_ambient_light(&scene->amblight.color, &pxl_color,
 			scene->amblight.ratio);

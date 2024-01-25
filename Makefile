@@ -6,7 +6,7 @@
 #    By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2024/01/25 13:03:24 by fbosch           ###   ########.fr        #
+#    Updated: 2024/01/25 19:15:39 by fbosch           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ FILES_HIT		=	hit_sphere.c hit_plane.c hit_cylinder.c hit_cone.c hit_disk.c
 FILES_MLX		=	mlx_color.c mlx_events.c mlx_init.c events.c
 FILES_UTILS		=	vec3_utils.c vec3_utils2.c vec3_utils3.c math_utils.c slider.c\
 					ray_utils.c menu.c
-FILES_CHECK		=	checkboard.c map_objects_uv.c utils.c
+FILES_CHECK		=	checkboard.c map_objects_uv.c utils.c normal_map.c
 FILES_TEXTUR	=	texture.c
 DIR_MAIN		=	src/main/
 DIR_CAMERA		=	src/camera/

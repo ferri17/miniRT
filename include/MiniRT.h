@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/25 15:20:35 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/25 19:26:15 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,6 +268,7 @@ typedef struct s_world
 	void			(*free_type)(t_objects);
 	t_vec3			*(*get_position_pointer)(t_objects *);
 	t_color			(*get_color)(t_vec3 *, struct s_world *);
+	t_color			(*get_normal_map)(t_vec3 *, struct s_world *);
 	struct s_world	*next;
 }					t_world;
 
@@ -349,6 +350,8 @@ double				quit_decimals(double num);
 t_color				checker_color(t_uv uv, t_color color);
 t_matrix3x3			calculate_rotation_matrix(double angle, t_vec3 *axis);
 t_vec3				rotate_point(t_vec3 *p, t_vec3 *center, t_matrix3x3 *r);
+t_color				get_normal_map_sphere(t_vec3 *p_hit, t_world *obj);
+t_color				map_uv_to_color(t_uv *uv, t_img_tex *img_tex);
 
 /*------------------------------  INIT_OBJS  ------------------------------*/
 

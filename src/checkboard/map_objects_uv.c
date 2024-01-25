@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:16:48 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/25 13:16:09 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/25 16:40:12 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,6 @@ t_uv	get_planar_map(t_point3 *p_hit, t_point3 *dir, t_point3 *center)
 	tmp1 = cross(dir, &axis);
 	tmp1 = unit_vector(&tmp1);
 	tmp2 = cross(dir, &tmp1);
-
-	//tmp2 = unit_vector(&tmp2);
-	//tmp = unit_vector(&tmp);
-	
 	uv.u = dot(&tmp1, &tmp);
 	uv.v = dot(&tmp2, &tmp);
 	uv.u = 1 + (uv.u * -1.0);
