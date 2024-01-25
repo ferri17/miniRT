@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_objs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/25 19:23:19 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/25 20:04:23 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ int	check_img(t_img_tex *img, void *mlx_ptr, char *name)
 	return (0);
 }
 
-int	bitmap_bumpmap_case(t_scene *scene, char **split, int pos)
+int	bitmap_bumpmap_case(t_scene *scene, t_world *sp, char **split, int pos)
 {
 	t_materia	*m;
 
-	m = &scene->objs->materia;
+	m = &sp->materia;
 	if (ft_strcmp(split[pos], "BITMAP_BUMPMAP") == 0)
-		scene->objs->materia.texture = BITMAP_BUMPMAP;
+		sp->materia.texture = BITMAP_BUMPMAP;
 	else
 		return (1);
 	if (check_img(&m->bump, scene->data.mlx, split[pos + 1]))
@@ -56,11 +56,11 @@ int	bitmap_bumpmap_case(t_scene *scene, char **split, int pos)
 	return (0);
 }
 
-int	bitmap_or_bumpmap_case(t_scene *sc, char **s, int pos)
+int	bitmap_or_bumpmap_case(t_scene *sc, t_world *sp, char **s, int pos)
 {
 	t_materia	*m;
 
-	m = &sc->objs->materia;
+	m = &sp->materia;
 	if (ft_strcmp(s[pos], "BITMAP") == 0)
 		m->texture = BITMAP;
 	else if (ft_strcmp(s[pos], "BUMPMAP") == 0)
@@ -74,21 +74,21 @@ int	bitmap_or_bumpmap_case(t_scene *sc, char **s, int pos)
 	return (0);
 }
 
-int	check_texture_sphere(t_scene *scene, char **split)
+int	check_texture_sphere(t_scene *scene, t_world *sp,char **split)
 {
 	if (ft_array_len(split) == 7)
-		scene->objs->materia.texture = DEFAULT;
+		sp->materia.texture = DEFAULT;
 	else if (ft_array_len(split) == 8)
 	{
 		if (ft_strcmp(split[7], "CHECKBOARD") == 0)
-			scene->objs->materia.texture = CHECKBOARD;
+			sp->materia.texture = CHECKBOARD;
 		else
 			return (1);
 	}
 	else if (ft_array_len(split) == 9)
-		return (bitmap_or_bumpmap_case(scene, split, 7));
+		return (bitmap_or_bumpmap_case(scene, sp, split, 7));
 	else if (ft_array_len(split) == 10)
-		return (bitmap_bumpmap_case(scene, split, 7));
+		return (bitmap_bumpmap_case(scene, sp, split, 7));
 	return (0);
 }
 
@@ -105,7 +105,7 @@ int	check_sphere(t_scene *scene, char **split)
 	if (fill_sphere(sp->type.sp, split) || check_materia(sp, split, 3)
 		|| put_colors(&sp->materia.color, split[6]))
 		return (1);
-	if (check_texture_sphere(scene, split))
+	if (check_texture_sphere(scene, sp, split))
 		return (1);
 	sp->get_color = get_color_sphere;
 	sp->hit = hit_sphere;

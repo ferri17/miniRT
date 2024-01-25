@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkboard.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:03:13 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/25 19:27:12 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/25 20:11:42 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_color	map_uv_to_color(t_uv *uv, t_img_tex *img_tex)
 	int	b;
 	t_color	color;
 
+	return ((t_color){1,1,1});
 	uv->u = floor(uv->u * img_tex->w);
 	uv->v = floor(uv->v * img_tex->h);
 	i = (img_tex->sl * uv->v) + (img_tex->bpp * uv->u / 8);
