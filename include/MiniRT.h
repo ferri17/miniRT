@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/25 19:26:15 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/26 16:10:44 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,7 +242,7 @@ typedef struct s_img_tex
 	int				h;
 	int				bpp;
 	int				sl;
-	int				endian;
+	int				end;
 }					t_img_tex;
 
 typedef struct s_materia
@@ -256,7 +256,8 @@ typedef struct s_materia
 	t_img_tex		bump;
 }					t_materia;
 
-typedef struct s_matrix3x3{
+typedef struct s_matrix3x3
+{
 	double			m[3][3];
 }					t_matrix3x3;
 
@@ -311,11 +312,15 @@ typedef struct s_uv
 /*==============================  FUNCTIONS  =============================*/
 /*------------------------------  INIT_TOOL  -----------------------------*/
 
+int					check_ident(t_scene *scene, char **split);
 void				init_structs(t_scene *scene);
 int					check_dir(t_vec3 *dir);
 void				inti_func_cylinder(t_world *cy);
 void				inti_func_cone(t_world *cn);
 int					check_materia(t_world *obj, char **split, int pos);
+int					check_img(t_img_tex *img, void *mlx_ptr, char *name);
+int					bitmap_bumpmap_case(t_scene *scene, t_world *sp, char **split, int pos);
+int					bitmap_or_bumpmap_case(t_scene *sc, t_world *sp, char **s, int pos);
 
 /*------------------------------  FREE_TOOL  -----------------------------*/
 
@@ -334,7 +339,7 @@ bool				hit_disk(const t_ray *ray, t_disk *obj, t_hit *rec);
 bool				hit_cylinder(const t_ray *ray, t_objects obj, t_hit *rec);
 bool				hit_disk_cone(const t_ray *ray, t_objects obj, t_hit *rec);
 
-/*------------------------------ CHECKBOARD  ------------------------------*/
+/*------------------------------ GET_COLORS  ------------------------------*/
 
 t_color				get_color_sphere(t_vec3 *p_hit, t_world *objs);
 t_color				get_color_plane(t_vec3 *p_hit, t_world *objs);
@@ -352,6 +357,10 @@ t_matrix3x3			calculate_rotation_matrix(double angle, t_vec3 *axis);
 t_vec3				rotate_point(t_vec3 *p, t_vec3 *center, t_matrix3x3 *r);
 t_color				get_normal_map_sphere(t_vec3 *p_hit, t_world *obj);
 t_color				map_uv_to_color(t_uv *uv, t_img_tex *img_tex);
+t_color				get_cn_chess(t_vec3 *p_hit, t_world *objs, t_point3 *cent, t_ray *ray);
+t_color				get_cn_bit(t_vec3 *p_hit, t_world *objs, t_point3 *cent, t_ray *ray);
+t_color				get_cy_chess(t_vec3 *p_hit, t_world *objs, t_point3 *cent, t_ray *ray);
+t_color				get_cy_bit(t_vec3 *p_hit, t_world *objs, t_point3 *cent, t_ray *ray);
 
 /*------------------------------  INIT_OBJS  ------------------------------*/
 
@@ -360,6 +369,10 @@ int					check_plane(t_scene *scene, char **split);
 int					check_cylinder(t_scene *scene, char **split);
 int					check_cone(t_scene *scene, char **split);
 int					check_light(t_scene *scene, char **split);
+int					check_texture_sphere(t_scene *scene, t_world *sp, char **split);
+int					check_texture_plane(t_scene *scene, t_world *pl, char **split);
+int					check_texture_cylinder(t_scene *scene, t_world *cy, char **split);
+int					check_texture_cone(t_scene *scene, t_world *cn, char **split);
 
 /*----------------------------- INIT_STRUCTS -----------------------------*/
 
