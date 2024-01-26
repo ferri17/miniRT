@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:13:17 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/25 19:29:33 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/26 11:12:54 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,9 @@ t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_hit *hit_rec, int
 	{
 		t_color	normal_d = hit_rec->obj->get_normal_map(&hit_rec->p, hit_rec->obj);
 		hit_rec->normal = normal_d;
+		/* normal_d.x = (normal_d.x * 2) - 1;
+		normal_d.y = (normal_d.y * 2) - 1;
+		normal_d.z = (normal_d.z * 2) - 1; */
 	}
 	pxl_color = hit_rec->obj->get_color(&hit_rec->p, hit_rec->obj);
 	pxl_color = calc_ambient_light(&scene->amblight.color, &pxl_color,
