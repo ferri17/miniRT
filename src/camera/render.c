@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:13:17 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/26 11:12:54 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/26 12:51:07 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,17 +96,18 @@ t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_hit *hit_rec, int
 
 	if (ray_depth <= 0)
 		return ((t_color){0, 0, 0});
-	if (hit_rec->obj->materia.texture == BUMPMAP || hit_rec->obj->materia.texture == BITMAP_BUMPMAP)
-	{
-		t_color	normal_d = hit_rec->obj->get_normal_map(&hit_rec->p, hit_rec->obj);
-		hit_rec->normal = normal_d;
-		/* normal_d.x = (normal_d.x * 2) - 1;
-		normal_d.y = (normal_d.y * 2) - 1;
-		normal_d.z = (normal_d.z * 2) - 1; */
-	}
+	// if (hit_rec->obj->materia.texture == BUMPMAP || hit_rec->obj->materia.texture == BITMAP_BUMPMAP)
+	// {
+	// 	t_color	normal_d = hit_rec->obj->get_normal_map(&hit_rec->p, hit_rec->obj);
+	// 	hit_rec->normal = normal_d;
+	// 	/* normal_d.x = (normal_d.x * 2) - 1;
+	// 	normal_d.y = (normal_d.y * 2) - 1;
+	// 	normal_d.z = (normal_d.z * 2) - 1; */
+	// }
 	pxl_color = hit_rec->obj->get_color(&hit_rec->p, hit_rec->obj);
 	pxl_color = calc_ambient_light(&scene->amblight.color, &pxl_color,
 			scene->amblight.ratio);
+	//return (pxl_color);
 	lights = scene->light;
 	while (lights)
 	{
