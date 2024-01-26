@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/25 19:26:15 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/26 14:01:37 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -351,6 +351,7 @@ t_color				checker_color(t_uv uv, t_color color);
 t_matrix3x3			calculate_rotation_matrix(double angle, t_vec3 *axis);
 t_vec3				rotate_point(t_vec3 *p, t_vec3 *center, t_matrix3x3 *r);
 t_color				get_normal_map_sphere(t_vec3 *p_hit, t_world *obj);
+t_color				get_normal_map_plane(t_vec3 *p_hit, t_world *obj);
 t_color				map_uv_to_color(t_uv *uv, t_img_tex *img_tex);
 
 /*------------------------------  INIT_OBJS  ------------------------------*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkboard.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:03:13 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/26 13:47:17 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/26 13:54:17 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,11 +133,6 @@ t_color	get_color_cone(t_vec3 *p_hit, t_world *objs)
 	else
 		uv = get_planar_map(p_hit, &objs->type.cn->dir, &cent);
 	return (checker_color(uv, objs->materia.color));
-}
-
-t_color	get_color_cylinder(t_vec3 *p_hit, t_world *objs)
-{
-	
 }
 
 t_color	get_color_cylinder(t_vec3 *p_hit, t_world *objs)
