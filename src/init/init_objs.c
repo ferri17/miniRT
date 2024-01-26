@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/26 12:30:21 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/26 16:01:39 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,69 +29,6 @@ t_world	*push_back(t_world *objs, t_scene *scene)
 	return (objs);
 }
 
-int	check_img(t_img_tex *img, void *mlx_ptr, char *name)
-{
-	img->img_ptr = mlx_xpm_file_to_image(mlx_ptr, name, &img->w, &img->h);
-	if (img->img_ptr == NULL)
-		return (1);
-	img->info = mlx_get_data_addr(img->img_ptr, &img->bpp, &img->sl, &img->endian);
-	if (img->info == NULL)
-		return (1);
-	return (0);
-}
-
-int	bitmap_bumpmap_case(t_scene *scene, t_world *sp, char **split, int pos)
-{
-	t_materia	*m;
-
-	m = &sp->materia;
-	if (ft_strcmp(split[pos], "BITMAP_BUMPMAP") == 0)
-		sp->materia.texture = BITMAP_BUMPMAP;
-	else
-		return (1);
-	if (check_img(&m->bit, scene->data.mlx, split[pos + 1]))
-		return (1);
-	if (check_img(&m->bump, scene->data.mlx, split[pos + 2]))
-		return (1);
-	return (0);
-}
-
-int	bitmap_or_bumpmap_case(t_scene *sc, t_world *sp, char **s, int pos)
-{
-	t_materia	*m;
-
-	m = &sp->materia;
-	if (ft_strcmp(s[pos], "BITMAP") == 0)
-		m->texture = BITMAP;
-	else if (ft_strcmp(s[pos], "BUMPMAP") == 0)
-		m->texture = BUMPMAP;
-	else
-		return (1);
-	if (m->texture == BUMPMAP)
-		return (check_img(&m->bump, sc->data.mlx, s[pos + 1]));
-	else
-		return (check_img(&m->bit, sc->data.mlx, s[pos + 1]));
-	return (0);
-}
-
-int	check_texture_sphere(t_scene *scene, t_world *sp, char **split)
-{
-	if (ft_array_len(split) == 7)
-		sp->materia.texture = DEFAULT;
-	else if (ft_array_len(split) == 8)
-	{
-		if (ft_strcmp(split[7], "CHECKBOARD") == 0)
-			sp->materia.texture = CHECKBOARD;
-		else
-			return (1);
-	}
-	else if (ft_array_len(split) == 9)
-		return (bitmap_or_bumpmap_case(scene, sp, split, 7));
-	else if (ft_array_len(split) == 10)
-		return (bitmap_bumpmap_case(scene, sp, split, 7));
-	return (0);
-}
-
 int	check_sphere(t_scene *scene, char **split)
 {
 	t_world	*sp;
@@ -111,24 +48,6 @@ int	check_sphere(t_scene *scene, char **split)
 	sp->hit = hit_sphere;
 	sp->get_position_pointer = get_position_sphere;
 	sp->get_normal_map = get_normal_map_sphere;
-	return (0);
-}
-
-int	check_texture_plane(t_scene *scene, t_world *pl, char **split)
-{
-	if (ft_array_len(split) == 7)
-		pl->materia.texture = DEFAULT;
-	else if (ft_array_len(split) == 8)
-	{
-		if (ft_strcmp(split[7], "CHECKBOARD") == 0)
-			pl->materia.texture = CHECKBOARD;
-		else
-			return (1);
-	}
-	else if (ft_array_len(split) == 9)
-		return (bitmap_or_bumpmap_case(scene, pl, split, 7));
-	else if (ft_array_len(split) == 10)
-		return (bitmap_bumpmap_case(scene, pl, split, 7));
 	return (0);
 }
 
@@ -156,24 +75,6 @@ int	check_plane(t_scene *scene, char **split)
 	return (0);
 }
 
-int	check_texture_cylinder(t_scene *scene, t_world *cy, char **split)
-{
-	if (ft_array_len(split) == 9)
-		cy->materia.texture = DEFAULT;
-	else if (ft_array_len(split) == 10)
-	{
-		if (ft_strcmp(split[9], "CHECKBOARD") == 0)
-			cy->materia.texture = CHECKBOARD;
-		else
-			return (1);
-	}
-	else if (ft_array_len(split) == 11)
-		return (bitmap_or_bumpmap_case(scene, cy, split, 9));
-	else if (ft_array_len(split) == 12)
-		return (bitmap_bumpmap_case(scene, cy, split, 9));
-	return (0);
-}
-
 int	check_cylinder(t_scene *scene, char **split)
 {
 	t_world	*cy;
@@ -192,24 +93,6 @@ int	check_cylinder(t_scene *scene, char **split)
 	if (check_texture_cylinder(scene, cy, split))
 		return (1);
 	inti_func_cylinder(cy);
-	return (0);
-}
-
-int	check_texture_cone(t_scene *scene, t_world *cn, char **split)
-{
-	if (ft_array_len(split) == 9)
-		cn->materia.texture = DEFAULT;
-	else if (ft_array_len(split) == 10)
-	{
-		if (ft_strcmp(split[9], "CHECKBOARD") == 0)
-			cn->materia.texture = CHECKBOARD;
-		else
-			return (1);
-	}
-	else if (ft_array_len(split) == 11)
-		return (bitmap_or_bumpmap_case(scene, cn, split, 9));
-	else if (ft_array_len(split) == 12)
-		return (bitmap_bumpmap_case(scene, cn, split, 9));
 	return (0);
 }
 

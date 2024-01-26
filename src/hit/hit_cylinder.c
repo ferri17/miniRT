@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 12:52:37 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/26 13:12:08 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/26 15:26:56 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ bool	hit_cylinder(const t_ray *ray, t_objects obj, t_hit *rec)
 	if (obj.cy->hit[H_CYLINDER])
 	{
 		obj.cy->hit[H_DISK_TA] = false;
-		obj.cy->hit[H_DISK_BA] = false;	
+		obj.cy->hit[H_DISK_BA] = false;
 	}
 	return (obj.cy->hit[H_DISK_BA] || obj.cy->hit[H_DISK_TA]
 		|| obj.cy->hit[H_CYLINDER]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_objects_uv.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:16:48 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/25 16:40:12 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/26 15:54:32 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ t_uv	get_spherical_map(t_point3 *p_hit, t_point3 *center, double radius)
 	double	theta;
 	double	phi;
 
-	
 	theta = atan2(p_hit->z - center->z, p_hit->x - center->x);
 	phi = asin((p_hit->y - center->y) / radius);
 	uv.u = 0.5 + (theta / (2.0 * M_PI));
