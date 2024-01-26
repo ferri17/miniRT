@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_objs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/26 16:01:39 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/26 16:28:53 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	check_plane(t_scene *scene, char **split)
 	pl->get_color = get_color_plane;
 	pl->hit = hit_plane;
 	pl->get_position_pointer = get_position_plane;
+	pl->get_normal_map = get_normal_map_plane;
 	return (0);
 }
 
