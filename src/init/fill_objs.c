@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:51:31 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/25 15:57:15 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:53:05 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	fill_plane(t_plane *pl, char **split)
 	char	**coord;
 	char	**norm;
 
-	if (ft_array_len(split) < 7 || ft_array_len(split) > 8)
+	if (ft_array_len(split) < 7 || ft_array_len(split) > 10)
 		return (1);
 	coord = ft_split(split[1], ',');
 	if (!coord)
@@ -59,7 +59,7 @@ int	fill_cylinder(t_cylinder *cy, char **split)
 	char	**coord;
 	char	**norm;
 
-	if (ft_array_len(split) < 9 || ft_array_len(split) > 10)
+	if (ft_array_len(split) < 9 || ft_array_len(split) > 12)
 		return (1);
 	coord = ft_split(split[1], ',');
 	if (!coord)
@@ -86,7 +86,7 @@ int	fill_cone(t_cone *cn, char **split)
 	char	**coord;
 	char	**norm;
 
-	if (ft_array_len(split) < 9 || ft_array_len(split) > 10)
+	if (ft_array_len(split) < 9 || ft_array_len(split) > 12)
 		return (1);
 	coord = ft_split(split[1], ',');
 	if (!coord)
