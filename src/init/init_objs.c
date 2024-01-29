@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/29 14:24:03 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/29 17:37:04 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int	check_plane(t_scene *scene, char **split)
 	pl = push_back(scene->objs, scene);
 	if (!pl)
 		return (1);
+	pl->materia.bump.img_ptr = NULL;
+	pl->materia.bit.img_ptr = NULL;
 	pl->next = NULL;
 	pl->free_type = free_plane;
 	pl->type.pl = malloc(sizeof(t_plane));
@@ -89,6 +91,8 @@ int	check_cylinder(t_scene *scene, char **split)
 	cy = push_back(scene->objs, scene);
 	if (!cy)
 		return (1);
+	cy->materia.bump.img_ptr = NULL;
+	cy->materia.bit.img_ptr = NULL;
 	cy->next = NULL;
 	cy->free_type = free_cylinder;
 	cy->type.cy = malloc(sizeof(t_cylinder));
@@ -112,6 +116,8 @@ int	check_cone(t_scene *scene, char **split)
 	cn = push_back(scene->objs, scene);
 	if (!cn)
 		return (1);
+	cn->materia.bump.img_ptr = NULL;
+	cn->materia.bit.img_ptr = NULL;
 	cn->next = NULL;
 	cn->free_type = free_cone;
 	cn->type.cn = malloc(sizeof(t_cone));
