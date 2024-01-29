@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_objs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/28 13:53:20 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/29 14:24:03 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	check_sphere(t_scene *scene, char **split)
 	sp = push_back(scene->objs, scene);
 	if (!sp)
 		return (1);
+	sp->materia.bump.img_ptr = NULL;
+	sp->materia.bit.img_ptr = NULL;
 	sp->next = NULL;
 	sp->free_type = free_sphere;
 	sp->type.sp = malloc(sizeof(t_sphere));
