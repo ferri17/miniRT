@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:13:17 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/26 19:13:44 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/29 01:27:54 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,22 @@ t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_hit *hit_rec, int
 	if (hit_rec->obj->materia.texture == BUMPMAP || hit_rec->obj->materia.texture == BITMAP_BUMPMAP)
 	{
 		t_color	normal_d = hit_rec->obj->get_normal_map(&hit_rec->p, hit_rec->obj);
+
+		double tmp = normal_d.x;
+
+		normal_d.x = ((normal_d.y * 2) - 1) * -1;
+		normal_d.y = ((tmp * 2) - 1) * -1;
+		normal_d.z = (normal_d.z * 2) - 1;
+
+		t_vec3 tmp2 = unit_vector(&normal_d);
+		hit_rec->normal = add_vec3(&hit_rec->normal, &tmp2);
+		hit_rec->normal = unit_vector(&hit_rec->normal);
+		//if (hit_rec->normal.y < -0.6)
+			//return ((t_color){1, 1, 0});
+	}
+	/* if (hit_rec->obj->materia.texture == BUMPMAP || hit_rec->obj->materia.texture == BITMAP_BUMPMAP)
+	{
+		t_color	normal_d = hit_rec->obj->get_normal_map(&hit_rec->p, hit_rec->obj);
 		
 		normal_d.x = (normal_d.x * 2) - 1;
 		normal_d.y = (normal_d.y * 2) - 1;
@@ -125,11 +141,10 @@ t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_hit *hit_rec, int
 		n_world = unit_vector(&n_world);
 		hit_rec->normal = add_vec3(&hit_rec->normal, &n_world);
 		hit_rec->normal = unit_vector(&hit_rec->normal);		
-	}
+	} */
 	pxl_color = hit_rec->obj->get_color(&hit_rec->p, hit_rec->obj);
 	pxl_color = calc_ambient_light(&scene->amblight.color, &pxl_color,
 			scene->amblight.ratio);
-	//return (pxl_color);
 	lights = scene->light;
 	while (lights)
 	{
