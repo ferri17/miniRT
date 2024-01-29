@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_render.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/25 15:06:04 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/28 17:01:02 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	set_camera(t_camera *camera, int img_w, int img_h)
 		* camera->focal_length;
 	camera->viewport_height = camera->viewport_width * ((double)img_h
 			/ (double)img_w);
-	cam_axis[W] = unit_vector(&camera->dir);
+	cam_axis[W] = camera->dir;
 	product_vec3(&cam_axis[W], -1);
 	camera->vup = (t_vec3){0, 1, 0};
 	if (dot(&cam_axis[W], &camera->vup) == 1 || dot(&cam_axis[W],

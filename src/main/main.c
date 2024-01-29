@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/25 19:14:52 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/28 16:58:23 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 	- FIX BIAS FOR CON AUTOHIT
 	- COMPROVAR OBJECTES DIR = 0,0,0
 	- CANVIAR NOM CARPETA CHECKERBOARD
+	- TEST COLORS LIKE 22.4,25,250 O 45,,,,,,,24,,,,,230
+	- CHECK CAMERA UNIT VEC
 */
 #include "MiniRT.h"
 

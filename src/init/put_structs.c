@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_structs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:42:57 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/18 12:08:51 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/28 13:16:05 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	put_colors(t_color *colors, char *split)
 		return (1);
 	if (ft_array_len(s_colors) != 3)
 		return (ft_free_malloc_array(s_colors), 1);
-	gradient = ft_atod(s_colors[0]);
+	gradient = ft_atoi(s_colors[0]);
 	if (ft_test_int(s_colors[0]) == 0 && gradient < 256 && gradient >= 0)
 		colors->x = gradient;
 	else
@@ -72,6 +72,7 @@ int	put_dir(t_vec3 *dir, char **norm)
 		dir->z = ft_atod(norm[2]);
 	else
 		return (1);
+	*dir = unit_vector(dir);
 	return (0);
 }
 

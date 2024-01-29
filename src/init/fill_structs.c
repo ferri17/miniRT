@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_structs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 12:24:41 by apriego-          #+#    #+#             */
-/*   Updated: 2023/12/14 11:55:43 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/28 12:21:08 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	fill_ambient(t_scene *scene, char **split)
 	ratio = ft_atod(split[1]);
 	if (ratio < 0.0 || ratio > 1.0)
 		return (1);
-	scene->amblight.ratio = ft_atod(split[1]);
+	scene->amblight.ratio = ratio;
 	if (put_colors(&scene->amblight.color, split[2]))
 		return (1);
 	scene->amblight.init = true;

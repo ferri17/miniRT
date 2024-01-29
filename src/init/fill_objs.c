@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_objs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:51:31 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/26 11:53:05 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/28 14:07:09 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 int	fill_sphere(t_sphere *sp, char **split)
 {
+	int		split_length;
 	char	**coord;
 
-	if (ft_array_len(split) < 7 || ft_array_len(split) > 10)
+	split_length = ft_array_len(split);
+	if (split_length < 7 || split_length > 10)
 		return (1);
 	coord = ft_split(split[1], ',');
 	if (!coord)
@@ -24,20 +26,22 @@ int	fill_sphere(t_sphere *sp, char **split)
 	if (ft_array_len(coord) != 3)
 		return (ft_free_malloc_array(coord), 1);
 	if (put_coord(&sp->center, coord))
-		return (1);
+		return (ft_free_malloc_array(coord), 1);
 	ft_free_malloc_array(coord);
 	if (ft_test_double(split[2], MIN_SIZE, MAX_SIZE))
 		return (1);
-	sp->radius = ft_atod(split[2]) / 2;
+	sp->radius = ft_atod(split[2]) / 2.0;
 	return (0);
 }
 
 int	fill_plane(t_plane *pl, char **split)
 {
+	int		split_length;
 	char	**coord;
 	char	**norm;
 
-	if (ft_array_len(split) < 7 || ft_array_len(split) > 10)
+	split_length = ft_array_len(split);
+	if (split_length < 7 || split_length > 10)
 		return (1);
 	coord = ft_split(split[1], ',');
 	if (!coord)
@@ -56,10 +60,12 @@ int	fill_plane(t_plane *pl, char **split)
 
 int	fill_cylinder(t_cylinder *cy, char **split)
 {
+	int		split_length;
 	char	**coord;
 	char	**norm;
 
-	if (ft_array_len(split) < 9 || ft_array_len(split) > 12)
+	split_length = ft_array_len(split);
+	if (split_length < 9 || split_length > 12)
 		return (1);
 	coord = ft_split(split[1], ',');
 	if (!coord)
@@ -76,17 +82,19 @@ int	fill_cylinder(t_cylinder *cy, char **split)
 	if (ft_test_double(split[3], MIN_SIZE, MAX_SIZE)
 		|| ft_test_double(split[4], MIN_SIZE, MAX_SIZE))
 		return (1);
-	cy->radius = ft_atod(split[3]) / 2;
+	cy->radius = ft_atod(split[3]) / 2.0;
 	cy->height = ft_atod(split[4]);
 	return (0);
 }
 
 int	fill_cone(t_cone *cn, char **split)
 {
+	int		split_length;
 	char	**coord;
 	char	**norm;
 
-	if (ft_array_len(split) < 9 || ft_array_len(split) > 12)
+	split_length = ft_array_len(split);
+	if (split_length < 9 || split_length > 12)
 		return (1);
 	coord = ft_split(split[1], ',');
 	if (!coord)
