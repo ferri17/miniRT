@@ -33,9 +33,9 @@ void	free_obj(t_scene sc, t_world *objs)
 	while (objs)
 	{
 		objs = objs->next;
-		if (tmp->materia.bit.img_ptr)
+		if (tmp->materia.bit.img_ptr)       // Init a null?
 			mlx_destroy_image(sc.data.mlx, tmp->materia.bit.img_ptr);
-		if (tmp->materia.bump.img_ptr)
+		if (tmp->materia.bump.img_ptr)    // Init a null?
 			mlx_destroy_image(sc.data.mlx, tmp->materia.bump.img_ptr);
 		tmp->free_type(tmp->type);
 		free(tmp);
