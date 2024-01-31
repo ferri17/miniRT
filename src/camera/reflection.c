@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reflection.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 23:16:21 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/24 16:13:35 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/31 18:11:33 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ static t_ray	calc_reflected_ray(t_hit *hit_rec, const t_ray *r)
 
 	reflected.orig = product_vec3_r(&hit_rec->normal, BIAS);
 	reflected.orig = add_vec3(&hit_rec->p, &reflected.orig);
-	reflected.dir = product_vec3_r(&hit_rec->normal, 2 * dot(&r->dir, &hit_rec->normal)); //unit vectors or not
-	reflected.dir = substract_vec3(&r->dir, &reflected.dir); //unit vectors or not
+	reflected.dir = product_vec3_r(&hit_rec->normal, 2 * dot(&r->dir,
+				&hit_rec->normal));
+	reflected.dir = substract_vec3(&r->dir, &reflected.dir);
 	return (reflected);
 }
 
-static t_hit	find_closest_intersection(t_scene *scene, const t_ray *r_reflected)
+static t_hit	find_closest_intersection(t_scene *scene,
+		const t_ray *r_reflected)
 {
 	t_world	*obj;
 	t_hit	hit_rec;
@@ -45,7 +47,8 @@ static t_hit	find_closest_intersection(t_scene *scene, const t_ray *r_reflected)
 	return (hit_rec);
 }
 
-t_color	calc_reflected_color(t_scene *scene, t_hit *hit_rec, const t_ray *r, int ray_depth)
+t_color	calc_reflected_color(t_scene *scene, t_hit *hit_rec, const t_ray *r,
+		int ray_depth)
 {
 	t_color	reflect;
 	t_ray	r_reflected;
@@ -57,9 +60,9 @@ t_color	calc_reflected_color(t_scene *scene, t_hit *hit_rec, const t_ray *r, int
 		r_reflected = calc_reflected_ray(hit_rec, r);
 		r_hit_rec = find_closest_intersection(scene, &r_reflected);
 		if (r_hit_rec.obj)
-			reflect = render_raytrace_mode(scene, &r_reflected, &r_hit_rec, ray_depth - 1);
+			reflect = render_raytrace_mode(scene, &r_reflected, &r_hit_rec,
+					ray_depth - 1);
 		product_vec3(&reflect, hit_rec->obj->materia.metallic);
 	}
 	return (reflect);
 }
-

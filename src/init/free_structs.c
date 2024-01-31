@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 12:13:21 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/29 17:37:20 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/31 17:51:05 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,14 @@ void	free_obj(t_scene sc, t_world *objs)
 		objs = objs->next;
 		if (tmp->materia.bit)
 		{
-			mlx_destroy_image(sc.data.mlx, tmp->materia.bit->img_ptr);
+			if (tmp->materia.bit->img_ptr)
+				mlx_destroy_image(sc.data.mlx, tmp->materia.bit->img_ptr);
 			free(tmp->materia.bit);
 		}
 		if (tmp->materia.bump)
 		{
-			mlx_destroy_image(sc.data.mlx, tmp->materia.bump->img_ptr);
+			if (tmp->materia.bump->img_ptr)
+				mlx_destroy_image(sc.data.mlx, tmp->materia.bump->img_ptr);
 			free(tmp->materia.bump);
 		}
 		tmp->free_type(tmp->type);

@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:03:13 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/31 16:59:26 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/31 18:00:20 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,13 @@ t_color	get_color_sphere(t_vec3 *p_hit, t_world *objs, t_img_tex *texture)
 	color = (t_color){0, 0, 0};
 	if (texture == NULL)
 	{
-		if (objs->materia.texture == DEFAULT || objs->materia.texture == BUMPMAP)
+		if (objs->materia.texture == DEFAULT
+			|| objs->materia.texture == BUMPMAP)
 			return (objs->materia.color);
 		if (objs->materia.texture == CHECKBOARD)
 		{
 			uv = get_spherical_map(p_hit, &objs->type.sp->center,
-				objs->type.sp->radius);
+					objs->type.sp->radius);
 			uv.u *= 4;
 			uv.v *= 2;
 			color = checker_color(uv, objs->materia.color);
@@ -56,7 +57,7 @@ t_color	get_color_sphere(t_vec3 *p_hit, t_world *objs, t_img_tex *texture)
 	else if (texture)
 	{
 		uv = get_spherical_map(p_hit, &objs->type.sp->center,
-			objs->type.sp->radius);
+				objs->type.sp->radius);
 		color = map_uv_to_color(&uv, texture);
 	}
 	return (color);
@@ -70,17 +71,20 @@ t_color	get_color_plane(t_vec3 *p_hit, t_world *objs, t_img_tex *texture)
 	color = (t_color){0, 0, 0};
 	if (texture == NULL)
 	{
-		if (objs->materia.texture == DEFAULT || objs->materia.texture == BUMPMAP)
+		if (objs->materia.texture == DEFAULT
+			|| objs->materia.texture == BUMPMAP)
 			return (objs->materia.color);
 		if (objs->materia.texture == CHECKBOARD)
 		{
-			uv = get_planar_map(p_hit, &objs->type.pl->normal, &objs->type.pl->center);
+			uv = get_planar_map(p_hit, &objs->type.pl->normal,
+					&objs->type.pl->center);
 			color = checker_color(uv, objs->materia.color);
 		}
 	}
 	else if (texture)
 	{
-		uv = get_planar_map(p_hit, &objs->type.pl->normal, &objs->type.pl->center);
+		uv = get_planar_map(p_hit, &objs->type.pl->normal,
+				&objs->type.pl->center);
 		uv.u = uv.u - floor(uv.u);
 		uv.v = uv.v - floor(uv.v);
 		color = map_uv_to_color(&uv, texture);
@@ -96,17 +100,20 @@ t_color	get_color_cone(t_vec3 *p_hit, t_world *objs, t_img_tex *texture)
 	color = (t_color){0, 0, 0};
 	if (texture == NULL)
 	{
-		if (objs->materia.texture == DEFAULT || objs->materia.texture == BUMPMAP)
+		if (objs->materia.texture == DEFAULT
+			|| objs->materia.texture == BUMPMAP)
 			return (objs->materia.color);
 		if (objs->materia.texture == CHECKBOARD)
 		{
-			cent = calc_center(&objs->type.cn->dir, &objs->type.cn->center, objs->type.cn->height);
+			cent = calc_center(&objs->type.cn->dir, &objs->type.cn->center,
+					objs->type.cn->height);
 			color = get_cn_chess(p_hit, objs, &cent);
 		}
 	}
 	else if (texture)
 	{
-		cent = calc_center(&objs->type.cn->dir, &objs->type.cn->center, objs->type.cn->height);
+		cent = calc_center(&objs->type.cn->dir, &objs->type.cn->center,
+				objs->type.cn->height);
 		color = get_cn_bit(p_hit, objs, &cent, texture);
 	}
 	return (color);
@@ -120,17 +127,20 @@ t_color	get_color_cylinder(t_vec3 *p_hit, t_world *objs, t_img_tex *texture)
 	color = (t_color){0, 0, 0};
 	if (texture == NULL)
 	{
-		if (objs->materia.texture == DEFAULT || objs->materia.texture == BUMPMAP)
+		if (objs->materia.texture == DEFAULT
+			|| objs->materia.texture == BUMPMAP)
 			return (objs->materia.color);
 		if (objs->materia.texture == CHECKBOARD)
 		{
-			cent = calc_center(&objs->type.cy->dir, &objs->type.cy->center, objs->type.cy->height);
+			cent = calc_center(&objs->type.cy->dir, &objs->type.cy->center,
+					objs->type.cy->height);
 			color = get_cy_chess(p_hit, objs, &cent);
 		}
 	}
 	else if (texture)
 	{
-		cent = calc_center(&objs->type.cy->dir, &objs->type.cy->center, objs->type.cy->height);
+		cent = calc_center(&objs->type.cy->dir, &objs->type.cy->center,
+				objs->type.cy->height);
 		color = get_cy_bit(p_hit, objs, &cent, texture);
 	}
 	return (color);

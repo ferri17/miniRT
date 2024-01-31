@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_events.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 12:46:29 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/19 12:18:41 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/31 17:31:18 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,6 @@ int	key_down(int key, void *param)
 		move_object(scene, key);
 	else if (key == M_KEY)
 		scene->render_mode = (scene->render_mode + 1) % 2;
-	else if (key == J_KEY)
-		scene->light->center.x -= MOVE;
-	else if (key == K_KEY)
-		scene->light->center.y -= MOVE;
-	else if (key == L_KEY)
-		scene->light->center.x += MOVE;
-	else if (key == I_KEY)
-		scene->light->center.y += MOVE;
 	render_image(scene, IMG_W, IMG_H);
 	return (0);
 }

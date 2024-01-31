@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 15:50:54 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/31 16:35:52 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/31 18:00:33 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ t_color	get_cn_chess(t_vec3 *p_hit, t_world *objs, t_point3 *cent)
 	return (checker_color(uv, objs->materia.color));
 }
 
-t_color	get_cn_bit(t_vec3 *p_hit, t_world *objs, t_point3 *cent, t_img_tex *texture)
+t_color	get_cn_bit(t_vec3 *p_hit, t_world *objs, t_point3 *cent,
+		t_img_tex *texture)
 {
 	t_uv		uv;
 	t_point3	rot_p_hit;
@@ -108,7 +109,8 @@ t_color	get_cy_chess(t_vec3 *p_hit, t_world *objs, t_point3 *cent)
 	return (checker_color(uv, objs->materia.color));
 }
 
-t_color	get_cy_bit(t_vec3 *p_hit, t_world *objs, t_point3 *cent, t_img_tex *texture)
+t_color	get_cy_bit(t_vec3 *p_hit, t_world *objs, t_point3 *cent,
+		t_img_tex *texture)
 {
 	t_uv		uv;
 	t_point3	rot_p_hit;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   slider.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 01:37:15 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/19 12:23:24 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/31 18:24:37 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,14 @@ int	get_status_relative_increment(t_slider *slider)
 	return (*(slider->value) / ratio);
 }
 
-void	draw_slider(void *mlx_ptr, void *mlx_win, t_slider *slider, int x, int y)
+void	draw_slider(void *mlx_ptr, void *mlx_win, t_slider *slider)
 {
 	int	i;
 	int	start;
 	int	status_inc;
 
-	slider->pos_x = x - (slider->length * SLIDER_PX / 2);
-	slider->pos_y = y;
+	slider->pos_x = (WIN_W / 2) - (slider->length * SLIDER_PX / 2);
+	slider->pos_y = WIN_H - MD_PAD;
 	start = slider->pos_x;
 	status_inc = get_status_relative_increment(slider);
 	if (status_inc >= 0)
@@ -64,9 +64,11 @@ void	draw_slider(void *mlx_ptr, void *mlx_win, t_slider *slider, int x, int y)
 		while (i < slider->length)
 		{
 			if (i < status_inc)
-				mlx_string_put(mlx_ptr, mlx_win, start + (i * SLIDER_PX), y, WHITE, "|");
+				mlx_string_put(mlx_ptr, mlx_win, start + (i * SLIDER_PX), WIN_H
+					- MD_PAD, WHITE, "|");
 			else
-				mlx_string_put(mlx_ptr, mlx_win, start + (i * SLIDER_PX), y, WHITE, "-");
+				mlx_string_put(mlx_ptr, mlx_win, start + (i * SLIDER_PX), WIN_H
+					- MD_PAD, WHITE, "-");
 			i++;
 		}
 	}

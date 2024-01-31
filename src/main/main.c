@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/29 14:28:31 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/31 17:29:34 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int	main(int argc, char **argv)
 	init_mlx_windows(&scene.data, WIN_W, WIN_H);
 	if (init_map(argv[1], &scene))
 	{
+		mlx_destroy_window(scene.data.mlx, scene.data.mlx_win);
+		mlx_destroy(scene.data.mlx);
 		free_structs(scene);
 		ft_printf_fd(STDERR_FILENO, ERR_INVALID_MAP);
 		return (1);

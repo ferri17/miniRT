@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/31 17:09:55 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/31 17:22:07 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ int	check_sphere(t_scene *scene, char **split)
 	sp = push_back(scene->objs, scene);
 	if (!sp)
 		return (1);
-	sp->materia.bump.img_ptr = NULL;
-	sp->materia.bit.img_ptr = NULL;
 	sp->next = NULL;
 	sp->free_type = free_sphere;
 	sp->type.sp = malloc(sizeof(t_sphere));
@@ -53,7 +51,6 @@ int	check_sphere(t_scene *scene, char **split)
 	sp->get_color = get_color_sphere;
 	sp->hit = hit_sphere;
 	sp->get_position_pointer = get_position_sphere;
-	sp->get_normal_map = get_normal_map_sphere;
 	return (0);
 }
 
@@ -64,8 +61,6 @@ int	check_plane(t_scene *scene, char **split)
 	pl = push_back(scene->objs, scene);
 	if (!pl)
 		return (1);
-	pl->materia.bump.img_ptr = NULL;
-	pl->materia.bit.img_ptr = NULL;
 	pl->next = NULL;
 	pl->free_type = free_plane;
 	pl->type.pl = malloc(sizeof(t_plane));
@@ -84,7 +79,6 @@ int	check_plane(t_scene *scene, char **split)
 	pl->get_color = get_color_plane;
 	pl->hit = hit_plane;
 	pl->get_position_pointer = get_position_plane;
-	pl->get_normal_map = get_normal_map_plane;
 	return (0);
 }
 
@@ -95,8 +89,6 @@ int	check_cylinder(t_scene *scene, char **split)
 	cy = push_back(scene->objs, scene);
 	if (!cy)
 		return (1);
-	cy->materia.bump.img_ptr = NULL;
-	cy->materia.bit.img_ptr = NULL;
 	cy->next = NULL;
 	cy->free_type = free_cylinder;
 	cy->type.cy = malloc(sizeof(t_cylinder));
@@ -122,8 +114,6 @@ int	check_cone(t_scene *scene, char **split)
 	cn = push_back(scene->objs, scene);
 	if (!cn)
 		return (1);
-	cn->materia.bump.img_ptr = NULL;
-	cn->materia.bit.img_ptr = NULL;
 	cn->next = NULL;
 	cn->free_type = free_cone;
 	cn->type.cn = malloc(sizeof(t_cone));

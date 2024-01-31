@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_render.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:38:42 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/28 17:01:02 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/31 18:08:57 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	start_raytracer(t_mlx *data, t_scene *scene, int img_w, int img_h)
 			create_ray(camera, &r, i, j);
 			color = send_ray(&r, scene, i, j);
 			my_put_pixel(data, i, j, create_color(0, color.x, color.y,
-				color.z));
+					color.z));
 			i++;
 		}
 		j++;
