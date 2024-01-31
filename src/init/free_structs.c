@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 12:13:21 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/31 16:59:00 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/29 17:37:20 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	free_light(t_light *light)
 void	free_obj(t_scene sc, t_world *objs)
 {
 	t_world	*tmp;
+
 	tmp = objs;
 	while (objs)
 	{

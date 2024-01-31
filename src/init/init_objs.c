@@ -36,6 +36,8 @@ int	check_sphere(t_scene *scene, char **split)
 	sp = push_back(scene->objs, scene);
 	if (!sp)
 		return (1);
+	sp->materia.bump.img_ptr = NULL;
+	sp->materia.bit.img_ptr = NULL;
 	sp->next = NULL;
 	sp->free_type = free_sphere;
 	sp->type.sp = malloc(sizeof(t_sphere));
@@ -62,6 +64,8 @@ int	check_plane(t_scene *scene, char **split)
 	pl = push_back(scene->objs, scene);
 	if (!pl)
 		return (1);
+	pl->materia.bump.img_ptr = NULL;
+	pl->materia.bit.img_ptr = NULL;
 	pl->next = NULL;
 	pl->free_type = free_plane;
 	pl->type.pl = malloc(sizeof(t_plane));
@@ -91,6 +95,8 @@ int	check_cylinder(t_scene *scene, char **split)
 	cy = push_back(scene->objs, scene);
 	if (!cy)
 		return (1);
+	cy->materia.bump.img_ptr = NULL;
+	cy->materia.bit.img_ptr = NULL;
 	cy->next = NULL;
 	cy->free_type = free_cylinder;
 	cy->type.cy = malloc(sizeof(t_cylinder));
@@ -116,6 +122,8 @@ int	check_cone(t_scene *scene, char **split)
 	cn = push_back(scene->objs, scene);
 	if (!cn)
 		return (1);
+	cn->materia.bump.img_ptr = NULL;
+	cn->materia.bit.img_ptr = NULL;
 	cn->next = NULL;
 	cn->free_type = free_cone;
 	cn->type.cn = malloc(sizeof(t_cone));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_texture.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 16:00:58 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/28 14:31:17 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/29 13:04:29 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,9 @@ int	check_texture_sphere(t_scene *scene, t_world *sp, char **split)
 			return (1);
 	}
 	else if (split_length == 9)
+	{
 		return (bitmap_or_bumpmap_case(scene, sp, split, 7));
+	}
 	else if (split_length == 10)
 		return (bitmap_bumpmap_case(scene, sp, split, 7));
 	return (0);
