@@ -28,15 +28,21 @@ void	free_light(t_light *light)
 void	free_obj(t_scene sc, t_world *objs)
 {
 	t_world	*tmp;
-	(void)sc;
+
 	tmp = objs;
 	while (objs)
 	{
 		objs = objs->next;
-		if (tmp->materia.bit.img_ptr)       // Init a null?
-			mlx_destroy_image(sc.data.mlx, tmp->materia.bit.img_ptr);
-		if (tmp->materia.bump.img_ptr)    // Init a null?
-			mlx_destroy_image(sc.data.mlx, tmp->materia.bump.img_ptr);
+		if (tmp->materia.bit)
+		{
+			mlx_destroy_image(sc.data.mlx, tmp->materia.bit->img_ptr);
+			free(tmp->materia.bit);
+		}
+		if (tmp->materia.bump)
+		{
+			mlx_destroy_image(sc.data.mlx, tmp->materia.bump->img_ptr);
+			free(tmp->materia.bump);
+		}
 		tmp->free_type(tmp->type);
 		free(tmp);
 		tmp = objs;

@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 15:50:54 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/26 15:52:54 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/31 16:35:52 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_vec3	point_rot(t_vec3 *dir_o, t_vec3 *dir_y, t_vec3 *p_hit, t_point3 *center)
 	return (rotate_point(p_hit, center, &mat_rot));
 }
 
-t_color	get_cn_chess(t_vec3 *p_hit, t_world *objs, t_point3 *cent, t_ray *ray)
+t_color	get_cn_chess(t_vec3 *p_hit, t_world *objs, t_point3 *cent)
 {
 	t_uv		uv;
 	t_point3	rot_p_hit;
@@ -42,7 +42,7 @@ t_color	get_cn_chess(t_vec3 *p_hit, t_world *objs, t_point3 *cent, t_ray *ray)
 	{
 		if (fabs(dot(&objs->type.cn->dir, &axis)) < 0.95)
 		{
-			rot_p_hit = point_rot(&ray->dir, &axis, p_hit, cent);
+			rot_p_hit = point_rot(&objs->type.cn->dir, &axis, p_hit, cent);
 			uv = get_cylinder_map(&rot_p_hit, cent, objs->type.cn->height);
 		}
 		else
@@ -55,20 +55,19 @@ t_color	get_cn_chess(t_vec3 *p_hit, t_world *objs, t_point3 *cent, t_ray *ray)
 	return (checker_color(uv, objs->materia.color));
 }
 
-t_color	get_cn_bit(t_vec3 *p_hit, t_world *objs, t_point3 *cent, t_ray *ray)
+t_color	get_cn_bit(t_vec3 *p_hit, t_world *objs, t_point3 *cent, t_img_tex *texture)
 {
 	t_uv		uv;
 	t_point3	rot_p_hit;
 	t_point3	axis;
 
 	axis = (t_point3){0, 1, 0};
-	uv.u = 0;
-	uv.v = 0;
+	ft_bzero(&uv, sizeof(t_uv));
 	if (objs->type.cn->hit[H_CONE])
 	{
 		if (fabs(dot(&objs->type.cn->dir, &axis)) < 0.95)
 		{
-			rot_p_hit = point_rot(&ray->dir, &axis, p_hit, cent);
+			rot_p_hit = point_rot(&objs->type.cn->dir, &axis, p_hit, cent);
 			uv = get_cylinder_map(&rot_p_hit, cent, objs->type.cn->height);
 		}
 		else
@@ -80,10 +79,10 @@ t_color	get_cn_bit(t_vec3 *p_hit, t_world *objs, t_point3 *cent, t_ray *ray)
 		uv.u = uv.u - floor(uv.u);
 		uv.v = uv.v - floor(uv.v);
 	}
-	return (map_uv_to_color(&uv, &objs->materia.bit));
+	return (map_uv_to_color(&uv, texture));
 }
 
-t_color	get_cy_chess(t_vec3 *p_hit, t_world *objs, t_point3 *cent, t_ray *ray)
+t_color	get_cy_chess(t_vec3 *p_hit, t_world *objs, t_point3 *cent)
 {
 	t_uv		uv;
 	t_point3	rot_p_hit;
@@ -96,7 +95,7 @@ t_color	get_cy_chess(t_vec3 *p_hit, t_world *objs, t_point3 *cent, t_ray *ray)
 	{
 		if (fabs(dot(&objs->type.cy->dir, &axis)) < 0.95)
 		{
-			rot_p_hit = point_rot(&ray->dir, &axis, p_hit, cent);
+			rot_p_hit = point_rot(&objs->type.cy->dir, &axis, p_hit, cent);
 			uv = get_cylinder_map(&rot_p_hit, cent, objs->type.cy->radius);
 		}
 		else
@@ -109,7 +108,7 @@ t_color	get_cy_chess(t_vec3 *p_hit, t_world *objs, t_point3 *cent, t_ray *ray)
 	return (checker_color(uv, objs->materia.color));
 }
 
-t_color	get_cy_bit(t_vec3 *p_hit, t_world *objs, t_point3 *cent, t_ray *ray)
+t_color	get_cy_bit(t_vec3 *p_hit, t_world *objs, t_point3 *cent, t_img_tex *texture)
 {
 	t_uv		uv;
 	t_point3	rot_p_hit;
@@ -122,7 +121,7 @@ t_color	get_cy_bit(t_vec3 *p_hit, t_world *objs, t_point3 *cent, t_ray *ray)
 	{
 		if (fabs(dot(&objs->type.cy->dir, &axis)) < 0.95)
 		{
-			rot_p_hit = point_rot(&ray->dir, &axis, p_hit, cent);
+			rot_p_hit = point_rot(&objs->type.cy->dir, &axis, p_hit, cent);
 			uv = get_cylinder_map(&rot_p_hit, cent, objs->type.cy->radius);
 		}
 		else
@@ -134,5 +133,5 @@ t_color	get_cy_bit(t_vec3 *p_hit, t_world *objs, t_point3 *cent, t_ray *ray)
 		uv.u = uv.u - floor(uv.u);
 		uv.v = uv.v - floor(uv.v);
 	}
-	return (map_uv_to_color(&uv, &objs->materia.bit));
+	return (map_uv_to_color(&uv, texture));
 }

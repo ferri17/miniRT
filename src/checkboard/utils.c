@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 11:31:58 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/26 15:52:48 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/31 16:27:55 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,15 @@ t_vec3	rotate_point(t_vec3 *p, t_vec3 *center, t_matrix3x3 *r)
 	rot_p.y += center->y;
 	rot_p.z += center->z;
 	return (rot_p);
+}
+
+t_point3	calc_center(t_vec3 *dir, t_vec3 *base, double h)
+{
+	t_ray		ray;
+	t_point3	cent;
+
+	ray.dir = *dir;
+	ray.orig = *base;
+	cent = ray_at(&ray, h);
+	return (cent);
 }

@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:03:13 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/26 15:52:29 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/31 16:59:26 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,89 +28,110 @@ t_color	map_uv_to_color(t_uv *uv, t_img_tex *img_tex)
 	b = (unsigned char)img_tex->info[i + 0];
 	g = (unsigned char)img_tex->info[i + 1];
 	r = (unsigned char)img_tex->info[i + 2];
-	color.z = (double)b / 255.999;
-	color.y = (double)g / 255.999;
 	color.x = (double)r / 255.999;
+	color.y = (double)g / 255.999;
+	color.z = (double)b / 255.999;
 	return (color);
 }
 
-t_color	get_color_sphere(t_vec3 *p_hit, t_world *objs)
+t_color	get_color_sphere(t_vec3 *p_hit, t_world *objs, t_img_tex *texture)
 {
 	t_uv	uv;
 	t_color	color;
 
-	if (objs->materia.texture == DEFAULT || objs->materia.texture == BUMPMAP)
-		return (objs->materia.color);
 	color = (t_color){0, 0, 0};
-	uv = get_spherical_map(p_hit, &objs->type.sp->center,
-			objs->type.sp->radius);
-	if (objs->materia.texture == BITMAP
-		|| objs->materia.texture == BITMAP_BUMPMAP)
-		color = map_uv_to_color(&uv, &objs->materia.bit);
-	else if (objs->materia.texture == CHECKBOARD)
+	if (texture == NULL)
 	{
-		uv.u *= 4;
-		uv.v *= 2;
-		color = checker_color(uv, objs->materia.color);
+		if (objs->materia.texture == DEFAULT || objs->materia.texture == BUMPMAP)
+			return (objs->materia.color);
+		if (objs->materia.texture == CHECKBOARD)
+		{
+			uv = get_spherical_map(p_hit, &objs->type.sp->center,
+				objs->type.sp->radius);
+			uv.u *= 4;
+			uv.v *= 2;
+			color = checker_color(uv, objs->materia.color);
+		}
+	}
+	else if (texture)
+	{
+		uv = get_spherical_map(p_hit, &objs->type.sp->center,
+			objs->type.sp->radius);
+		color = map_uv_to_color(&uv, texture);
 	}
 	return (color);
 }
 
-t_color	get_color_plane(t_vec3 *p_hit, t_world *objs)
+t_color	get_color_plane(t_vec3 *p_hit, t_world *objs, t_img_tex *texture)
 {
 	t_uv	uv;
 	t_color	color;
 
-	if (objs->materia.texture == DEFAULT || objs->materia.texture == BUMPMAP)
-		return (objs->materia.color);
 	color = (t_color){0, 0, 0};
-	uv = get_planar_map(p_hit, &objs->type.pl->normal, &objs->type.pl->center);
-	if (objs->materia.texture == BITMAP
-		|| objs->materia.texture == BITMAP_BUMPMAP)
+	if (texture == NULL)
 	{
+		if (objs->materia.texture == DEFAULT || objs->materia.texture == BUMPMAP)
+			return (objs->materia.color);
+		if (objs->materia.texture == CHECKBOARD)
+		{
+			uv = get_planar_map(p_hit, &objs->type.pl->normal, &objs->type.pl->center);
+			color = checker_color(uv, objs->materia.color);
+		}
+	}
+	else if (texture)
+	{
+		uv = get_planar_map(p_hit, &objs->type.pl->normal, &objs->type.pl->center);
 		uv.u = uv.u - floor(uv.u);
 		uv.v = uv.v - floor(uv.v);
-		color = map_uv_to_color(&uv, &objs->materia.bit);
+		color = map_uv_to_color(&uv, texture);
 	}
-	else if (objs->materia.texture == CHECKBOARD)
-		color = checker_color(uv, objs->materia.color);
 	return (color);
 }
 
-t_color	get_color_cone(t_vec3 *p_hit, t_world *objs)
+t_color	get_color_cone(t_vec3 *p_hit, t_world *objs, t_img_tex *texture)
 {
-	t_point3	cent;
-	t_ray		ray;
 	t_color		color;
+	t_point3	cent;
 
-	ray.dir = objs->type.cn->dir;
-	ray.orig = objs->type.cn->center;
-	cent = ray_at(&ray, objs->type.cn->height / 2);
-	if (objs->materia.texture == CHECKBOARD)
-		color = get_cn_chess(p_hit, objs, &cent, &ray);
-	else if (objs->materia.texture == BITMAP
-		|| objs->materia.texture == BITMAP_BUMPMAP)
-		color = get_cn_bit(p_hit, objs, &cent, &ray);
-	else
-		return (objs->materia.color);
+	color = (t_color){0, 0, 0};
+	if (texture == NULL)
+	{
+		if (objs->materia.texture == DEFAULT || objs->materia.texture == BUMPMAP)
+			return (objs->materia.color);
+		if (objs->materia.texture == CHECKBOARD)
+		{
+			cent = calc_center(&objs->type.cn->dir, &objs->type.cn->center, objs->type.cn->height);
+			color = get_cn_chess(p_hit, objs, &cent);
+		}
+	}
+	else if (texture)
+	{
+		cent = calc_center(&objs->type.cn->dir, &objs->type.cn->center, objs->type.cn->height);
+		color = get_cn_bit(p_hit, objs, &cent, texture);
+	}
 	return (color);
 }
 
-t_color	get_color_cylinder(t_vec3 *p_hit, t_world *objs)
+t_color	get_color_cylinder(t_vec3 *p_hit, t_world *objs, t_img_tex *texture)
 {
-	t_point3	cent;
-	t_ray		ray;
 	t_color		color;
+	t_point3	cent;
 
-	ray.dir = objs->type.cy->dir;
-	ray.orig = objs->type.cy->center;
-	cent = ray_at(&ray, objs->type.cy->height / 2);
-	if (objs->materia.texture == CHECKBOARD)
-		color = get_cy_chess(p_hit, objs, &cent, &ray);
-	else if (objs->materia.texture == BITMAP
-		|| objs->materia.texture == BITMAP_BUMPMAP)
-		color = get_cy_bit(p_hit, objs, &cent, &ray);
-	else
-		return (objs->materia.color);
+	color = (t_color){0, 0, 0};
+	if (texture == NULL)
+	{
+		if (objs->materia.texture == DEFAULT || objs->materia.texture == BUMPMAP)
+			return (objs->materia.color);
+		if (objs->materia.texture == CHECKBOARD)
+		{
+			cent = calc_center(&objs->type.cy->dir, &objs->type.cy->center, objs->type.cy->height);
+			color = get_cy_chess(p_hit, objs, &cent);
+		}
+	}
+	else if (texture)
+	{
+		cent = calc_center(&objs->type.cy->dir, &objs->type.cy->center, objs->type.cy->height);
+		color = get_cy_bit(p_hit, objs, &cent, texture);
+	}
 	return (color);
 }
