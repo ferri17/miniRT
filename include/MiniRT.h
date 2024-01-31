@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MiniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/29 16:38:57 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/31 13:51:39 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,7 +268,7 @@ typedef struct s_world
 	bool			(*hit)(const t_ray *, t_objects, t_hit *);
 	void			(*free_type)(t_objects);
 	t_vec3			*(*get_position_pointer)(t_objects *);
-	t_color			(*get_color)(t_vec3 *, struct s_world *);
+	t_color			(*get_color)(t_vec3 *, struct s_world *, t_texture);
 	t_color			(*get_normal_map)(t_vec3 *, struct s_world *);
 	struct s_world	*next;
 }					t_world;
@@ -341,10 +341,10 @@ bool				hit_disk_cone(const t_ray *ray, t_objects obj, t_hit *rec);
 
 /*------------------------------ GET_COLORS  ------------------------------*/
 
-t_color				get_color_sphere(t_vec3 *p_hit, t_world *objs);
-t_color				get_color_plane(t_vec3 *p_hit, t_world *objs);
-t_color				get_color_cone(t_vec3 *p_hit, t_world *objs);
-t_color				get_color_cylinder(t_vec3 *p_hit, t_world *objs);
+t_color				get_color_sphere(t_vec3 *p_hit, t_world *objs, t_texture type);
+t_color				get_color_plane(t_vec3 *p_hit, t_world *objs, t_texture type);
+t_color				get_color_cone(t_vec3 *p_hit, t_world *objs, t_texture type);
+t_color				get_color_cylinder(t_vec3 *p_hit, t_world *objs, t_texture type);
 t_uv				get_planar_map(t_point3 *p_hit, t_point3 *dir,
 						t_point3 *center);
 t_uv				get_spherical_map(t_point3 *p_hit, t_point3 *center,

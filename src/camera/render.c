@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:13:17 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/31 12:35:45 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/31 13:59:52 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_color	render_edit_mode(t_scene *scene, const t_ray *r, t_hit *hit_rec)
 	view_dir = product_vec3_r(&r->dir, -1);
 	view_dir = unit_vector(&view_dir);
 	a = dot(&view_dir, &hit_rec->normal) - 0.5;
-	color = hit_rec->obj->get_color(&hit_rec->p, hit_rec->obj);
+	color = hit_rec->obj->get_color(&hit_rec->p, hit_rec->obj, DEFAULT);
 	color = product_vec3_r(&color, 0.5);
 	color = (t_color){color.x + a, color.y + a, color.z + a};
 	/* if (hit_rec->obj == scene->selected)
@@ -126,7 +126,7 @@ t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_hit *hit_rec, int
 	if (ray_depth <= 0)
 		return ((t_color){0, 0, 0});
 	apply_normal_map(hit_rec);
-	pxl_color = hit_rec->obj->get_color(&hit_rec->p, hit_rec->obj);
+	pxl_color = hit_rec->obj->get_color(&hit_rec->p, hit_rec->obj, DEFAULT);
 	pxl_color = calc_ambient_light(&scene->amblight.color, &pxl_color,
 			scene->amblight.ratio);
 	lights = scene->light;
