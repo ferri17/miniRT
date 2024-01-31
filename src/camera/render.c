@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:13:17 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/31 01:19:52 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/31 12:35:45 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,35 +87,30 @@ void	calc_shadow_ray(t_ray *shadow_ray, t_light *lights, t_hit *hit_rec)
 
 void	apply_normal_map(t_hit *hit_rec)
 {
+	t_color	normal_d;
+	t_vec3	tangent;
+	t_vec3	bitangent;
+	t_vec3	n_world;
+
 	if (hit_rec->obj->materia.texture == BUMPMAP || hit_rec->obj->materia.texture == BITMAP_BUMPMAP)
 	{
-		/* t_color	normal_d = hit_rec->obj->get_normal_map(&hit_rec->p, hit_rec->obj);
-		
+		normal_d = hit_rec->obj->get_normal_map(&hit_rec->p, hit_rec->obj);
 		normal_d.x = (normal_d.x * 2) - 1;
 		normal_d.y = (normal_d.y * 2) - 1;
 		normal_d.z = (normal_d.z * 2) - 1;
 		normal_d = unit_vector(&normal_d);
-
-		t_vec3 tangent = {1.0, 0.0, 0.0};
+		tangent = (t_vec3){1.0, 0.0, 0.0};
 		if (fabs(dot(&hit_rec->normal, &tangent)) > 0.95)
 			tangent = (t_vec3){0.0, 1.0, 0.0};
 		// t_vec3	vec_scale = product_vec3_r(&normal_d, dot(&normal_d, &tangent));
-
 		tangent = cross(&tangent, &hit_rec->normal);
 		tangent = unit_vector(&tangent);
-		
-		t_vec3	bitangent = cross(&hit_rec->normal, &tangent);
+		bitangent = cross(&hit_rec->normal, &tangent);
 		bitangent = unit_vector(&bitangent);
-
-		t_vec3	n_world;
-
 		n_world.x = tangent.x * normal_d.x + bitangent.x * normal_d.y + hit_rec->normal.x * normal_d.z;
 		n_world.y = tangent.y * normal_d.x + bitangent.y * normal_d.y + hit_rec->normal.y * normal_d.z;
 		n_world.z = tangent.z * normal_d.x + bitangent.z * normal_d.y + hit_rec->normal.z * normal_d.z;
-
-		n_world = unit_vector(&n_world);
-		hit_rec->normal = add_vec3(&hit_rec->normal, &n_world);
-		hit_rec->normal = unit_vector(&hit_rec->normal); */		
+		hit_rec->normal = unit_vector(&n_world);	
 	}
 }
 
