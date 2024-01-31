@@ -6,7 +6,7 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/28 16:58:23 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/29 14:09:16 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ int	main(int argc, char **argv)
 	if (check_args(argc, argv) == 1)
 		return (1);
 	init_structs(&scene);
+	init_mlx_windows(&scene.data, WIN_W, WIN_H);
 	if (init_map(argv[1], &scene))
 	{
 		free_structs(scene);
 		ft_printf_fd(STDERR_FILENO, ERR_INVALID_MAP);
 		return (1);
 	}
-	init_mlx_windows(&scene.data, WIN_W, WIN_H);
 	render_image(&scene, IMG_W, IMG_H);
 	mlx_hook(scene.data.mlx_win, KEYDOWN, 0, key_down, (void *)&scene);
 	mlx_hook(scene.data.mlx_win, MOUSEMOVE, 0, mouse_move, (void *)&scene);

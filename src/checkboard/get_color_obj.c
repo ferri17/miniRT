@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_color_obj.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:03:13 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/26 15:52:29 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/30 18:07:34 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ t_color	map_uv_to_color(t_uv *uv, t_img_tex *img_tex)
 	b = (unsigned char)img_tex->info[i + 0];
 	g = (unsigned char)img_tex->info[i + 1];
 	r = (unsigned char)img_tex->info[i + 2];
-	color.z = (double)b / 255.999;
-	color.y = (double)g / 255.999;
 	color.x = (double)r / 255.999;
+	color.y = (double)g / 255.999;
+	color.z = (double)b / 255.999;
 	return (color);
 }
 
