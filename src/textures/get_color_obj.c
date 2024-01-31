@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:03:13 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/31 18:00:20 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/31 19:04:28 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,14 @@ t_color	get_color_cone(t_vec3 *p_hit, t_world *objs, t_img_tex *texture)
 		if (objs->materia.texture == CHECKBOARD)
 		{
 			cent = calc_center(&objs->type.cn->dir, &objs->type.cn->center,
-					objs->type.cn->height);
+					objs->type.cn->height / 2);
 			color = get_cn_chess(p_hit, objs, &cent);
 		}
 	}
 	else if (texture)
 	{
 		cent = calc_center(&objs->type.cn->dir, &objs->type.cn->center,
-				objs->type.cn->height);
+				objs->type.cn->height / 2);
 		color = get_cn_bit(p_hit, objs, &cent, texture);
 	}
 	return (color);
@@ -133,14 +133,14 @@ t_color	get_color_cylinder(t_vec3 *p_hit, t_world *objs, t_img_tex *texture)
 		if (objs->materia.texture == CHECKBOARD)
 		{
 			cent = calc_center(&objs->type.cy->dir, &objs->type.cy->center,
-					objs->type.cy->height);
+					objs->type.cy->height / 2);
 			color = get_cy_chess(p_hit, objs, &cent);
 		}
 	}
 	else if (texture)
 	{
 		cent = calc_center(&objs->type.cy->dir, &objs->type.cy->center,
-				objs->type.cy->height);
+				objs->type.cy->height / 2);
 		color = get_cy_bit(p_hit, objs, &cent, texture);
 	}
 	return (color);

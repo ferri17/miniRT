@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 15:50:54 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/31 18:00:33 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/31 19:43:17 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,21 +119,12 @@ t_color	get_cy_bit(t_vec3 *p_hit, t_world *objs, t_point3 *cent,
 	axis = (t_point3){0, 1, 0};
 	uv.u = 0;
 	uv.v = 0;
-	if (objs->type.cy->hit[H_CYLINDER])
+	if (fabs(dot(&objs->type.cy->dir, &axis)) < 0.95)
 	{
-		if (fabs(dot(&objs->type.cy->dir, &axis)) < 0.95)
-		{
-			rot_p_hit = point_rot(&objs->type.cy->dir, &axis, p_hit, cent);
-			uv = get_cylinder_map(&rot_p_hit, cent, objs->type.cy->radius);
-		}
-		else
-			uv = get_cylinder_map(p_hit, cent, objs->type.cy->radius);
+		rot_p_hit = point_rot(&objs->type.cy->dir, &axis, p_hit, cent);
+		uv = get_cylinder_map(&rot_p_hit, cent, objs->type.cy->height / 2);
 	}
-	else if (objs->type.cy->hit[H_DISK_TA] || objs->type.cy->hit[H_DISK_BA])
-	{
-		uv = get_planar_map(p_hit, &objs->type.cy->dir, cent);
-		uv.u = uv.u - floor(uv.u);
-		uv.v = uv.v - floor(uv.v);
-	}
+	else
+		uv = get_cylinder_map(p_hit, cent, objs->type.cy->height / 2);
 	return (map_uv_to_color(&uv, texture));
 }

@@ -6,7 +6,7 @@
 #    By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2024/01/31 18:22:12 by apriego-         ###   ########.fr        #
+#    Updated: 2024/01/31 19:02:18 by apriego-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ FILES_HIT		=	hit_sphere.c hit_plane.c hit_cylinder.c hit_cone.c hit_disk.c
 FILES_MLX		=	mlx_color.c mlx_events.c mlx_init.c events.c
 FILES_UTILS		=	vec3_utils.c vec3_utils2.c vec3_utils3.c math_utils.c slider.c\
 					ray_utils.c menu.c
-FILES_CHECK		=	get_color_obj.c map_objects_uv.c utils.c utils_get_texture.c
+FILES_TEXT		=	get_color_obj.c map_objects_uv.c utils.c utils_get_texture.c
 FILES_TEXTUR	=	texture.c
 DIR_MAIN		=	src/main/
 DIR_CAMERA		=	src/camera/
@@ -42,7 +42,7 @@ DIR_INIT		=	src/init/
 DIR_UTILS		=	src/utils/
 DIR_MLX_F		=	src/mlx/
 DIR_HIT			=	src/hit/
-DIR_CHECK		=	src/checkboard/
+DIR_TEXT		=	src/textures/
 
 DIR_INCLUDE		=	include/
 DIR_BUILD		=	.build/
@@ -56,7 +56,7 @@ SRC_INIT		=	$(addprefix $(DIR_INIT),$(FILES_INIT))
 SRC_MLX			=	$(addprefix $(DIR_MLX_F),$(FILES_MLX))
 SRC_UTILS		=	$(addprefix $(DIR_UTILS),$(FILES_UTILS))
 SRC_HIT			=	$(addprefix $(DIR_HIT),$(FILES_HIT))
-SRC_CHECK		=	$(addprefix $(DIR_CHECK),$(FILES_CHECK))
+SRC_TEXT		=	$(addprefix $(DIR_TEXT),$(FILES_TEXT))
 
 OBJ_MAIN		=	$(addprefix $(DIR_BUILD),$(SRC_MAIN:.c=.o))
 OBJ_CAMERA		=	$(addprefix $(DIR_BUILD),$(SRC_CAMERA:.c=.o))
@@ -64,9 +64,9 @@ OBJ_INIT		=	$(addprefix $(DIR_BUILD),$(SRC_INIT:.c=.o))
 OBJ_UTILS		=	$(addprefix $(DIR_BUILD),$(SRC_UTILS:.c=.o))
 OBJ_MLX			=	$(addprefix $(DIR_BUILD),$(SRC_MLX:.c=.o))
 OBJ_HIT			=	$(addprefix $(DIR_BUILD),$(SRC_HIT:.c=.o))
-OBJ_CHECK		=	$(addprefix $(DIR_BUILD),$(SRC_CHECK:.c=.o))
+OBJ_TEXT		=	$(addprefix $(DIR_BUILD),$(SRC_TEXT:.c=.o))
 
-OBJ_ALL			=	$(OBJ_MAIN) $(OBJ_CAMERA) $(OBJ_INIT) $(OBJ_MLX) $(OBJ_UTILS) $(OBJ_HIT) $(OBJ_CHECK) $(OBJ_TEXTUR)
+OBJ_ALL			=	$(OBJ_MAIN) $(OBJ_CAMERA) $(OBJ_INIT) $(OBJ_MLX) $(OBJ_UTILS) $(OBJ_HIT) $(OBJ_TEXT) $(OBJ_TEXTUR)
 
 DEP				=	$(OBJ_ALL:%.o=%.d)
 
