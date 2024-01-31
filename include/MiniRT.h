@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:55:12 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/31 13:51:39 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/31 16:53:38 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,8 +252,8 @@ typedef struct s_materia
 	double			specular;
 	double			roughness;
 	double			metallic;
-	t_img_tex		bit;
-	t_img_tex		bump;
+	t_img_tex		*bit;
+	t_img_tex		*bump;
 }					t_materia;
 
 typedef struct s_matrix3x3
@@ -268,7 +268,7 @@ typedef struct s_world
 	bool			(*hit)(const t_ray *, t_objects, t_hit *);
 	void			(*free_type)(t_objects);
 	t_vec3			*(*get_position_pointer)(t_objects *);
-	t_color			(*get_color)(t_vec3 *, struct s_world *, t_texture);
+	t_color			(*get_color)(t_vec3 *, struct s_world *, t_img_tex *);
 	t_color			(*get_normal_map)(t_vec3 *, struct s_world *);
 	struct s_world	*next;
 }					t_world;
@@ -318,7 +318,7 @@ int					check_dir(t_vec3 *dir);
 void				inti_func_cylinder(t_world *cy);
 void				inti_func_cone(t_world *cn);
 int					check_materia(t_world *obj, char **split, int pos);
-int					check_img(t_img_tex *img, void *mlx_ptr, char *name);
+int					check_img(t_img_tex **img, void *mlx_ptr, char *name);
 int					bitmap_bumpmap_case(t_scene *scene, t_world *sp, char **split, int pos);
 int					bitmap_or_bumpmap_case(t_scene *sc, t_world *sp, char **s, int pos);
 
@@ -341,10 +341,10 @@ bool				hit_disk_cone(const t_ray *ray, t_objects obj, t_hit *rec);
 
 /*------------------------------ GET_COLORS  ------------------------------*/
 
-t_color				get_color_sphere(t_vec3 *p_hit, t_world *objs, t_texture type);
-t_color				get_color_plane(t_vec3 *p_hit, t_world *objs, t_texture type);
-t_color				get_color_cone(t_vec3 *p_hit, t_world *objs, t_texture type);
-t_color				get_color_cylinder(t_vec3 *p_hit, t_world *objs, t_texture type);
+t_color				get_color_sphere(t_vec3 *p_hit, t_world *objs, t_img_tex *texture);
+t_color				get_color_plane(t_vec3 *p_hit, t_world *objs, t_img_tex *texture);
+t_color				get_color_cone(t_vec3 *p_hit, t_world *objs, t_img_tex *texture);
+t_color				get_color_cylinder(t_vec3 *p_hit, t_world *objs, t_img_tex *texture);
 t_uv				get_planar_map(t_point3 *p_hit, t_point3 *dir,
 						t_point3 *center);
 t_uv				get_spherical_map(t_point3 *p_hit, t_point3 *center,
@@ -358,10 +358,12 @@ t_vec3				rotate_point(t_vec3 *p, t_vec3 *center, t_matrix3x3 *r);
 t_color				get_normal_map_sphere(t_vec3 *p_hit, t_world *obj);
 t_color				get_normal_map_plane(t_vec3 *p_hit, t_world *obj);
 t_color				map_uv_to_color(t_uv *uv, t_img_tex *img_tex);
-t_color				get_cn_chess(t_vec3 *p_hit, t_world *objs, t_point3 *cent, t_ray *ray);
-t_color				get_cn_bit(t_vec3 *p_hit, t_world *objs, t_point3 *cent, t_ray *ray);
-t_color				get_cy_chess(t_vec3 *p_hit, t_world *objs, t_point3 *cent, t_ray *ray);
-t_color				get_cy_bit(t_vec3 *p_hit, t_world *objs, t_point3 *cent, t_ray *ray);
+t_color				get_cn_chess(t_vec3 *p_hit, t_world *objs, t_point3 *cent);
+t_color				get_cn_bit(t_vec3 *p_hit, t_world *objs, t_point3 *cent, t_img_tex *texture);
+t_color				get_cy_chess(t_vec3 *p_hit, t_world *objs, t_point3 *cent);
+t_color				get_cy_bit(t_vec3 *p_hit, t_world *objs, t_point3 *cent, t_img_tex *texture);
+t_point3			calc_center(t_vec3 *dir, t_vec3 *base, double h);
+
 
 /*------------------------------  INIT_OBJS  ------------------------------*/
 

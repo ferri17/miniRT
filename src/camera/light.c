@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 00:54:17 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/31 14:00:01 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/31 17:06:08 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ t_color	calc_specular_light(t_light *lights, const t_ray *r, t_ray *r_light,
 	specular_strngth = pow(specular_strngth, hit_rec->obj->materia.roughness);
 	specular = product_vec3_r(&lights->color, specular_strngth
 			* lights->bright);
-	//division_vec3(&specular, 1 + r_light->len_sqrd);
 	product_vec3(&specular, hit_rec->obj->materia.specular);
 	return (specular);
 }
@@ -55,12 +54,11 @@ t_color	calc_diffuse_light(t_light *lights, t_ray *r_light, t_hit *hit_rec)
 	t_color	diffuse_color;
 	double	angle_ratio;
 
-	obj_color = hit_rec->obj->get_color(&hit_rec->p, hit_rec->obj, DEFAULT);
+	obj_color = hit_rec->obj->get_color(&hit_rec->p, hit_rec->obj, hit_rec->obj->materia.bit);
 	diffuse_color = vproduct_vec3(&obj_color, &lights->color);
 	angle_ratio = ft_max(dot(&hit_rec->normal, &r_light->dir), 0);
 	product_vec3(&diffuse_color, angle_ratio);
 	product_vec3(&diffuse_color, lights->bright);
-	//division_vec3(&diffuse_color, 1 + r_light->len_sqrd);
 	return (diffuse_color);
 }
 

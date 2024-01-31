@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:13:17 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/31 13:59:52 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/01/31 17:05:49 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,9 @@ t_color	render_edit_mode(t_scene *scene, const t_ray *r, t_hit *hit_rec)
 	view_dir = product_vec3_r(&r->dir, -1);
 	view_dir = unit_vector(&view_dir);
 	a = dot(&view_dir, &hit_rec->normal) - 0.5;
-	color = hit_rec->obj->get_color(&hit_rec->p, hit_rec->obj, DEFAULT);
+	color = hit_rec->obj->get_color(&hit_rec->p, hit_rec->obj, hit_rec->obj->materia.bit);
 	color = product_vec3_r(&color, 0.5);
 	color = (t_color){color.x + a, color.y + a, color.z + a};
-	/* if (hit_rec->obj == scene->selected)
-		color = (t_color){hit_rec->normal.x, hit_rec->normal.y,
-			hit_rec->normal.z}; */
 	(void)scene;
 	return (color);
 }
@@ -94,7 +91,7 @@ void	apply_normal_map(t_hit *hit_rec)
 
 	if (hit_rec->obj->materia.texture == BUMPMAP || hit_rec->obj->materia.texture == BITMAP_BUMPMAP)
 	{
-		normal_d = hit_rec->obj->get_normal_map(&hit_rec->p, hit_rec->obj);
+		normal_d = hit_rec->obj->get_color(&hit_rec->p, hit_rec->obj, hit_rec->obj->materia.bump);
 		normal_d.x = (normal_d.x * 2) - 1;
 		normal_d.y = (normal_d.y * 2) - 1;
 		normal_d.z = (normal_d.z * 2) - 1;
@@ -102,7 +99,6 @@ void	apply_normal_map(t_hit *hit_rec)
 		tangent = (t_vec3){1.0, 0.0, 0.0};
 		if (fabs(dot(&hit_rec->normal, &tangent)) > 0.95)
 			tangent = (t_vec3){0.0, 1.0, 0.0};
-		// t_vec3	vec_scale = product_vec3_r(&normal_d, dot(&normal_d, &tangent));
 		tangent = cross(&tangent, &hit_rec->normal);
 		tangent = unit_vector(&tangent);
 		bitangent = cross(&hit_rec->normal, &tangent);
@@ -126,7 +122,7 @@ t_color	render_raytrace_mode(t_scene *scene, const t_ray *r, t_hit *hit_rec, int
 	if (ray_depth <= 0)
 		return ((t_color){0, 0, 0});
 	apply_normal_map(hit_rec);
-	pxl_color = hit_rec->obj->get_color(&hit_rec->p, hit_rec->obj, DEFAULT);
+	pxl_color = hit_rec->obj->get_color(&hit_rec->p, hit_rec->obj, hit_rec->obj->materia.bit);
 	pxl_color = calc_ambient_light(&scene->amblight.color, &pxl_color,
 			scene->amblight.ratio);
 	lights = scene->light;

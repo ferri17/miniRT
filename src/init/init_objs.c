@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_objs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:39:49 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/28 13:53:20 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/01/31 17:09:55 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	check_sphere(t_scene *scene, char **split)
 	sp->next = NULL;
 	sp->free_type = free_sphere;
 	sp->type.sp = malloc(sizeof(t_sphere));
+	sp->materia.bit = NULL;
+	sp->materia.bump = NULL;
 	if (!sp->type.sp)
 		return (1);
 	if (fill_sphere(sp->type.sp, split) || check_materia(sp, split, 3)
@@ -63,6 +65,8 @@ int	check_plane(t_scene *scene, char **split)
 	pl->next = NULL;
 	pl->free_type = free_plane;
 	pl->type.pl = malloc(sizeof(t_plane));
+	pl->materia.bit = NULL;
+	pl->materia.bump = NULL;
 	if (!pl->type.pl)
 		return (1);
 	if (fill_plane(pl->type.pl, split) || check_materia(pl, split, 3)
@@ -90,6 +94,8 @@ int	check_cylinder(t_scene *scene, char **split)
 	cy->next = NULL;
 	cy->free_type = free_cylinder;
 	cy->type.cy = malloc(sizeof(t_cylinder));
+	cy->materia.bit = NULL;
+	cy->materia.bump = NULL;
 	if (!cy->type.cy)
 		return (1);
 	if (fill_cylinder(cy->type.cy, split) || check_materia(cy, split, 5)
@@ -113,6 +119,8 @@ int	check_cone(t_scene *scene, char **split)
 	cn->next = NULL;
 	cn->free_type = free_cone;
 	cn->type.cn = malloc(sizeof(t_cone));
+	cn->materia.bit = NULL;
+	cn->materia.bump = NULL;
 	if (!cn->type.cn)
 		return (1);
 	if (fill_cone(cn->type.cn, split) || check_materia(cn, split, 5)
