@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:03:13 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/31 19:04:28 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:56:58 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ t_color	get_color_plane(t_vec3 *p_hit, t_world *objs, t_img_tex *texture)
 t_color	get_color_cone(t_vec3 *p_hit, t_world *objs, t_img_tex *texture)
 {
 	t_color		color;
-	t_point3	cent;
 
 	color = (t_color){0, 0, 0};
 	if (texture == NULL)
@@ -104,18 +103,10 @@ t_color	get_color_cone(t_vec3 *p_hit, t_world *objs, t_img_tex *texture)
 			|| objs->materia.texture == BUMPMAP)
 			return (objs->materia.color);
 		if (objs->materia.texture == CHECKBOARD)
-		{
-			cent = calc_center(&objs->type.cn->dir, &objs->type.cn->center,
-					objs->type.cn->height / 2);
-			color = get_cn_chess(p_hit, objs, &cent);
-		}
+			color = get_cn_chess(p_hit, objs, &objs->type.cn->center);
 	}
 	else if (texture)
-	{
-		cent = calc_center(&objs->type.cn->dir, &objs->type.cn->center,
-				objs->type.cn->height / 2);
-		color = get_cn_bit(p_hit, objs, &cent, texture);
-	}
+		color = get_cn_bit(p_hit, objs, &objs->type.cn->center, texture);
 	return (color);
 }
 

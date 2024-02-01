@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 15:50:54 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/31 19:43:17 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:54:08 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,15 @@ t_color	get_cn_chess(t_vec3 *p_hit, t_world *objs, t_point3 *cent)
 	axis = (t_point3){0, 1, 0};
 	uv.u = 0;
 	uv.v = 0;
-	if (objs->type.cn->hit[H_CONE])
+	if (fabs(dot(&objs->type.cn->dir, &axis)) < 0.95)
 	{
-		if (fabs(dot(&objs->type.cn->dir, &axis)) < 0.95)
-		{
-			rot_p_hit = point_rot(&objs->type.cn->dir, &axis, p_hit, cent);
-			uv = get_cylinder_map(&rot_p_hit, cent, objs->type.cn->height);
-		}
-		else
-			uv = get_cylinder_map(p_hit, cent, objs->type.cn->height);
-		uv.u *= 4;
-		uv.v *= 2;
+		rot_p_hit = point_rot(&objs->type.cn->dir, &axis, p_hit, cent);
+		uv = get_cylinder_map(&rot_p_hit, cent, objs->type.cn->height / 2);
 	}
-	else if (objs->type.cn->hit[H_DISK])
-		uv = get_planar_map(p_hit, &objs->type.cn->dir, cent);
+	else
+		uv = get_cylinder_map(p_hit, cent, objs->type.cn->height / 2);
+	uv.u *= 4;
+	uv.v *= 2;
 	return (checker_color(uv, objs->materia.color));
 }
 
@@ -64,22 +59,13 @@ t_color	get_cn_bit(t_vec3 *p_hit, t_world *objs, t_point3 *cent,
 
 	axis = (t_point3){0, 1, 0};
 	ft_bzero(&uv, sizeof(t_uv));
-	if (objs->type.cn->hit[H_CONE])
+	if (fabs(dot(&objs->type.cn->dir, &axis)) < 0.95)
 	{
-		if (fabs(dot(&objs->type.cn->dir, &axis)) < 0.95)
-		{
-			rot_p_hit = point_rot(&objs->type.cn->dir, &axis, p_hit, cent);
-			uv = get_cylinder_map(&rot_p_hit, cent, objs->type.cn->height);
-		}
-		else
-			uv = get_cylinder_map(p_hit, cent, objs->type.cn->height);
+		rot_p_hit = point_rot(&objs->type.cn->dir, &axis, p_hit, cent);
+		uv = get_cylinder_map(&rot_p_hit, cent, objs->type.cn->height);
 	}
-	else if (objs->type.cn->hit[H_DISK])
-	{
-		uv = get_planar_map(p_hit, &objs->type.cn->dir, cent);
-		uv.u = uv.u - floor(uv.u);
-		uv.v = uv.v - floor(uv.v);
-	}
+	else
+		uv = get_cylinder_map(p_hit, cent, objs->type.cn->height);
 	return (map_uv_to_color(&uv, texture));
 }
 
@@ -92,20 +78,15 @@ t_color	get_cy_chess(t_vec3 *p_hit, t_world *objs, t_point3 *cent)
 	axis = (t_point3){0, 1, 0};
 	uv.u = 0;
 	uv.v = 0;
-	if (objs->type.cy->hit[H_CYLINDER])
+	if (fabs(dot(&objs->type.cy->dir, &axis)) < 0.95)
 	{
-		if (fabs(dot(&objs->type.cy->dir, &axis)) < 0.95)
-		{
-			rot_p_hit = point_rot(&objs->type.cy->dir, &axis, p_hit, cent);
-			uv = get_cylinder_map(&rot_p_hit, cent, objs->type.cy->radius);
-		}
-		else
-			uv = get_cylinder_map(p_hit, cent, objs->type.cy->radius);
-		uv.u *= 4;
-		uv.v *= 2;
+		rot_p_hit = point_rot(&objs->type.cy->dir, &axis, p_hit, cent);
+		uv = get_cylinder_map(&rot_p_hit, cent, objs->type.cy->radius);
 	}
-	else if (objs->type.cy->hit[H_DISK_TA] || objs->type.cy->hit[H_DISK_BA])
-		uv = get_planar_map(p_hit, &objs->type.cy->dir, cent);
+	else
+		uv = get_cylinder_map(p_hit, cent, objs->type.cy->radius);
+	uv.u *= 4;
+	uv.v *= 2;
 	return (checker_color(uv, objs->materia.color));
 }
 

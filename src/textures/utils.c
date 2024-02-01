@@ -6,7 +6,7 @@
 /*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 11:31:58 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/31 16:27:55 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/02/01 15:12:10 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,18 @@ t_matrix3x3	calculate_rotation_matrix(double angle, t_vec3 *axis)
 
 t_vec3	rotate_point(t_vec3 *p, t_vec3 *center, t_matrix3x3 *r)
 {
-	t_vec3	rot_p;
+	t_point3	rot_p;
+	t_point3	tmp_p;
 
-	p->x -= center->x;
-	p->y -= center->y;
-	p->z -= center->z;
-	rot_p.x = r->m[0][0] * p->x + r->m[0][1] * p->y + r->m[0][2] * p->z;
-	rot_p.y = r->m[1][0] * p->x + r->m[1][1] * p->y + r->m[1][2] * p->z;
-	rot_p.z = r->m[2][0] * p->x + r->m[2][1] * p->y + r->m[2][2] * p->z;
+	tmp_p.x = p->x - center->x;
+	tmp_p.y = p->y - center->y;
+	tmp_p.z = p->z - center->z;
+	rot_p.x = r->m[0][0] * tmp_p.x + r->m[0][1] * tmp_p.y + r->m[0][2]
+		* tmp_p.z;
+	rot_p.y = r->m[1][0] * tmp_p.x + r->m[1][1] * tmp_p.y + r->m[1][2]
+		* tmp_p.z;
+	rot_p.z = r->m[2][0] * tmp_p.x + r->m[2][1] * tmp_p.y + r->m[2][2]
+		* tmp_p.z;
 	rot_p.x += center->x;
 	rot_p.y += center->y;
 	rot_p.z += center->z;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_structs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:42:57 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/28 13:16:05 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/02/01 14:38:03 by apriego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	put_fov(int *hfov, char *num)
 	int	number;
 
 	number = ft_atoi(num);
-	if (ft_test_int(num) == 0 && number >= 0 && number <= 180)
+	if (ft_test_int(num) == 0 && number >= 1 && number <= 179)
 		*hfov = number;
 	else
 		return (1);
