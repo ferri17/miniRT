@@ -6,7 +6,7 @@
 #    By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:36:01 by fbosch            #+#    #+#              #
-#    Updated: 2024/01/31 19:02:18 by apriego-         ###   ########.fr        #
+#    Updated: 2024/02/01 15:43:14 by apriego-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,7 +71,7 @@ OBJ_ALL			=	$(OBJ_MAIN) $(OBJ_CAMERA) $(OBJ_INIT) $(OBJ_MLX) $(OBJ_UTILS) $(OBJ_
 DEP				=	$(OBJ_ALL:%.o=%.d)
 
 CC				=	cc
-CFLAGS			=	-Wall -Wextra -Werror -O3 -fsanitize=address
+CFLAGS			=	-Wall -Wextra -Werror -O3 #-fsanitize=address
 DEPFLAGS		=	-I $(DIR_INCLUDE) -I $(DIR_LIBFT) -I $(DIR_MLX) -MMD -MP
 MLXFLGS			=	-L$(DIR_MLX) -lmlx -lm -framework OpenGL -framework AppKit
 DIR_DUP			=	mkdir -p $(@D)

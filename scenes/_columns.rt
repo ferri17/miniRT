@@ -1,0 +1,31 @@
+#Camera        #Coord                #Orientation     #H-FOV
+C              0,0,0                 0,0,-1.0         80
+
+#Lights        #Coord                #Brightness      #Color
+L              2,0.8,0            1.0              255,255,255
+
+
+#Ambient       #Brightness           #Color
+A              0.1                    255,255,255
+
+#Object        #Coord                #Orientation     #Others                #Color
+
+cn             0,0,-3              1.0,0.4,-0.5        0.7        45     0.6 8 0.0     255,10,12 BITMAP ./texture_src/earth.xpm
+sp        0,-0.5,-2        0.5            0.6 8 0.0     250,250,250 BITMAP ./texture_src/earth.xpm
+
+cy             1,0,-2            0,1,0        0.3        2     0.1 2.4 0.0      255,255,255 BITMAP_BUMPMAP ./texture_src/brick.xpm ./texture_src/brick_normal.xpm
+cy             1,0,-3            0,1,0        0.3        2     0.1 2.4 0.0      255,255,255 BITMAP_BUMPMAP ./texture_src/brick.xpm ./texture_src/brick_normal.xpm
+cy             1,0,-4            0,1,0        0.3        2     0.1 2.4 0.0      255,255,255 BITMAP_BUMPMAP ./texture_src/brick.xpm ./texture_src/brick_normal.xpm
+cy             1,0,-5            0,1,0        0.3        2     0.1 2.4 0.0      255,255,255 BITMAP_BUMPMAP ./texture_src/brick.xpm ./texture_src/brick_normal.xpm
+
+cy             -1,0,-2            0,1,0        0.3        2     0.1 2.4 0.0      255,255,255 BITMAP_BUMPMAP ./texture_src/brick.xpm ./texture_src/brick_normal.xpm
+cy             -1,0,-3            0,1,0        0.3        2     0.1 2.4 0.0      255,255,255 BITMAP_BUMPMAP ./texture_src/brick.xpm ./texture_src/brick_normal.xpm
+cy             -1,0,-4            0,1,0        0.3        2     0.1 2.4 0.0      255,255,255 BITMAP_BUMPMAP ./texture_src/brick.xpm ./texture_src/brick_normal.xpm
+cy             -1,0,-5            0,1,0        0.3        2     0.1 2.4 0.0      255,255,255 BITMAP_BUMPMAP ./texture_src/brick.xpm ./texture_src/brick_normal.xpm
+
+
+
+pl             0,1,0              0,-1,0              0.3 2.4 0.0      240,240,240 CHECKBOARD
+pl             0,-1,0              0,1,0              0.3 2.4 0.5      240,240,240 BITMAP_BUMPMAP ./texture_src/tiles.xpm ./texture_src/tiles_normal.xpm
+
+pl             0,0,-6              0,0,1              0.3 2.4 0.0      20,20,20 CHECKBOARD
