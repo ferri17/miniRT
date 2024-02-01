@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_img.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 15:59:36 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/31 18:01:40 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/02/01 17:57:25 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 int	check_img(t_img_tex **img, void *mlx_ptr, char *name)
 {
 	*img = malloc(sizeof(t_img_tex));
+	if (!(*img))
+		return (1);
 	(*img)->img_ptr = mlx_xpm_file_to_image(mlx_ptr, name, &(*img)->w,
 			&(*img)->h);
 	if ((*img)->img_ptr == NULL)

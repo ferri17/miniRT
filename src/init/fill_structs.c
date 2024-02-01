@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_structs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 12:24:41 by apriego-          #+#    #+#             */
-/*   Updated: 2024/01/28 12:21:08 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/02/01 17:23:16 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	fill_light(t_light *light, char **split)
 	if (ft_array_len(coord) != 3)
 		return (ft_free_malloc_array(coord), 1);
 	if (put_coord(&light->center, coord))
-		return (1);
+		return (ft_free_malloc_array(coord), 1);
 	ft_free_malloc_array(coord);
 	if (ft_test_double(split[2], 0.0, 1.0))
 		return (1);

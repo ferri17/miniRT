@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_structs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:42:57 by apriego-          #+#    #+#             */
-/*   Updated: 2024/02/01 14:38:03 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/02/01 17:54:56 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ int	put_dir(t_vec3 *dir, char **norm)
 	if (ft_test_double(norm[2], -1.0000, 1.0000) == 0)
 		dir->z = ft_atod(norm[2]);
 	else
+		return (1);
+	if (dir->x == 0 && dir->y == 0 && dir->z == 0)
 		return (1);
 	*dir = unit_vector(dir);
 	return (0);
