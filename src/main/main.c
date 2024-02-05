@@ -3,28 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 23:49:05 by fbosch            #+#    #+#             */
-/*   Updated: 2024/01/31 17:29:34 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/02/04 17:58:26 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-	- MALLOCS NO PROTEGITS AL CREAR OBJECTES
-	x CHECK OBJECTS CANT BE MOVED OVER LIMITS INT MAX
-	- CONVERT ALL USER VECTORS TO UNIT VECTORS
-	x AFEGIR LAMBERTIAN I ROUGHNESS ALS MATERIALS
-	- ARREGLAR LLUMS CAMERA MOVEMENT (SEGFAULT NO LIGHTS)
-	x FIX PLANE NORMALS
-	x CAMERA NOMES POT APUNTAR A LA DIRECCIO Z
-	x LIMITAR CANVAS SIZE
-	- FIX BIAS FOR CON AUTOHIT
-	- COMPROVAR OBJECTES DIR = 0,0,0
-	- CANVIAR NOM CARPETA CHECKERBOARD
-	- TEST COLORS LIKE 22.4,25,250 O 45,,,,,,,24,,,,,230
-	- CHECK CAMERA UNIT VEC
-*/
 #include "MiniRT.h"
 
 int	main(int argc, char **argv)

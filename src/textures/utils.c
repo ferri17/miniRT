@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apriego- <apriego-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 11:31:58 by apriego-          #+#    #+#             */
-/*   Updated: 2024/02/01 15:12:10 by apriego-         ###   ########.fr       */
+/*   Updated: 2024/02/04 18:31:35 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 double	quit_decimals(double num)
 {
-	const double	ratio = (num * 5) / 2.0;
-
-	return (ratio - floor(ratio));
+	return (num - floor(num));
 }
 
 t_color	checker_color(t_uv uv, t_color color)
