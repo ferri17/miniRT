@@ -16,7 +16,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-![MiniRT demo intro](https://github.com/ferri17/miniRT/assets/19575860/cd4f3a17-86ce-432e-ae90-d171d5ab6253)
+<!---![MiniRT demo intro](https://github.com/ferri17/miniRT/assets/19575860/cd4f3a17-86ce-432e-ae90-d171d5ab6253)-->
 
 
 **MiniRT (raytracer)** is the second **computer graphics** project in 42 school common core. The program must read .rt files (more on the file format below) and render simple scenes with camera, lights, planes, spheres, cylinders and cones (this raytracer is not triangle based so all objects are defined by it's matematical formulas).
