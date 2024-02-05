@@ -6,12 +6,13 @@
 /*   By: fbosch <fbosch@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 00:17:03 by fbosch            #+#    #+#             */
-/*   Updated: 2024/02/04 18:27:51 by fbosch           ###   ########.fr       */
+/*   Updated: 2024/02/05 02:00:42 by fbosch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MiniRT.h"
 # define MAX_BUFFER 100
+
 void	draw_selected_object(t_scene *scene)
 {
 	t_vec3	*center;
