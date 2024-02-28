@@ -16,8 +16,8 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-<!---![MiniRT demo intro](https://github.com/ferri17/miniRT/assets/19575860/cd4f3a17-86ce-432e-ae90-d171d5ab6253)-->
 
+![MiniRT demo intro](https://github.com/ferri17/miniRT/assets/19575860/3db2722c-1763-4388-b290-17a412263a0d)
 
 **MiniRT (raytracer)** is the second **computer graphics** project in 42 school common core. The program must read .rt files (more on the file format below) and render simple scenes with camera, lights, planes, spheres, cylinders and cones (this raytracer is not triangle based so all objects are defined by it's matematical formulas).
 
@@ -31,6 +31,16 @@
   <li>Bitmap diffuse textures</li>
   <li>Normal map textures</li>
 </ul>
+
+<!-- GALLERY -->
+## Gallery
+
+<img width="891" alt="Screenshot 2024-02-28 at 01 20 12" src="https://github.com/ferri17/miniRT/assets/19575860/032cc2bd-befa-4969-80ac-45bd8dd6f720">
+<img width="895" alt="Screenshot 2024-02-28 at 01 20 37" src="https://github.com/ferri17/miniRT/assets/19575860/637b8e90-0e1b-4d81-86a3-65c47b2a33f4">
+<img width="894" alt="Screenshot 2024-02-28 at 01 21 38" src="https://github.com/ferri17/miniRT/assets/19575860/0a14ef7d-b497-40ed-a0b0-89ef66849cb3">
+
+
+
 <!---
 Here is an example of a simple scene:
 ```
